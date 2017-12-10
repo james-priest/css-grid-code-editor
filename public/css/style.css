@@ -2,6 +2,7 @@ html { font-size: 16px; }
 body { 
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
     font-size: 1em;
+    background-color: #666;
 }
 section.grid-container {
     position: relative;
@@ -81,10 +82,14 @@ section.grid-container {
         margin-right: 1em;
         border: none;
     }
-    .control-container>textarea.css-code {
-        height: 507px;
-        width: 90px;
-    }
+        .control-container>fieldset.controls>textarea.css-code {
+            width: 507px;
+            height: 90px;
+            padding: 0.5em;
+            font-weight: 500;
+            color: #66D9EF;
+            background-color: #333;
+        }
     .control-container>div.code-editor {
         font-family: "Source Code Pro", monospace;
         font-size: 13.333333px;
