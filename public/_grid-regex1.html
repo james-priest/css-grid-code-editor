@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title></title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+    </head>
+    <body>
+    <script>
+    /** Modifiers
+     * i    case insensitive modifier
+     * g    global modifier (match as many times as possible)
+     * m    multiline modifier; used with anchors to check from beginning to end of line
+    */
+    /**
+     * ^    start delimiter
+     * $    end delimiter
+     * +    one or more times
+     * \s   matches whitespace, tabs, newlines, etc
+     * \w   matches [a-zA-Z0-9_]
+     * .    wildcard that matches any char except newline
+     * \.   backslash escapes the "." for a literal match
+     * ?    makes preceeding pattern optional; /ship?/ matches "shi" 1 time followed by 0 or 1 "p" characters; (ship)? whole word optional
+     * \?   matches literal "?"
+     * \+   matches literal "+"
+     * ()   can be used to create groups
+     * \b   matches word boundary \bok\b for "ok" but not "okie dokie"
+     * ^    means NOT e.g. [^\d] all chars except numbers
+     * \D   every char except numbers
+     * \S   every char except whitespace
+     * \W   every char except words
+     * ()   parens define a capture group
+     * ?:   non-capture group e.g.(?:street|lane)
+     *
+    */
+    // var str = "1 Reindeer Lane, North Pole, AK 99705\n120 East 4th Street, Juneau, AK 99705";
+    var str = ".grid-container {\n    display: grid;\n    grid-template-rows: 100px 150px;\n}";
+
+    var pattern = /([\w-]+:\s*[\w-#\s]+;$)/gm;  // creates capture groups
+    /*
+        results:
+        [
+            0: "display:grid;"
+            1: "grid-template-rows: 100px 150px"
+        ]
+    */
+
+    var a;
+    if(a = str.match(pattern)) {
+        console.log('match', a);
+        document.write(a.join(' '));
+    } else {
+        console.log('no match.', a);
+    }
+    </script>
+    </body>
+</html>
