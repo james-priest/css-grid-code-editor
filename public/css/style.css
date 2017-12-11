@@ -86,14 +86,21 @@ section.grid-container {
     /* flex-basis: 50%; */
 }
     .control-container>fieldset {
-        margin-top: 1em;
-        padding: 0;
+        box-sizing: border-box;
+        margin: 1em 5px 0 0;
+        padding: 0 10px 0 0;
         border: none;
         width:100%;
+        -webkit-margin-start: 0;
+        -webkit-margin-end: 5px;
+        -webkit-padding-before: 0;
+        -webkit-padding-start: 0;
+        -webkit-padding-end: 0;
+        -webkit-padding-after: 0;
     }
         .control-container>fieldset.controls>textarea.ta-code-editor {
-            /* width: 300px; */
-            width: 95%;
+            max-width: 340px;
+            width: 98%;
             height: 90px;
             padding: 0.5em;
             font-weight: 500;
@@ -106,8 +113,8 @@ section.grid-container {
         font-weight: 500;
         border: 1px solid darkgray;
         box-sizing: border-box;
-        margin: 1em 1em 1em 0;
+        margin: 1em 1em 5px 0;
         padding: 0.5em;
         width: 100%;
-        height: 100px;
+        /* height: 100px; */
     }
