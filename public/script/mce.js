@@ -1,6 +1,6 @@
-var myGrid = {
+var myCodeEditor = {
     gridContainer: document.querySelector( '.grid-container' ),
-    codeEditor: document.querySelector( '.css-code' ),
+    codeEditor: document.querySelector( '.ta-code-editor' ),
     init: function(preFill) {
         var thisGrid = this;
         thisGrid.codeEditor.defaultValue = preFill;

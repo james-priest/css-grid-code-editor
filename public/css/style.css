@@ -3,12 +3,19 @@ body {
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
     font-size: 1em;
     background-color: #666;
+    margin: 2em;
+}
+main { 
+    /* margin:auto; */
+    height: 75vh;
+    width: 90vw;
+    max-width: 700px;
 }
 section.grid-container {
     position: relative;
     border: 2px dashed #ccc;
-    height: 75vh;
-    width: 96vw;
+    height: 100%;
+    width: 100%;
     transition: height 1.4s ease-out, width 1.4s ease-out;
 }
     section.flex-container.expand {
@@ -76,14 +83,17 @@ section.grid-container {
 .control-container {
     display: flex;
     justify-content: space-between;
+    /* flex-basis: 50%; */
 }
     .control-container>fieldset {
         margin-top: 1em;
-        margin-right: 1em;
+        padding: 0;
         border: none;
+        width:100%;
     }
-        .control-container>fieldset.controls>textarea.css-code {
-            width: 507px;
+        .control-container>fieldset.controls>textarea.ta-code-editor {
+            /* width: 300px; */
+            width: 95%;
             height: 90px;
             padding: 0.5em;
             font-weight: 500;

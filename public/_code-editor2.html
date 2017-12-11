@@ -12,26 +12,28 @@
         </style>
     </head>
     <body>
-        <section class="grid-container">
-            
-            <div class="target dunes"></div>
-            <div class="target rocky"></div>
-            <div class="guide">
-                <div class="dunes"></div>
-                <div class="rocky"></div>
-            </div>
-        </section>
+        <main>
+            <section class="grid-container">
+                
+                <div class="target dunes"></div>
+                <div class="target rocky"></div>
+                <div class="guide">
+                    <div class="dunes"></div>
+                    <div class="rocky"></div>
+                </div>
+            </section>
 
-        <div class="control-container">
-            <!-- <div class="code-editor" contenteditable="false" autocorrect="off" autocapitalize="off" spellcheck="false">.grid-container {<br>&nbsp;&nbsp;<br>}</div> -->
-            <fieldset class="controls">
-                <textarea name="css-code" class="css-code" autofocus="true" autocorrect="off" autocapitalize="off" spellcheck="false"></textarea>
-            </fieldset>
-        </div>
+            <div class="control-container">
+                <div class="code-editor" contenteditable="false" autocorrect="off" autocapitalize="off" spellcheck="false">.grid-container {<br>&nbsp;&nbsp;<br>}</div>
+                <fieldset class="controls">
+                    <textarea name="ta-code-editor" class="ta-code-editor" autofocus="true" autocorrect="off" autocapitalize="off" spellcheck="false"></textarea>
+                </fieldset>
+            </div>
+        </main>
     </body>
-    <script src="script/script.js"></script>
+    <script src="script/mce.js"></script>
     <script>
         var preFill = ".grid-container {\n  \n}";
-        window.onload = myGrid.init(preFill);
+        window.onload = myCodeEditor.init(preFill);
     </script>
 </html>
