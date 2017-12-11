@@ -1,4 +1,4 @@
-var myCodeEditor = {
+var myTACodeEditor = {
     gridContainer: document.querySelector( '.grid-container' ),
     codeEditor: document.querySelector( '.ta-code-editor' ),
     init: function(preFill) {
