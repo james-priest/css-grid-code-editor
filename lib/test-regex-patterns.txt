@@ -1,0 +1,20 @@
+match begining of property line 
+^\s*[\w-]+:\s?
+
+match everything up to colon (non-greedy ?)
+^.+?:\s*
+Positive lookbehind
+(?<=^.+?:\s*)
+
+positive look behind - match colon, one or more space, & everything after that
+(?<=:\s*.*)
+simplify positive look behind
+(?<=:.*)
+match multiple words
+(?<=:.*)\b(solid|grid|dashed)\b
+match hex color
+(?<=:.*)(\b(solid|grid|dashed)\b|\d+|\#[0-9A-Fa-f]{3,6})
+match digit preceded by a space
+(?<=:.*)(\b(solid|grid|dashed)\b|(?<=\s)\d+|\#[0-9A-Fa-f]{3,6})
+
+(?<=:.*)((?<=\s)\d+|\#[0-9A-Fa-f]{3,6}|\b(solid|grid|dashed)\b)

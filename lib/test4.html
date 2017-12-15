@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title></title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <!-- <link href="css/style.css" rel="stylesheet"> -->
+        <style>
+            table, th, td { border: 1px solid #ccc; vertical-align: top; }
+            th { text-align: left; }
+            td:nth-of-type(1) { text-align: right; }
+            td:nth-of-type(2) { white-space: nowrap; }
+        </style>
+    </head>
+    <body>
+        <h1>CSS3 Master list of unqiue values</h1>
+        <table id="val-table">
+            <thead>
+                <th>Count</th>
+                <th>Values</th>
+            </thead>
+        </table>
+        <script>
+            var xmlhttp = new XMLHttpRequest();
+            xmlhttp.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    var myArr = JSON.parse(this.responseText);
+                    var propArr = [], valArr = [], filteredProps = [], filteredVals = [];
+                    var row ='';
+
+
+                    myArr.forEach(item => {
+                        // filter out generic non-constant values
+                        filteredVals = item.values.filter(val => !String(val).trim().match(/^(length|percentage|time|number|keyframename|color|x% y%|xpos ypos|\%|image|h-offset|v-offset|blur|spread|shape|column-width|column-count|string|id number|name|URL|flex-grow|flex-shrink|flex-basis|flex-direction|flex-wrap|font-style|font-variant|font-weight|font-size\/line-height|font-family|column-line|length length|url|x-axis|y-axis|z-axis|h-shadow|v-shadow|blur-radius|property)$/gm));
+
+                        // return only function names; match everything left of the parens & add empty parens
+                        filteredVals = filteredVals.map(item => String(item).replace(/\s*\(.*\)/, '()'));
+                        // replace \r\n with comma e.g. top left, left center, left bottom
+                        if(item.property === "background-position"  || item.property === "font-weight") {
+                            filteredVals = filteredVals.map(item => String(item).replace(/\r\n\s*/g, ', '));
+                        }
+                        // remove matched trailing chars & leading whitespace
+                        filteredVals = filteredVals.map(val => String(val).replace(/( n$|^\s+)/gm,''));
+                        
+                        // prop
+                        property = [item.property.trim(), filteredVals];
+                        // console.log(property);
+                        propArr.push(property);
+                    });
+                    propArr.sort();
+
+                    // filter out shorthand properties
+                    filteredProps = propArr.filter(item => !String(item[0]).match(/^\@.*|(animation|background|border|border-bottom|border-image|border-left|border-right|border-top|column-rule|font-family|grid|grid-area|grid-column|grid-row|grid-template|grid-template-areas|list-style|outline|quotes|transition)$/gm));
+
+                    // set 140 color names
+
+                    // create array of filtered values only
+                    let filteredVals2 = [];
+                    filteredProps.forEach(prop => {
+                        prop[1].forEach(val => {
+                            filteredVals2.push(val);
+                        });
+                    });
+                    // console.log(filteredVals2);
+
+                    // remove duplicates
+                    let uniqueVals = filteredVals2.filter((elem, index, self) => {
+                        return index == self.indexOf(elem);
+                    });
+
+                    // find & split comma separated list, push each val, and delete old key
+                    uniqueVals.forEach((elem, index, self) => {
+                        if(elem.indexOf(',') > -1) {
+                            // console.log(elem);
+                            var newArr = elem.split(', ');
+                            self.push.apply(self, newArr);
+                            self.splice(index,1);
+                        }
+                    });
+
+                    uniqueVals.sort();
+                    // console.log(uniqueVals);
+
+                    // build html
+                    uniqueVals.forEach((item, idx) => {
+                        row += "<tr><td>" + (idx + 1) + "</td><td>" + item + "</td></tr>" ;
+                    })
+                    document.getElementById('val-table').insertAdjacentHTML('beforeend',row);
+
+                    
+                    // let valArr2 = valArr.filter((elem, index, self) => {
+                    //     return index == self.indexOf(elem);
+                    // });
+
+                    
+                }
+            };
+            xmlhttp.open("GET", "css-properties-values.json", true);
+            xmlhttp.send();
+
+            /*
+             * [
+             *    {
+             *      "property":"align-content",
+             *      "values":[
+             *          "stretch",
+             *          "center",
+             *          "flex-start",
+             *          "flex-end",
+             *          "space-between",
+             *          "space-around",
+             *          "initial",
+             *          "inherit"]
+             *    },
+             *    {
+             *      "property":"border",
+             *      "values":[
+             *          "border-width",
+             *          "border-style",
+             *          "border-color",
+             *          "initial","inherit"]
+             *    }
+             * ]
+             */
+        </script>
+    </body>
+</html>
