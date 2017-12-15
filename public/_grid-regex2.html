@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title></title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="css\style3.css">
+        <style>
+            textarea#myTA1 {
+                width: 350px;
+                min-height: 200px;
+                margin: 10px 0 0 0;
+                box-sizing: border-box;
+                white-space: pre;
+                color: #eee;
+            }
+            div#myDiv1, div {
+                width: 350px;
+                min-height: 200px;
+                font-family: "Source Code Pro", monospace;
+                font-size: 13.333333px;
+                font-weight: 500;
+                border: 1px solid darkgray;
+                box-sizing: border-box;
+                margin: 1.2em 1em 5px 0;
+                padding: 0.5em;
+                white-space: pre;
+                
+            }
+        </style>
+    </head>
+    <body>
+        <label for="myTA1">Original</label><br>
+        <textarea name="myT1" id="myTA1" class="ta-code-editor" autocorrect="off" autocapitalize="off" spellcheck="false"></textarea>
+        <p>Modified</p>
+        <div id="myDiv1" class="div-code-editor" contenteditable="true" autocorrect="off" autocapitalize="off" spellcheck="false"></div>
+        <p>string</p>
+        <div id="content"></div>
+    <script>
+    /** Modifiers
+     * i    case insensitive modifier
+     * g    global modifier (match as many times as possible)
+     * m    multiline modifier; used with anchors to check from beginning to end of line
+    */
+    /**
+     * ^    start delimiter
+     * $    end delimiter
+     * +    one or more times
+     * \s   matches whitespace, tabs, newlines, etc
+     * \w   matches [a-zA-Z0-9_]
+     * .    wildcard that matches any char except newline
+     * \.   backslash escapes the "." for a literal match
+     * ?    makes preceeding pattern optional; /ship?/ matches "shi" 1 time followed by 0 or 1 "p" characters; (ship)? whole word optional
+     * \?   matches literal "?"
+     * \+   matches literal "+"
+     * ()   can be used to create groups
+     * \b   matches word boundary \bok\b for "ok" but not "okie dokie"
+     * ^    means NOT e.g. [^\d] all chars except numbers
+     * \D   every char except numbers
+     * \S   every char except whitespace
+     * \W   every char except words
+     * ()   parens define a capture group
+     * ?:   non-capture group e.g.(?:street|lane)
+     *
+    */
+    var str, newStr;
+    str = newStr = ".grid-container {\n  display: grid;\n  solid-border: 1px solid dashed dotted #FeA;\n  grid-template-rows: 100pt 150%;\n  grid-template-rows: 100pc 150rem\n  grid-template-rows: 100p 150em;\n  grid-template-rows: 100px 150fr\n  border: 1px solid dashed dotted #FeA;\n  french: da % she asolids adasheds\n  clem pty apt -pt ;\n}";
+
+    // selector
+    newStr = newStr.replace(/[\S]+(?=\s*{)/gm, '<span class="mce-constant">$&</span>');
+    // keywords
+    newStr = newStr.replace(/(?<=\d)(em|ex|%|px|cm|mm|in|pt|pc|ch|rem|vh|vw|vmin|vmax|fr|s)(?=\W)/gm,'<span class="mce-keyword">$&</span>');
+    // constant values
+    newStr = newStr.replace(/(?<=:.*)((?<=\s)\d+|\#[0-9A-Fa-f]{3,6}|\b(solid|dashed|dotted|grid)\b)/gm, '<span class="mce-constant">$&</span>');
+
+    document.getElementById('myTA1').defaultValue = str;
+    document.getElementById('myDiv1').innerHTML = newStr;
+
+    document.getElementById('content').innerText = document.getElementById('myDiv1').textContent;
+    console.log(str);
+    console.log(newStr);
+    </script>
+    </body>
+</html>
