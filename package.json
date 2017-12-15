@@ -1,0 +1,22 @@
+{
+  "name": "grid-critters-code",
+  "version": "0.1.0",
+  "description": "Practice code written while taking the Grid Critters course by @geddski",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/james-priest/grid-critters-code.git"
+  },
+  "author": "James Priest",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/james-priest/grid-critters-code/issues"
+  },
+  "homepage": "https://github.com/james-priest/grid-critters-code#readme",
+  "dependencies": {
+    "css-properties-values": "^1.0.0"
+  }
+}
