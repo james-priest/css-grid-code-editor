@@ -1,6 +1,10 @@
 var myDivCodeEditor = {
     gridContainer: document.querySelector( '.grid-container' ),
     codeEditor: document.querySelector( '.div-code-editor' ),
+    constants: getConstants(),
+    // reConstants: /(?<=:.*)((?<=[\s:])\d+|#[0-9A-Fa-f]{3,6}|\b(solid|dashed|dotted|grid)\b)/gm,
+    reConstants: new RegExp('.*:\\s*|.*:|.*?{|[a-z]\\d+|\\w+\\(\\)|(\\d+|#[0-9A-Fa-f]{3,6}|\\b(' + getConstants() + ')(?![\\w-]))', 'gm'),
+    reKeywords: /.*:\s*|.*:|(<\/span>)(em|ex|%|px|cm|mm|in|pt|pc|ch|rem|vh|vw|vmin|vmax|fr)(?=\W)/gm,
     init: function(preFill) {
         var thisGrid = this;
         thisGrid.codeEditor.innerHTML = preFill;
@@ -9,41 +13,57 @@ var myDivCodeEditor = {
         // console.log( 'childElementCount', this.codeEditor.childElementCount );
         // console.log( 'childNodes', this.codeEditor.childNodes[1].childNodes[0] );
         // console.log( 'children', this.codeEditor.children );
+        // console.log( thisGrid.constants );
+        console.log( thisGrid.reConstants );
         
         thisGrid.setCursor( this.codeEditor.childNodes[ 1 ].childNodes[0], 2 );
 
         thisGrid.codeEditor.oninput = function( evt ) {
             // filter current word
             // console.log( evt );
-            var selNode = thisGrid.getSelectedNode();
-            // var sel = window.getSelection().anchorNode.parentNode.parentNode;
+            var selNode, working, newNode;
+            selNode = thisGrid.getSelectedNode();
+            // working = selNode.textContent;
+            working = selNode.innerHTML;
+
             console.log( 'sel', selNode );
+            console.log( 'textContent', working );
 
-            
+            // keywords
+            // working = working.replace( /(?<=\d)(em|ex|%|px|cm|mm|in|pt|pc|ch|rem|vh|vw|vmin|vmax|fr|s)(?=\W)/gm, '<span class="mce-keyword">$&</span>' );
+            // constants
+            // working = working.replace( /(?<=:.*)((?<=[\s:])\d+|\#[0-9A-Fa-f]{3,6}|\b(solid|dashed|dotted|grid)\b)/gm, '<span class="mce-constant">$&</span>' );
+            // working = working.replace( /(?<=:.*)(\d+|#[0-9A-Fa-f]{3,6}|\b(solid|dashed|dotted|grid)\b)/gm, '<span class="mce-constant">$&</span>' );
 
+            working = working.replace(thisGrid.reConstants, function(m, group1) {
+                if (group1 !== undefined) {
+                    return '<span class="mce-constant">' + group1 + '</span>';
+                }
+                return m;
+            } );
+            working = working.replace(thisGrid.reKeywords, function(m, group1, group2) {
+                if (group1 !== undefined) {
+                    // console.log(group1 + '<span>' + group2 + '</span>');
+                    return group1 + '<span class="mce-keyword">' + group2 + '</span>';
+                }
+                return m;
+            });
+
+            // TODO: Call a function on the replace & track prevNode & newNode 
             
-            console.log( selNode.innerText );
-            // if ( sel.contains( 'display' ) ) {
-            //     console.log( 'got it' );
+            // if ( working.includes( '<span' ) ) {
+            //     newNode = selNode.childNodes[1]
+            //     // thisGrid.setCursor( newNode.childNodes[0], newNode.childNodes[0].length );
             // }
-            // console.log( sel.textContent );
-            var keyword = 'display';
-            if ( selNode.innerText.trim() === keyword ) {
-                console.log( 'got it' );
+            selNode.innerHTML = working;
+            // console.log( selNode.lastChild );
+            // console.log( selNode.children );
 
-                var sel = window.getSelection();
-                console.log( sel );
-
-
-                // var newNode = document.createElement( 'span' );
-                // newNode.className = 'mce-keyword';
-                // newNode.appendChild( document.createTextNode( 'display' ) );
-
-                // selNode.appendChild( newNode );
-            }
-
-
-
+            // set cursor
+            // console.log( selNode.innerHTML.length );
+            // newNode = selNode.childNodes[1]
+            // thisGrid.setCursor( newNode.childNodes[0], newNode.childNodes[0].length );
+            thisGrid.setCursor( selNode.childNodes[0], selNode.childNodes[0].length )
 
             thisGrid.applyStyle(evt);
         };
