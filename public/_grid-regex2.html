@@ -64,14 +64,14 @@
      *
     */
     var str, newStr;
-    str = newStr = ".grid-container {\n  display: grid;\n  solid-border: 1px solid dashed dotted #FeA;\n  grid-template-rows: 100pt 150%;\n  grid-template-rows: 100pc 150rem\n  grid-template-rows: 100p 150em;\n  grid-template-rows: 100px 150fr\n  border: 1px solid dashed dotted #FeA;\n  french: da % she asolids adasheds\n  clem pty apt -pt ;\n}";
+    str = newStr = ".grid-container {\n  display: grid;\n  solid-border: 1px solid dashed dotted #FeA;\n  grid-template-rows:100pt 150%;\n  grid-template-rows: 100pc 150rem\n  grid-template-rows: 100p 150em;\n  grid-template-rows: 100px 150fr\n  border: 1px solid dashed dotted #FeA;\n  french: da % she asolids adasheds\n  clem pty apt -pt ;\n}";
 
     // selector
     newStr = newStr.replace(/[\S]+(?=\s*{)/gm, '<span class="mce-constant">$&</span>');
     // keywords
     newStr = newStr.replace(/(?<=\d)(em|ex|%|px|cm|mm|in|pt|pc|ch|rem|vh|vw|vmin|vmax|fr|s)(?=\W)/gm,'<span class="mce-keyword">$&</span>');
     // constant values
-    newStr = newStr.replace(/(?<=:.*)((?<=\s)\d+|\#[0-9A-Fa-f]{3,6}|\b(solid|dashed|dotted|grid)\b)/gm, '<span class="mce-constant">$&</span>');
+    newStr = newStr.replace(/(?<=:.*)(\d+|\#[0-9A-Fa-f]{3,6}|\b(solid|dashed|dotted|grid)\b)/gm, '<span class="mce-constant">$&</span>');
 
     document.getElementById('myTA1').defaultValue = str;
     document.getElementById('myDiv1').innerHTML = newStr;
