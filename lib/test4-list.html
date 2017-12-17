@@ -14,12 +14,8 @@
     </head>
     <body>
         <h1>CSS3 Master list of unqiue values</h1>
-        <table id="val-table">
-            <thead>
-                <th>Count</th>
-                <th>Values</th>
-            </thead>
-        </table>
+        <div id="val-table">
+        </div>
         <script>
             var xmlhttp = new XMLHttpRequest();
             xmlhttp.onreadystatechange = function() {
@@ -34,7 +30,7 @@
                         filteredVals = item.values.filter(val => !String(val).trim().match(/^(length|percentage|time|number|keyframename|color|x% y%|xpos ypos|\%|image|h-offset|v-offset|blur|spread|shape|column-width|column-count|string|id number|name|URL|flex-grow|flex-shrink|flex-basis|flex-direction|flex-wrap|font-style|font-variant|font-weight|font-size\/line-height|font-family|column-line|length length|url|x-axis|y-axis|z-axis|h-shadow|v-shadow|blur-radius|property)$/gm));
 
                         // return only function names; match everything left of the parens & add empty parens
-                        filteredVals = filteredVals.map(item => String(item).replace(/\s*\(.*\)/, '()'));
+                        filteredVals = filteredVals.map(item => String(item).replace(/\s*\(.*\)/, ''));
                         // replace \r\n with comma e.g. top left, left center, left bottom
                         if(item.property === "background-position"  || item.property === "font-weight") {
                             filteredVals = filteredVals.map(item => String(item).replace(/\r\n\s*/g, ', '));
@@ -85,7 +81,8 @@
 
                     // build html
                     uniqueVals.forEach((item, idx) => {
-                        row += "<tr><td>" + (idx + 1) + "</td><td>" + item + "</td></tr>" ;
+                        // row += "<tr><td>" + (idx + 1) + "</td><td>" + item + "</td></tr>" ;
+                        row += item + "|";
                     })
                     document.getElementById('val-table').insertAdjacentHTML('beforeend',row);
 
