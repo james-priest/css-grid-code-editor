@@ -71,7 +71,7 @@
         var original, newStr
         var reKeywords, reConstants, match1, match2, reGroup1;
         
-        original = newStr = ".grid-container {\n  display: grid;\n  solid-border: 1px solid dashed dotted #FeA;\n  grid-template-rows: 100pt 150%;\n  grid-template-rows:100pc 151rem\n  grid-template-rows: 100p 152em;\n  grid-template-rows: 100px 153fr\n  border: 1px solid dashed dotted #FeA;\n  french: da % she asolids adasheds\n  clem pty apt -pt #f3ae32 11233a8adf;\n  asdf inset saturate saturated saturate() text text-tops text-top\n}";
+        original = newStr = ".grid-container {\n  display: grid;\n  grid-template-rows: 100px 200px;\n  solid-border: 1px solid dashed dotted #FeA;\n  grid-template-rows: 100pt 150%;\n  grid-template-rows:100pc 151rem\n  grid-template-rows: 100p 152em;\n  grid-template-rows: 100px 153fr\n  border: 1px solid dashed dotted #FeA;\n  french: da % she asolids adasheds\n  clem pty apt -pt #f3ae32 11233a8adf;\n  asdf inset saturate saturated saturate() text text-tops text-top\n}";
 
         // selector
         newStr = newStr.replace(/[\S]+(?=\s*{)/gm, '<span class="mce-constant">$&</span>');
