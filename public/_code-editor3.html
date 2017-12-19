@@ -31,14 +31,43 @@
                     <textarea name="ta-code-editor" class="ta-code-editor" autocorrect="off" autocapitalize="off" spellcheck="false"></textarea>
                 </fieldset>
             </div>
+            <div id="caretPos"></div>
         </main>
     </body>
     <script src="../lib/css-constants.js"></script>
     <script src="script/mce_div.js"></script>
     <script>
         var preFill = "<div class='mce-line'><span class='mce-constant'>.grid-container</span> {</div><div class='mce-line'>  </div><div class='mce-line'>}</div>";
-        window.onload = myDivCodeEditor.init(preFill);
+        window.onload = myDivCodeEditor.init( preFill );
 
+        function getCaretPosition() {
+            if ( window.getSelection && window.getSelection().getRangeAt ) {
+                var range = window.getSelection().getRangeAt( 0 );
+                var selectedObj = window.getSelection();
+                var rangeCount = 0;
+                var childNodes = selectedObj.anchorNode.parentNode.childNodes;
+                for ( var i = 0; i < childNodes.length; i++ ) {
+                    if ( childNodes[ i ] == selectedObj.anchorNode ) {
+                        break;
+                    }
+                    if ( childNodes[ i ].outerHTML )
+                        rangeCount += childNodes[ i ].outerHTML.length;
+                    else if ( childNodes[ i ].nodeType == 3 ) {
+                        rangeCount += childNodes[ i ].textContent.length;
+                    }
+                }
+                return range.startOffset + rangeCount;
+            }
+            return -1;
+        }
 
-    </script>
+        function showCaretPos() {
+            var el = document.getElementById( "test" );
+            var caretPosEl = document.getElementById( "caretPos" );
+            caretPosEl.innerHTML = "Caret position: " + getCaretPosition(); //getCaretCharacterOffsetWithin(el);
+        }
+
+        document.body.onkeyup = showCaretPos;
+        document.body.onmouseup = showCaretPos;
+        </script>
 </html>
