@@ -1,0 +1,120 @@
+<html>
+  <head>
+    <title>1.range</title>
+    <style>
+    body {font-family: Courier New, Courier, monospace}
+    </style>
+    
+  </head>
+  <body>
+    <p id="p1">My <u>Hello</u> World</p>
+
+
+    <table border="0">
+        <tr>
+            <td>
+    <label for="html1">html</label><br >
+    <textarea name="" id="html1" cols="40" rows="7" style="padding: .5em">
+<body>
+  <p id="p1">My <u>Hello</u> World</p>
+</body>
+    </textarea>
+            </td>
+            <td>
+    <label for="js1">js</label><br >
+    <textarea name="" id="js1" cols="48" rows="7" style="padding: .5em">
+var oRange1 = document.createRange();
+var oRange2 = document.createRange();
+
+var oP1 = document.getElementById("p1");
+oRange1.selectNode(oP1);
+oRange2.selectNodeContents(oP1);
+    </textarea>
+            </td>
+        </tr>
+    </table>
+    <br>
+
+    <input type="button" value="Use Ranges" onclick="useRanges()" />
+    <table border="0">
+        <tr>
+            <td>
+                <fieldset>
+                    <legend>oRange1</legend>
+                    <label for="txtStartContainer1">Start Container:</label>
+                    <input type="text" id="txtStartContainer1" />
+                    <br /><label for="txtStartOffset1">Start Offset:</label>
+                    <input type="text" id="txtStartOffset1" />
+                    <br /><label for="txtEndContainer1">End Container:</label>
+                    <input type="text" id="txtEndContainer1" />
+                    <br /><label for="txtEndOffset1">End Offset:</label>
+                    <input type="text" id="txtEndOffset1" />
+                    <br /><label for="txtCommonAncestor1">Common Ancestor:</label>
+                    <input type="text" id="txtCommonAncestor1" />
+                    <br />
+                </fieldset>
+            </td>
+            <td>
+                <fieldset>
+                    <legend>oRange2</legend>
+                    <label for="txtStartContainer2">Start Container:</label>
+                    <input type="text" id="txtStartContainer2" />
+                    <br /><label for="txtStartOffset2">Start Offset:</label>
+                    <input type="text" id="txtStartOffset2" />
+                    <br /><label for="txtEndContainer2">End Container:</label>
+                    <input type="text" id="txtEndContainer2" />
+                    <br /><label for="txtEndOffset2">End Offset:</label>
+                    <input type="text" id="txtEndOffset2" />
+                    <br /><label for="txtCommonAncestor2">Common Ancestor:</label>
+                    <input type="text" id="txtCommonAncestor2" />
+                    <br />
+                </fieldset>
+            </td>
+        </tr>
+    </table>
+    <p>
+            <u><b>selectNode()</b></u><br>
+            <b>startContainer</b>, <b>endContainer</b>, and <b>commonAncestorContainer</b> are all equal to the parent node of the node that was passed in;
+            <ul>
+                <li><b>startOffset</b> is equal to the index of the given node within the parent's childNodes collection</li>
+                <li><b>endOffset</b> is equal to the startOffset plus one (because only one node is selected)</li>
+            </ul>
+    </p>
+    <p>
+            <u><b>selectNodeContents()</b></u><br>
+            <b>startContainer</b>, <b>endContainer</b>, and <b>commonAncestorContainer</b> are equal to the node that was passed in; 
+            <ul>
+                <li><b>startOffset</b> is equal to 0</li>
+                <li><b>endOffset</b> is equal to the number of child nodes (node.childNodes.length)</li>
+            </ul>
+    </p>
+    <script type="text/javascript">
+        function useRanges() {
+            var oRange1 = document.createRange();
+            var oRange2 = document.createRange();
+            var oP1 = document.getElementById( "p1" );
+            oRange1.selectNode( oP1 );
+            oRange2.selectNodeContents( oP1 );
+            // oRange2.setStartAfter(oP1.childNodes[0]);
+            // oRange2.setStartBefore(oP1.childNodes[1]);
+            
+            console.log(oP1.childNodes);
+
+            document.getElementById( "txtStartContainer1" ).value = oRange1.startContainer.tagName;
+            document.getElementById( "txtStartOffset1" ).value = oRange1.startOffset;
+            document.getElementById( "txtEndContainer1" ).value = oRange1.endContainer.tagName;
+            document.getElementById( "txtEndOffset1" ).value = oRange1.endOffset;
+            document.getElementById( "txtCommonAncestor1" ).value = oRange1.commonAncestorContainer.tagName;
+            document.getElementById( "txtStartContainer2" ).value = oRange2.startContainer.tagName;
+            document.getElementById( "txtStartOffset2" ).value = oRange2.startOffset;
+            document.getElementById( "txtEndContainer2" ).value = oRange2.endContainer.tagName;
+            document.getElementById( "txtEndOffset2" ).value = oRange2.endOffset;
+            document.getElementById( "txtCommonAncestor2" ).value = oRange2.commonAncestorContainer.tagName;
+
+            console.log('selectNode', oRange1);
+            console.log('selectNodeContents', oRange2);
+        }
+        window.onload = useRanges();
+    </script>
+  </body>
+</html>

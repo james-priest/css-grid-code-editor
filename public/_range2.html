@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>2.range</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link href="css/_range.css" rel="stylesheet">
+    </head>
+    <body>
+        <h1 id="h1">Heading</h1>
+        <p id="p1">
+            Hello <b>bold</b> World
+        </p>
+
+        <hr>
+        <button onclick="useRanges()">Run code</button>
+        <table border="0">
+            <tr>
+                <td>
+        <label for="html1">html</label><br >
+        <textarea name="" id="html1" cols="40" rows="16" style="padding: .5em">
+<body>
+    <h1 id="h1">Heading</h1>
+    <p id="p1">
+        Hello <b>bold</b> World
+    </p>
+    ...
+</body>
+        </textarea>
+                </td>
+                <td>
+        <label for="js1">js</label><br >
+        <textarea name="" id="js1" cols="60" rows="16" style="padding: .5em"></textarea>
+                </td>
+            </tr>
+        </table>
+
+        <h3>Select range</h3>
+        <ol>
+            <li>To create a range we use the following.
+                <ul>
+                    <li><code>var range = document.createRange()</code></li>
+                </ul>
+            </li>
+            <li>Node selection is done simply with either of these two methods
+                <ul>
+                    <li><code>range.selectNode(refNode)</code> - selects a refNode including all its children.</li>
+                    <li><code>range.selectNodeContents(refNode)</code> - selects only the children of a refNode.</li>
+                </ul>
+            </li>
+            <li>To create and select a range based on cursor position we can use this.
+                <ul>
+                    <li><code>var sel = window.getSelection().</code></li>
+                    <li><code>var range = sel.getRangeAt(0)</code></li>
+                </ul>
+            </li>
+            <li>Whenever you create a range, a number of read-only properties are assigned to it.
+                <ul>
+                    <li><code>startContainer</code> - the parent of the first node in the selection.</li>
+                    <li><code>startOffset</code> - the number of characters <u>skipped</u> <i>before the range starts</i> if <code>startContainer</code> is a text node; otherwise it's the index of the first child node in the range.</li>
+                    <li><code>endContainer</code> - the parent of the last node in the selection.</li>
+                    <li><code>endOffset</code> - the number of characters <u>skipped</u> <i>before the range ends</i> if <code>endContainer</code> is a text node; otherwise it's the index of the last child node in the range.</li>
+                    <li><code>commonAncestorContainer</code> - the first node that contains both <code>startContainer</code> and <code>endContainer</code>.</li>
+                </ul>
+            </li>
+            
+            <li>
+                These methods help you get more specific with your selections while still setting the properties for you. 
+                <ul>
+                    <li><code>range.setStartBefore(refNode)</code></li>
+                    <li><code>range.setStartAfter(refNode)</code></li>
+                    <li><code>range.setEndBefore(refNode)</code></li>
+                    <li><code>range.setEndAfter(refNode)</code></li>
+                </ul>
+            </li>
+        </ol>
+<script id="script1">function useRanges() {
+    var h1 = document.getElementById('h1');
+    var p1 = document.getElementById('p1');
+
+    var oRange1 = document.createRange();
+    var oRange2 = document.createRange();
+
+    oRange1.selectNode(p1);
+    oRange2.selectNodeContents(p1);
+
+    // document.body.insertBefore(p1, h1);
+
+    var oFragment = oRange1.extractContents();
+    // document.body.appendChild(oFragment);
+    document.body.insertBefore(oFragment, h1);
+}</script>
+
+        <script>
+            window.onload = function() {
+                var jsTA = document.getElementById('js1');
+                var script1 = document.getElementById('script1');
+                jsTA.textContent = script1.innerText;
+            }
+        </script>
+    </body>
+</html>

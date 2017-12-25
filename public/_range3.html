@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>3.range</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link href="css/_range.css" rel="stylesheet">
+    </head>
+    <body>
+        <h1 id="h1">Heading</h1>
+        <p id="p1">Hello <b>bold</b> World</p>
+
+        <hr>
+        <button onclick="useRanges()">Run code</button>
+        <table border="0">
+            <tr>
+                <td>
+        <label for="html1">html</label><br >
+        <textarea name="" id="html1" cols="50" rows="20" style="padding: .5em">
+<body>
+    <h1 id="h1">Heading</h1>
+    <p id="p1">Hello <b>bold</b> World</p>
+    ...
+</body>
+        </textarea>
+                </td>
+                <td>
+        <label for="js1">js</label><br >
+        <textarea name="" id="js1" cols="60" rows="20" style="padding: .5em"></textarea>
+                </td>
+            </tr>
+        </table>
+
+        <h3>Advanced select & remove from range</h3> 
+        <ol>
+            <li>When a range is created, internally it creates a document fragment node onto which all the nodes in the selection are attached.
+                <ul>
+                    <li><code>var range = document.createRange();</code></li>
+                </ul>
+            </li>
+            <li>We can set a range with more precision by selecting only parts of nodes using the following.
+                <ul>
+                    <li><code>Range.setStart(refNode, startOffset)</code>
+                        <ul>
+                            <li><code>refNode</code> - the node that starts the selection.</li>
+                            <li><code>startOffset</code> - the number of chars <u>skipped</u> <em>before the range starts</em> if it's a text node; otherwise it's index of the first child node in the range.</li>
+                        </ul>
+                    </li>   
+                    <li><code>Range.setEnd(refNode, endOffset)</code>
+                        <ul>
+                            <li><code>refNode</code> - the node that ends the selection.</li>
+                            <li><code>endOffset</code> - the number of chars <u>skipped</u> <em>before the range ends</em> if it's a text node; otherwise it's index of the last child node in the range.</li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+            <li>With the document fragment created, we can delete, extract, or clone the contents of the range using a variety of methods.
+                <ul>
+                    <li><code>Range.deleteContents()</code> - removes and discards the contents of the range from the document.</li>
+                    <li><code>Range.extractContents()</code> - removes and copies the contents of the range from the document.</li>
+                    <li><code>Range.cloneContents()</code> - leaves the fragment in place but creates a copy that can be inserted elsewhere.</li>
+                </ul>
+            </li>
+        </ol>
+
+<script id="script1" type="text/javascript">function useRanges() {
+    var h1 = document.getElementById('h1');
+    var p1 = document.getElementById('p1');
+    var oHello = p1.firstChild;
+    var oBold = p1.childNodes[1];
+    var oBoldText = p1.childNodes[1].firstChild;
+    var oWorld = p1.lastChild;
+
+    var oRange = document.createRange();
+    // oRange.setStart(oHello, 3); // lo
+    // oRange.setEnd(oWorld, 3); // Wo
+    oRange.setStart(oBoldText, 1); // old
+    oRange.setEnd(oWorld, 3); // Wo
+
+    // oRange2.deleteContents();
+    var oFragment = oRange.extractContents();
+    // var oFragment = oRange.cloneContents();
+    document.body.insertBefore(oFragment, h1);
+}</script>
+
+        <script>
+            window.onload = function() {
+                var jsTA = document.getElementById('js1');
+                var script1 = document.getElementById('script1');
+                jsTA.textContent = script1.innerText;
+            }
+        </script>
+    </body>
+</html>
