@@ -82,7 +82,7 @@
         // var reConstants = /.*:\s*|.*:|.*?{|[a-z]\d+|\w+\(\)|(\d+|#[0-9A-Fa-f]{3,6}|\b(solid|dashed|dotted|grid|text-toped|text|saturate)(?![\w-]))/gm;
         // console.log('reConstants', reConstants);
         
-        reConstants = new RegExp('.*:\\s*|.*:|.*?{|[a-z]\\d+|\\w+\\(\\)|(\\d+|#[0-9A-Fa-f]{3,6}|\\b(' + constants + ')(?![\\w-]))', 'gm');
+        reConstants = new RegExp('.*:\\s*|.*:|.*?{|[a-z]\\d+|\\w+\\(\\)|(\\d+|#[0-9A-Fa-f]{3,6}|\\b(' + constants + ')(?![\\w-\\()]))', 'gm');
         console.log('reConstants', reConstants);
         
         // reGroup1 = [];
