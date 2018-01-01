@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>1.insertHTML</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link href="css/style3.css" rel="stylesheet">
+        <style>
+            main { height: 60vh; }
+            textarea.ta-code-editor { height: 200px; }
+            .guide {
+                grid-template-rows: 100px 200px;
+            }
+        </style>
+    </head>
+    <body>
+        <main>
+            <section class="grid-container">
+                
+                <div class="target dunes"></div>
+                <div class="target rocky"></div>
+                <div class="guide">
+                    <div class="dunes"></div>
+                    <div class="rocky"></div>
+                </div>
+            </section>
+
+            <div class="control-container">
+                <div class="div-code-editor" contenteditable="true" autocorrect="off" autocapitalize="off" spellcheck="false"></div>
+                <fieldset class="controls">
+                    <textarea name="ta-code-editor" class="ta-code-editor" autocorrect="off" autocapitalize="off" spellcheck="false"></textarea>
+                </fieldset>
+            </div>
+            <div id="caretPos"></div><button id="insertHtml">Insert HTML</button>
+        </main>
+        <script src="../lib/css-constants.js"></script>
+        <script src="script/mce_div.js"></script>
+        <script>
+            var preFill = "<div class='mce-line'><span class='mce-constant'>.grid-container</span> {</div><div class='mce-line'>  </div><div class='mce-line'>}</div>";
+            window.onload = myDivCodeEditor.init( preFill );
+
+            document.getElementById('insertHtml').addEventListener('click', function(e) {
+                var html = 'display: <span class="mce-constant">grid</span>;';
+                insertHtmlAfterSelection(html);
+            }, false);
+
+            function getCaretPosition() {
+                if ( window.getSelection && window.getSelection().getRangeAt ) {
+                    var range = window.getSelection().getRangeAt( 0 );
+                    var selectedObj = window.getSelection();
+                    var rangeCount = 0;
+                    var childNodes = selectedObj.anchorNode.parentNode.childNodes;
+                    for ( var i = 0; i < childNodes.length; i++ ) {
+                        if ( childNodes[ i ] == selectedObj.anchorNode ) {
+                            break;
+                        }
+                        if ( childNodes[ i ].outerHTML )
+                            rangeCount += childNodes[ i ].outerHTML.length;
+                        else if ( childNodes[ i ].nodeType == 3 ) {
+                            rangeCount += childNodes[ i ].textContent.length;
+                        }
+                    }
+                    return range.startOffset + rangeCount;
+                }
+                return -1;
+            }
+
+            function showCaretPos() {
+                var el = document.getElementById( "test" );
+                var caretPosEl = document.getElementById( "caretPos" );
+                caretPosEl.innerHTML = "Caret position: " + getCaretPosition(); //getCaretCharacterOffsetWithin(el);
+            }
+
+            document.body.onkeyup = showCaretPos;
+            document.body.onmouseup = showCaretPos;
+
+            var $scope = $scope || {};
+            $scope.editorSelection = window.getSelection().getRangeAt(0);
+
+            $scope.SetupEditor = function() {
+                var editable = document.getElementById( 'div-code-editor' ),
+                    selection, range;
+                var captureSelection = function( e ) {
+                    // Don't capture selection outside editable region
+                    var isOrContainsAnchor = false,
+                        isOrContainsFocus = false,
+                        sel = window.getSelection(),
+                        parentAnchor = sel.anchorNode,
+                        parentFocus = sel.focusNode;
+
+                    while ( parentAnchor && parentAnchor != document.documentElement ) {
+                        if ( parentAnchor == editable ) {
+                            isOrContainsAnchor = true;
+                        }
+                        parentAnchor = parentAnchor.parentNode;
+                    }
+
+                    while ( parentFocus && parentFocus != document.documentElement ) {
+                        if ( parentFocus == editable ) {
+                            isOrContainsFocus = true;
+                        }
+                        parentFocus = parentFocus.parentNode;
+                    }
+
+                    if ( !isOrContainsAnchor || !isOrContainsFocus ) {
+                        return;
+                    }
+                    selection = window.getSelection();
+
+                    // Get range (standards)
+                    if ( selection.getRangeAt !== undefined ) {
+                        range = selection.getRangeAt( 0 );
+
+                        // Get range (Safari 2)
+                    } else if (
+                        document.createRange &&
+                        selection.anchorNode &&
+                        selection.anchorOffset &&
+                        selection.focusNode &&
+                        selection.focusOffset
+                    ) {
+                        range = document.createRange();
+                        range.setStart( selection.anchorNode, selection.anchorOffset );
+                        range.setEnd( selection.focusNode, selection.focusOffset );
+                    } else {
+                        // Failure here, not handled by the rest of the script.
+                        // Probably IE or some older browser
+                    }
+                    $scope.editorSelection = range;
+                };
+                editable.onkeyup = captureSelection;
+                // editable.oninput = captureSelection;
+                //editable.onmouseup = captureSelection;
+            };
+
+            function insertHtmlAfterSelection( html ) {
+                var range, expandedSelRange, node;
+                if ( $scope.editorSelection ) {
+                    range = $scope.editorSelection;
+                    expandedSelRange = range.cloneRange();
+                    range.collapse( false );
+                    var el = document.createElement( "div" );
+                    el.innerHTML = html;
+                    
+                    var frag = document.createDocumentFragment(), node, lastNode;
+                    while ( ( node = el.firstChild ) ) {
+                        lastNode = frag.appendChild( node );
+                    }
+                    range.insertNode( frag );
+                    range.collapse( true );
+                }
+            }
+        </script>
+    </body>
+</html>
