@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <title></title>
+        <title>5.Table</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <!-- <link href="css/style.css" rel="stylesheet"> -->
@@ -14,27 +14,31 @@
     </head>
     <body>
         <h1>CSS3 Master list of unique values</h1>
-        <div id="val-table">
-        </div>
+        <table id="val-table">
+            <thead>
+                <th>Count</th>
+                <th>Values</th>
+            </thead>
+        </table>
         <script>
             var xmlhttp = new XMLHttpRequest();
             xmlhttp.onreadystatechange = function() {
                 if (this.readyState == 4 && this.status == 200) {
                     var myArr = JSON.parse(this.responseText);
                     var propArr = [], valArr = [], filteredProps = [], filteredVals = [];
-                    var row ='', property;
+                    var property, row ='';
 
 
                     myArr.forEach(item => {
                         // filter out generic non-constant values
-                        filteredVals = item.values.filter(val => !String(val).trim().match(/^(length|percentage|time|number|keyframename|color|x% y%|xpos ypos|\%|image|h-offset|v-offset|blur|spread|shape|column-width|column-count|string|id number|name|URL|flex-grow|flex-shrink|flex-basis|flex-direction|flex-wrap|font-style|font-variant|font-weight|font-size\/line-height|font-family|column-line|length length|url|x-axis|y-axis|z-axis|h-shadow|v-shadow|blur-radius|property)$/gm));
+                        filteredVals = item.values.filter(val => !String(val).trim().match(/^(length|percentage|time|number|keyframename|color|x% y%|xpos ypos|%|image|h-offset|v-offset|blur|spread|shape|column-width|column-count|string|id number|name|URL|flex-grow|flex-shrink|flex-basis|flex-direction|flex-wrap|font-style|font-variant|font-weight|font-size\/line-height|font-family|column-line|length length|url|x-axis|y-axis|z-axis|h-shadow|v-shadow|blur-radius|property)$/gm));
 
                         // return only function names; match everything left of the parens & add empty parens
-                        filteredVals = filteredVals.map(item => String(item).replace(/\s*\(.*\)/, ''));
+                        filteredVals = filteredVals.map(item => String(item).replace(/\s*\(.*\)/, '()'));
                         // replace \r\n with comma e.g. top left, left center, left bottom
-                        if(item.property === "background-position"  || item.property === "font-weight") {
-                            filteredVals = filteredVals.map(item => String(item).replace(/\r\n\s*/g, ', '));
-                        }
+                        // if(item.property === "background-position"  || item.property === "font-weight") {
+                        //     filteredVals = filteredVals.map(item => String(item).replace(/\r\n\s*/g, ', '));
+                        // }
                         // remove matched trailing chars & leading whitespace
                         filteredVals = filteredVals.map(val => String(val).replace(/( n$|^\s+)/gm,''));
                         
@@ -46,7 +50,7 @@
                     propArr.sort();
 
                     // filter out shorthand properties
-                    filteredProps = propArr.filter(item => !String(item[0]).match(/^\@.*|(animation|background|border|border-bottom|border-image|border-left|border-right|border-top|column-rule|font-family|grid|grid-area|grid-column|grid-row|grid-template|grid-template-areas|list-style|outline|quotes|transition)$/gm));
+                    filteredProps = propArr.filter(item => !String(item[0]).match(/^@.*|(animation|background|background-position|border|border-bottom|border-image|border-left|border-right|border-top|column-rule|font-family|font-weight|grid|grid-area|grid-column|grid-row|grid-template|grid-template-areas|list-style|outline|quotes|transition)$/gm));
 
                     // create array of filtered values only
                     let filteredVals2 = [];
@@ -68,22 +72,27 @@
                             // console.log(elem);
                             var newArr = elem.split(', ');
                             self.push.apply(self, newArr);
-                            self.splice(index,1);
+                            self.splice(index, 1);
                         }
                     });
 
-                    // Add 140 color names
+                    // Add 140+ named colors
+                    var colors = 'black,silver,gray,white,maroon,red,purple,fuchsia,green,lime,olive,yellow,navy,blue,teal,aqua,orange,aliceblue,antiquewhite,aquamarine,azure,beige,bisque,blanchedalmond,blueviolet,brown,burlywood,cadetblue,chartreuse,chocolate,coral,cornflowerblue,cornsilk,crimson,cyan,aqua,darkblue,darkcyan,darkgoldenrod,darkgray,darkgreen,darkgrey,darkkhaki,darkmagenta,darkolivegreen,darkorange,darkorchid,darkred,darksalmon,darkseagreen,darkslateblue,darkslategray,darkslategrey,darkturquoise,darkviolet,deeppink,deepskyblue,dimgray,dimgrey,dodgerblue,firebrick,floralwhite,forestgreen,gainsboro,ghostwhite,gold,goldenrod,greenyellow,grey,honeydew,hotpink,indianred,indigo,ivory,khaki,lavender,lavenderblush,lawngreen,lemonchiffon,lightblue,lightcoral,lightcyan,lightgoldenrodyellow,lightgray,lightgreen,lightgrey,lightpink,lightsalmon,lightseagreen,lightskyblue,lightslategray,lightslategrey,lightsteelblue,lightyellow,limegreen,linen,magenta,fuchsia,mediumaquamarine,mediumblue,mediumorchid,mediumpurple,mediumseagreen,mediumslateblue,mediumspringgreen,mediumturquoise,mediumvioletred,midnightblue,mintcream,mistyrose,moccasin,navajowhite,oldlace,olivedrab,orangered,orchid,palegoldenrod,palegreen,paleturquoise,palevioletred,papayawhip,peachpuff,peru,pink,plum,powderblue,rosybrown,royalblue,saddlebrown,salmon,sandybrown,seagreen,seashell,sienna,skyblue,slateblue,slategray,slategrey,snow,springgreen,steelblue,tan,thistle,tomato,turquoise,violet,wheat,whitesmoke,yellowgreen';
+
+                    var colorArr = colors.split(',');
+                    colorArr.forEach(elem => {
+                        uniqueVals.push(elem);
+                    });
 
                     // filter out functions & add to new array for master list
 
                     uniqueVals.sort();
-                    // uniqueVals.reverse();
+                    uniqueVals.reverse();
                     // console.log(uniqueVals);
 
                     // build html
                     uniqueVals.forEach((item, idx) => {
-                        // row += "<tr><td>" + (idx + 1) + "</td><td>" + item + "</td></tr>" ;
-                        row += item + "|";
+                        row += "<tr><td>" + (idx + 1) + "</td><td>" + item + "</td></tr>" ;
                     });
                     document.getElementById('val-table').insertAdjacentHTML('beforeend',row);
 
