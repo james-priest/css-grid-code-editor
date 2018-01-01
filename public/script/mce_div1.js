@@ -12,27 +12,53 @@ var myDivCodeEditor = {
     clickPos: 0,
     init: function(preFill) {
         var thisGrid = this;
-        thisGrid.codeEditor.innerHTML = preFill;
-        thisGrid.codeEditor.focus();
-        
-        // console.log( 'childElementCount', this.codeEditor.childElementCount );
-        // console.log( 'childNodes', this.codeEditor.childNodes[1].childNodes[0] );
-        // console.log( 'children', this.codeEditor.children );
-        // console.log( thisGrid.constants );
-        // console.log( thisGrid.reConstants );
-        
-        thisGrid.setCursor( this.codeEditor.childNodes[ 1 ].childNodes[ 0 ], 2 );
-        thisGrid.currentDivLine = thisGrid.getSelectedNode();
 
+        //#region preFill & cursor
+        // get code-editor, selection, & range
+        var sel, range, textNode;
+        thisGrid.codeEditor.focus();
+        sel = window.getSelection();
+        range = sel.getRangeAt( 0 );
+        range.deleteContents();
+        
+        // loop through elements, append to docFragment, & insertNode into code-editor
+        var el = document.createElement( 'div' );
+        el.innerHTML = preFill;
+
+        var frag = document.createDocumentFragment( 'div' ), node, lastNode;
+        while ( ( node = el.firstChild ) ) {
+            lastNode = frag.appendChild( node );
+        }
+        range.insertNode( frag );
+        
+        // set cursor on childNode 1, textNode 0, 2 spaces in
+        if ( lastNode ) {
+            textNode = thisGrid.codeEditor.childNodes[ 1 ].childNodes[ 0 ];
+            range = range.cloneRange();
+            // range.setStart( textNode, 2 );
+            range.setStartAfter( textNode, 2 );
+            range.collapse( true );
+
+            sel.removeAllRanges();
+            sel.addRange( range );
+
+            // thisGrid.setCursor( thisGrid.codeEditor.childNodes[ 1 ].childNodes[ 0 ], 2 );
+            // thisGrid.currentDivLine = thisGrid.getSelectedNode();
+            thisGrid.currentDivLine = textNode.parentNode;
+        }
+       
+        // --------------------------
+        //#endregion
+        
         thisGrid.codeEditor.oninput = function( evt ) {
-            // console.log( evt );
-            console.log( '###############################################' );
             var selNode, working, prevValue;
-            
             // selNode = thisGrid.getSelectedNode();
             selNode = thisGrid.currentDivLine; // containing div of the selected line
-            console.log( 'div-code-editor childNodes', evt.target.childNodes );
-            console.log( 'selNode', selNode.nodeName );
+            
+            console.log( '###############################################' );
+            // console.log( evt );
+            console.log( 'selNode:', selNode.nodeName + ',',  selNode.className + ',', 'nodeIndex: ' + Array.from(selNode.parentNode.children).indexOf(selNode) + ' of ' + selNode.parentNode.childNodes.length);
+            console.log( evt.target.childNodes, '(div-code-editor.childNodes)' );
             console.log( evt );
 
             working = selNode.textContent;
@@ -40,8 +66,8 @@ var myDivCodeEditor = {
             prevValue = working;
 
             console.log( '-------------------' );
-            console.log( 'prevValue', prevValue );
-            console.log( 'working', working );
+            // console.log( 'prevValue', prevValue );
+            // console.log( 'working', working );
 
             // DONE: Call a function on string.replace & track prevNode & newNode 
             if (working.includes(':')) {
@@ -61,15 +87,13 @@ var myDivCodeEditor = {
 
             selNode.innerHTML = working;
 
-            console.log( '*** regex match and update innerHTML ***' );
-            console.log( 'prevValue', prevValue );
-            console.log( 'working', working );
+            // console.log( '*** regex match and update innerHTML ***' );
+            // console.log( 'prevValue', prevValue );
+            console.log( 'selNode:', working );
             console.log( '-------------------' );
             
-            if ( prevValue === working ) {
-                console.log( 'same child' );
-            } else {
-                console.log( 'new children' );
+            if ( prevValue !== working ) {
+                // console.log( 'new children' );
                 selNode.appendChild( document.createTextNode( '' ) ); // for semi-colon
             }
 
@@ -78,13 +102,13 @@ var myDivCodeEditor = {
             // 1. use current sel.anchor.parent.children.lastChild
             // 2. length of innerText of last child
 
-            console.log( '1.', 'selNode', selNode );
-            console.log( '2a.', 'selNode.innerHTML', selNode.innerHTML );
-            console.log( '2b.', 'selNode.textContent', selNode.textContent );
-            console.log( '2c.', 'selNode.lastChild', selNode.lastChild );
-            console.log( '2c.', 'selNode.lastChild.nodeType', selNode.lastChild.nodeType );
-            console.log( '2c.', 'selNode.nodeType', selNode.nodeType );
-            console.log( '3.', 'selNode.childNodes', selNode.childNodes );
+            // console.log( '1.', 'selNode', selNode );
+            // console.log( '2a.', 'selNode.innerHTML', selNode.innerHTML );
+            // console.log( '2b.', 'selNode.textContent', selNode.textContent );
+            // console.log( '2c.', 'selNode.lastChild', selNode.lastChild );
+            // console.log( '2c.', 'selNode.lastChild.nodeType', selNode.lastChild.nodeType );
+            // console.log( '2c.', 'selNode.nodeType', selNode.nodeType );
+            // console.log( '3.', 'selNode.childNodes', selNode.childNodes );
             // console.log( '4.', 'lastChild', selNode.lastChild );
             // console.log( '5.', 'lastChild.length', selNode.lastChild.textContent.length );
             // console.log( '6.', 'window.getSelection().getRangeAt(0)', window.getSelection().getRangeAt(0) );
@@ -92,13 +116,17 @@ var myDivCodeEditor = {
             // console.log( '8.', 'window.getSelection().anchorNode', window.getSelection().anchorNode );
             // console.log( '9.', 'window.getSelection().anchorNode.parentNode', window.getSelection().anchorNode.parentNode );
            
+            /*
             var curElem, curPos;
+
             if ( thisGrid.mouseClick ) {
                 thisGrid.mouseClick = false;
                 // set the cursor ba
                 curElem = thisGrid.clickElem.childNodes[ 0 ];
                 switch (evt.inputType) {
                     case 'deleteContentBackward':
+                        
+                        if (thisGrid.clickPos === 2) {}    
                         curPos = thisGrid.clickPos - 1;
                         break;
                     case 'insertText':
@@ -107,11 +135,6 @@ var myDivCodeEditor = {
                     default:
                         curPos = thisGrid.clickPos;    
                 }
-                // if ( evt.inputType === 'deleteContentBackward' ) {
-                //     curPos = thisGrid.clickPos - 1;
-                // } else {
-                //     curPos = thisGrid.clickPos;
-                // }
                 thisGrid.setCursor( curElem, curPos );
             } else {
                 // Do this when HTML has been inserted
@@ -124,7 +147,7 @@ var myDivCodeEditor = {
                 }
                 thisGrid.setCursor( curElem, curPos );
             }
-            
+            */
 
             // set cursor
             // var range = window.getSelection().getRangeAt(0);
@@ -145,20 +168,24 @@ var myDivCodeEditor = {
             // var curPos = selNode.lastChild.textContent.length;
             // thisGrid.setCursor(curElem, curPos);
 
+            console.log( '' );
             thisGrid.applyStyle(evt);
         };
+
         thisGrid.codeEditor.onkeypress = function( evt ) {
-            console.log( 'onkeypress evt', evt );
+            // console.log( 'onkeypress evt', evt );
             // <enter>
+            /*
             if ( evt.keyCode === 13 || evt.which === 13 ) {
-                var newLineIndent = '  ';
-                thisGrid.insertNewLine( newLineIndent );
-                console.log( 'div-code-editor.childNodes', evt.target.childNodes );
-                return false;
-            }
-            if ( thisGrid.mouseClick && evt.keyCode === 10 ) {
-                
-            }
+                sel = window.getSelection();
+                range = sel.getRangeAt( 0 );
+                console.log( range );
+                // if EOL then newline
+                // var newLineIndent = '  ';
+                // thisGrid.insertNewLine( newLineIndent );
+                // return false;
+                // else chop end of line and pass it into function
+            }*/
             // <ctrl>+/
             
         };
@@ -170,11 +197,11 @@ var myDivCodeEditor = {
             thisGrid.clickElem = thisGrid.getSelectedNode();
             thisGrid.clickPos = thisGrid.getCaretPosition();
 
-            console.log( '  clickElem:     ', thisGrid.clickElem.nodeName, thisGrid.clickElem.className, '"' + thisGrid.clickElem.textContent + '"' );
+            console.log( '  clickElem:     ', thisGrid.clickElem.nodeName + ',', thisGrid.clickElem.className + ',', '"' + thisGrid.clickElem.textContent + '"' );
             console.log( '  elem nodeType:', thisGrid.clickElem.nodeType );
             
             var selNode = thisGrid.currentDivLine; // containing div of the selected line
-            console.log( '  currentDivLine:', selNode.nodeName, selNode.className, '"' + selNode.textContent + '"' );
+            console.log( '  currentDivLine:', selNode.nodeName + ',', selNode.className + ',','"' + selNode.textContent + '"' );
 
             // Do this when HTML has been inserted
             // var curElem = thisGrid.clickElem.childNodes[0];
@@ -207,17 +234,26 @@ var myDivCodeEditor = {
     },
     insertNewLine: function( text ) {
         var prevNode, newNode;
-      
+        prevNode = this.currentDivLine;
+
+        console.log( '--------' );
+        console.log( 'new line' );
+        console.log( 'prevNode:', prevNode.nodeName + ',', prevNode.className + ',', 'nodeIndex: ' + Array.from( prevNode.parentNode.children ).indexOf( prevNode ) + ' of ' + prevNode.parentNode.childNodes.length );
+
         newNode = document.createElement( 'div' );
         newNode.className = 'mce-line';
         newNode.appendChild( document.createTextNode( text ) );
         
-        prevNode = this.getSelectedNode();
         prevNode.parentNode.insertBefore( newNode, prevNode.nextSibling );
         
         this.currentDivLine = newNode.childNodes[ 0 ].parentNode;        
         this.setCursor( newNode.childNodes[0], 2 );
-
+        
+        var selNode = this.currentDivLine;
+        console.log( 'selNode: ', selNode.nodeName + ',',  selNode.className + ',', 'nodeIndex: ' + Array.from(selNode.parentNode.children).indexOf(selNode) + ' of ' + selNode.parentNode.childNodes.length);
+        
+        
+        console.log( '--------' );
     },
     applyStyle: function( evt ) {
         var css = evt.target.textContent;
