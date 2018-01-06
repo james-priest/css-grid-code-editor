@@ -3,17 +3,18 @@ var myTACodeEditor = {
     taCodeEditor: document.querySelector( '.ta-code-editor' ),
     divCodeEditor: document.querySelector( '.div-code-editor' ),
 
-    rxSelectors: /[\S]+(?=\s*{)/gm,
-    rxConstants: new RegExp('^[\\s\\w-]+|.*?{|\\w+\\(.*\\)|(\\b(' + getConstants() + ')(?![\\w-\\()]))', 'gm'),
-    rxKeywords: new RegExp('^[\\s\\w-]+:|([\\d.]+)(em|ex|%|px|cm|mm|in|pt|pc|ch|rem|vh|vw|vmin|vmax|fr)(?=\\W)', 'gm'),
-    rxNumbers: /^[\s\w-]+:|.*?{|[a-z]\d+|([^:>("'/_-]\d*\.?\d+|#[0-9A-Fa-f]{3,6})/gm,
+    rxSelectors: /^[^/*][\S]+(?=\s*{)/gm,
+    rxConstants: new RegExp('^[\\s\\w-]+|.*?{|\\w+\\(.*\\)|\\/\\*.*|(\\b(' + getConstants() + ')(?![\\w-\\()]))', 'gm'),
+    rxKeywords: new RegExp('^[\\s\\w-]+:|\\/\\*.*|([\\d.]+)(em|ex|%|px|cm|mm|in|pt|pc|ch|rem|vh|vw|vmin|vmax|fr)(?=\\W)', 'gm'),
+    rxNumbers: /^[\s\w-]+:|.*?{|[a-z]\d+|\/\*.*|([^:>("'/_-]\d*\.?\d+|#[0-9A-Fa-f]{3,6})/gm,
     rxProperties: /^[ \t\w-]+(?=:)/gm,
-    rxFunctions: new RegExp( '\\w+\\(\\)|((' + getFunctions() + ')\\([\\w"' + String.fromCharCode(39) + ':\\/\\._\\-]+\\))', 'gm' ),
-    rxQuotes: /"[\w\s-]*"(?!>)|'[\w\s-]*'(?!>)/gm,
+    rxFunctions: new RegExp( '\\/\\*.*|((' + getFunctions() + ')\\([\\w"' + String.fromCharCode(39) + ':\\/\\._\\-]*\\))', 'gm' ),
+    rxQuotes: /^[/*].*\*\/|("[\w\s-]*"(?!>)|'[\w\s-]*'(?!>))/gm,
     rxRules: /(.+)\s*(?={)|^[\t\s]*(.+;)/gm,
     rxTextToWrap: /[\w\d\-[\] {}.:;#,>+'"=()/~^$*]+$/gm,
     rxFindComment: /\/\*|\*\//,
     rxReplaceComment: /\/\*|\*\//gm,
+    rxComments: /\/\*.*\*\//gm,
     
     init: function(preFill, curPos) {
         var mceObj = this;
@@ -40,13 +41,11 @@ var myTACodeEditor = {
         var mceObj = this,
             ce = mceObj.taCodeEditor,
             el = evt.target,
-            // pos = ce.selectionStart,
             selStart = ce.selectionStart,
             selEnd = ce.selectionEnd,
             selDir = ce.selectionDirection,
             firstLineStartPos = ce.value.lastIndexOf( '\n', selStart - 1 ) > -1 ? ce.value.lastIndexOf( '\n', selStart - 1 ) + 1 : 0,
             lastLineEndPos = ce.value.indexOf( '\n', selEnd ) > -1 ? ce.value.indexOf( '\n', selEnd ) : ce.value.length;
-        // console.log( 'after:', 'pos:', pos );
         console.log( '' );
         console.log( 'after:', 'firstLineStartPos:', firstLineStartPos, 'lastLineEndPos:', lastLineEndPos );
         if ( ce.selectionDirection === 'forward' ) {
@@ -58,7 +57,7 @@ var myTACodeEditor = {
         switch ( evt.key ) {
             case SLASH:
                 if ( evt.ctrlKey ) {
-                    mceObj.toggleComment( el );
+                    mceObj.commentSelection( el );
                 } else {
                     return true;
                 }
@@ -67,7 +66,7 @@ var myTACodeEditor = {
         mceObj.taCodeEditor.dispatchEvent( new Event( 'input' ) );
         return false;
     },
-    toggleComment: function( el ) {
+    commentSelection: function( el ) {
         var mceObj = this,
             val = el.value,
             selStart = el.selectionStart,
@@ -86,10 +85,11 @@ var myTACodeEditor = {
                 lineEndPos = lastLineEndPos;
                 slicedLine = val.slice( lineStartPos, lineEndPos );
 
-                newSlicedLine = this.commentLine2( slicedLine );
+                newSlicedLine = this.toggleComment( slicedLine );
+                el.value = val.slice( 0, lineStartPos ) + newSlicedLine + val.slice( lineEndPos );
 
+                // set caret selection for comment
                 if ( this.rxFindComment.test( slicedLine ) ) {
-                    // newSlicedLine = slicedLine.replace( this.rxReplaceComment, '' );
                     if ( selStart === lineStartPos ) {
                         posModifier = 0;
                     } else if ( selStart === lineEndPos ) {
@@ -98,7 +98,6 @@ var myTACodeEditor = {
                         posModifier = -2;
                     }
                 } else {
-                    // newSlicedLine = slicedLine.replace( this.rxTextToWrap, '/*' + '$&' + '*/' );
                     if ( selStart === lineStartPos ) {
                         posModifier = 0;
                     } else if ( selStart === lineEndPos ) {
@@ -107,27 +106,14 @@ var myTACodeEditor = {
                         posModifier = +2;
                     }
                 }
-                el.value = val.slice( 0, lineStartPos ) + newSlicedLine + val.slice( lineEndPos );
-
-                // val = this.commentLine( el, slicedLine );
-                // posModifier = this.commentLine( el, slicedLine );
-
-                // console.log( 'posModifier', posModifier );
-            
-                // move the caret
                 curPos = selDir === 'forward' ? selEnd : selStart;
                 el.selectionStart = el.selectionEnd = curPos + posModifier;
             } else {
-                // var selLineFrag = val.slice( selStart, selEnd );
-                // if ( this.rxFindComment.test( selLineFrag ) === false ) {
-                //     console.log
-                // }
-
+                var lines = val.split( '\n' ),
+                    selLineCount = 0, prevCommentLineCount = 0;
                 console.log( '##########################' );
-                var lines = val.split( '\n' );
                 console.log( 'before (lines):', lines );
 
-                var selLineCount = 0, prevCommentLineCount = 0;
                 lines.forEach( ( line ) => {
                     lineEndPos = lineStartPos + line.length;
                     if ( ( selStart <= lineEndPos ) && ( lineStartPos < selEnd ) ) {
@@ -144,35 +130,6 @@ var myTACodeEditor = {
                 }
                 console.log( ' ', 'selLineCount:', selLineCount, 'prevCommentLineCount:', prevCommentLineCount );
 
-                //#region old code
-                // throw new Error("Halt execution");
-                // var linesInfoArr = lines.map( x => [ x, x.length ] );
-                // var start = 0, end = 0;
-                // var linesInfoArr = lines.map( x => {
-                //     end = start + x.length;
-                //     var arr = [ x, start, end, x.length ];
-                //     start = start + x.length + 1;
-                //     return arr;
-                // } );
-                // console.log( 'selStart:', selStart, 'selEnd:', selEnd, 'selDir:', selDir );
-                // console.log( 'before linesInfoArr:', linesInfoArr );
-
-                // linesInfoArr.forEach( (item, idx, arr)  => {
-                //     var line = item[0],
-                //         lineStartPos = item[ 1 ],
-                //         lineEndPos = item[ 2 ];
-                //     if ( (lineStartPos < selStart && selStart < lineEndPos) || (lineStartPos < selEnd && selEnd < lineEndPos) ) {
-                //         console.log( 'commented line:', line );
-                //         arr[idx][0] = mceObj.commentLine2( el, line );
-                //         // move the caret
-                //         var pos = selDir === 'forward' ? selEnd : selStart;
-                //         // el.selectionStart = el.selectionEnd = pos + posModifier;
-                //         el.selectionStart = selStart + posModifier;
-                //         el.selectionEnd = pos + (posModifier * 2);
-                //     }
-                // } );
-                //#endregion
-                
                 lineStartPos = 0; lineEndPos = 0;
                 var newCommentLineCount = 0;
                 lines.forEach( ( line, idx, arr ) => {
@@ -180,21 +137,17 @@ var myTACodeEditor = {
                     if ( ( selStart <= lineEndPos ) && ( lineStartPos < selEnd ) ) {
                         var hasComment = this.rxFindComment.test( line );
                         if ( hasComment === false && doComment === true ) {
-                            arr[ idx ] = mceObj.commentLine2( line );
+                            arr[ idx ] = mceObj.toggleComment( line );
                             newCommentLineCount += 1;
                         } else if ( hasComment && doComment === false  ) {
-                            arr[ idx ] = mceObj.commentLine2( line );
+                            arr[ idx ] = mceObj.toggleComment( line );
                             newCommentLineCount -= 1;
                         }
                         selLineCount += 1;
-
-                        // arr[ idx ] = mceObj.commentLine3( line, doComment );
-                        // newCommentLineCount += 1;
                     }
                     lineStartPos = lineStartPos + line.length + 1;
                 } );
 
-                // console.log( 'posModifier', posModifier );
                 console.log( 'after (lines):', lines );
                 console.log( ' ', 'newCommentLineCount:', newCommentLineCount );
                 el.value = lines.join( '\n' );
@@ -223,51 +176,10 @@ var myTACodeEditor = {
                         el.selectionEnd = selEnd + ( (newCommentLineCount) * 4 );
                     }
                 }
-                
-                // for uncomment
-
-                // var lineArr = val.slice( firstLineStartPos, lastLineEndPos ).split( '\n' );
-                // lineArr.forEach( line => {
-                //     console.log( line );
-                //     posModifier = this.commentLine( el, line );
-                // } );
-            }
-            
-        }
-    },
-    commentLine: function( el, slicedLine ) {
-        var val = el.value,
-            selStart = el.selectionStart,
-            selEnd = el.selectionEnd,
-            lineStartPos = val.lastIndexOf( '\n', selStart - 1 ) > -1 ? val.lastIndexOf( '\n', selStart - 1 ) + 1 : 0,
-            // lineEndPos = val.indexOf( '\n', selEnd ) > -1 ? val.indexOf( '\n', selEnd ) : val.length,
-            lineEndPos = lineStartPos + slicedLine.length,
-            newSlicedLine, posModifier = 0;
-        if ( this.rxFindComment.test( slicedLine ) === false ) {
-            newSlicedLine = slicedLine.replace( this.rxTextToWrap, '/*' + '$&' + '*/' );
-            if ( selStart === lineStartPos ) {
-                posModifier = 0;
-            } else if ( selStart === lineEndPos ) {
-                posModifier = +4;
-            } else {
-                posModifier = +2;
-            }
-        } else {
-            newSlicedLine = slicedLine.replace( this.rxReplaceComment, '' );
-            if ( selStart === lineStartPos ) {
-                posModifier = 0;
-            } else if ( selStart === lineEndPos ) {
-                posModifier = -4;
-            } else {
-                posModifier = -2;
             }
         }
-        // return val.slice( 0, lineStartPos ) + newSlicedLine + val.slice( lineEndPos );
-        var newStr = val.slice( 0, lineStartPos ) + newSlicedLine + val.slice( lineEndPos );
-        el.value = newStr;
-        return posModifier;
     },
-    commentLine2: function( slicedLine ) {
+    toggleComment: function( slicedLine ) {
         var newSlicedLine,
             hasComment = this.rxFindComment.test( slicedLine );
         if ( hasComment ) {
@@ -284,9 +196,13 @@ var myTACodeEditor = {
             COLON = String.fromCharCode(58),
             SEMI = String.fromCharCode(59),
             QUOTE = String.fromCharCode(34),
-            APOSTROPHE = String.fromCharCode(39),
-            LEFT_BRACKET = String.fromCharCode(123),
-            RIGHT_BRACKET = String.fromCharCode(125),
+            APOSTROPHE = String.fromCharCode( 39 ),
+            LEFT_PAREN = String.fromCharCode(40),
+            RIGHT_PAREN = String.fromCharCode( 41 ),
+            LEFT_BRACKET = String.fromCharCode(91),
+            RIGHT_BRACKET = String.fromCharCode(93),
+            LEFT_CURLY_BRACE = String.fromCharCode(123),
+            RIGHT_CURLY_BRACE = String.fromCharCode(125),
             charNewLine = String.fromCharCode( 10 ),
             charTab = String.fromCharCode( 9 );
             // charBackspace = String.fromCharCode( 8 );
@@ -294,8 +210,6 @@ var myTACodeEditor = {
             ce = mceObj.taCodeEditor,
             el = evt.target,
             pos = ce.selectionStart,
-            // lineStartPos = ce.value.lastIndexOf( '\n', pos ),
-            // lineEndPos = ce.value.indexOf( '\n', pos );
             lineStartPos = ce.value.lastIndexOf( '\n', pos-1 ) > -1 ? ce.value.lastIndexOf( '\n', pos-1 ) + 1: 0,
             lineEndPos = ce.value.indexOf( '\n', pos ) > -1 ? ce.value.indexOf( '\n', pos ) : ce.value.length;
         // console.log( 'before:', 'pos:', pos );
@@ -315,7 +229,8 @@ var myTACodeEditor = {
                 break;    
             case COLON:
                 var colonPos = el.value.indexOf( COLON, lineStartPos );
-                if (colonPos > lineEndPos || colonPos === -1){
+                var semiPos = el.value.indexOf( SEMI, lineStartPos );
+                if ((colonPos > lineEndPos || colonPos === -1) && (semiPos > lineEndPos || semiPos === -1) ){
                     mceObj.insertText( el, COLON + SEMI, 1 );
                 } else {
                     return true;
@@ -330,8 +245,14 @@ var myTACodeEditor = {
             case APOSTROPHE:
                 mceObj.insertText( el, APOSTROPHE + APOSTROPHE, 1 );
                 break;
+            case LEFT_PAREN:
+                mceObj.insertText( el, LEFT_PAREN + RIGHT_PAREN, 1 );
+                break;
             case LEFT_BRACKET:
-                mceObj.insertText( el, LEFT_BRACKET + charNewLine + charTab + charNewLine + RIGHT_BRACKET, 3 );
+                mceObj.insertText( el, LEFT_BRACKET + RIGHT_BRACKET, 1 );
+                break;
+            case LEFT_CURLY_BRACE:
+                mceObj.insertText( el, LEFT_CURLY_BRACE + charNewLine + charTab + charNewLine + RIGHT_CURLY_BRACE, 3 );
                 break;    
             default:
                 return true;
@@ -339,16 +260,12 @@ var myTACodeEditor = {
         mceObj.taCodeEditor.dispatchEvent( new Event( 'input' ) );
         return false;
     },
-    insertText: function( el, text, curPos, endText ) {
+    insertText: function( el, text, curPos) {
         var start, end, val = el.value;
         if ( typeof el.selectionStart === 'number' && typeof el.selectionEnd === 'number' ) {
             start = el.selectionStart;
             end = el.selectionEnd;
-            if ( endText ) {
-                el.value = val.slice( 0, start ) + text + endText + val.slice( end );
-            } else {
-                el.value = val.slice( 0, start ) + text + val.slice( end );
-            }
+            el.value = val.slice( 0, start ) + text + val.slice( end );
             
             // move the caret
             el.selectionStart = el.selectionEnd = start + curPos;
@@ -356,7 +273,7 @@ var myTACodeEditor = {
     },
     highlightSyntax: function( css ) {
         var formatted = css;
-
+        
         formatted = formatted.replace( this.rxSelectors, '<span class="mce-selector">$&</span>' );
         formatted = formatted.replace( this.rxConstants, function(m, group1) {
             if (group1 !== undefined) {
@@ -383,8 +300,14 @@ var myTACodeEditor = {
             }
             return m;
         } );
-        formatted = formatted.replace( this.rxQuotes, '<span class="mce-quotes">$&</span>' );
-
+        formatted = formatted.replace( this.rxQuotes, function(m, group1) {
+            if (group1 !== undefined) {
+                return '<span class="mce-quotes">' + group1 + '</span>';
+            }
+            return m;
+        } );
+        formatted = formatted.replace( this.rxComments, '<span class="mce-comment">$&</span>' );
+        
         this.divCodeEditor.innerHTML = formatted;
     },
     applyStyle: function( selector, declarations ) {
@@ -419,7 +342,9 @@ var myTACodeEditor = {
                     prev = selector;
                 }
             } else {
-                rules += m[ 2 ];
+                if ( this.rxFindComment.test( m[ 2 ] ) === false ) {
+                    rules += m[ 2 ];
+                }
             }
             count += 1;
         }
@@ -430,6 +355,5 @@ var myTACodeEditor = {
         rulesArr.forEach( rule => {
             this.applyStyle( rule[ 0 ], rule[ 1 ] );
         } );
-        // this.applyStyle( 'div.target.dunes', 'border: 15px dotted darkblue; background-color: green;' );        
     }
 };

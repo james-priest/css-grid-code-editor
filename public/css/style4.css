@@ -149,3 +149,5 @@ div.control-container {
     .mce-quotes { color: #dadb6e; }
     /* .mce-function { color: rgb(255, 118, 248);} */
     .mce-function { color: #FD971F;}
+    /* .mce-comment { color: rgb(255, 118, 248); } */
+    .mce-comment { color: gray !important; }
