@@ -1,14 +1,18 @@
-html { font-size: 16px; height: 80%; }
+html { font-size: 16px; height: 90%; }
 body * { box-sizing: border-box; }
 body { 
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
     font-size: 1em;
     background-color: #666;
-    color: #ccc;
-    margin: 2em;
-    display: flex;
-    flex-direction: column;
-    height: 76%;
+    color: #cccccc;
+    margin: 1em;
+    /* display: flex;
+    flex-direction: column; */
+    height: 100%;
+}
+h1 { 
+    margin: 0 0 16px; 
+    font-size: 1.25em /* 20px/16px */
 }
 main { 
     /* margin:auto; */
@@ -16,11 +20,13 @@ main {
     /* width: 90vw; */
     /* max-width: 700px; */
     height: 100%;
+    display: flex;
+    justify-content: space-between;
 }
 #sandbox {
     box-sizing: border-box;
     height: 100%;
-    width: 100%;
+    flex-basis: 64%;
 }
 section.grid-container {
     position: relative;
@@ -94,20 +100,29 @@ section.grid-container {
             background-color: #c33
         }
 div.control-container {
+    flex-basis: 35%;
+    min-width: 300px;
     display: flex;
+    flex-direction: column;
     justify-content: space-between;
-    height: 200px;
-    margin-top: 20px;
-}
+    height: 100%;
+    margin-right: 16px;
+}   
+    .ta-code-editor, .div-code-display, .instructions {
+        flex-basis: 32%;
+        border: 1px solid darkgray;
+        margin: 0;
+        padding: 0.8em 1em;
+        background-color: darkslategrey
+    }
     .ta-code-editor, .div-code-display {
-        flex-basis: 49%;
+        
         font-family: Consolas, monospace;
         font-size: .8125em; /* 13px/16px */
         font-weight: 400;
-        border: 1px solid darkgray;
+        
         background-color: #333;
-        margin: 0;
-        padding: 0.5em;
+        
         tab-size: 2;
             -moz-tab-size: 2;
     }
