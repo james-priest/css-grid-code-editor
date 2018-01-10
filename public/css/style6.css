@@ -26,7 +26,7 @@ main {
 #sandbox {
     box-sizing: border-box;
     height: 100%;
-    flex-basis: 64%;
+    flex-basis: 58%;
 }
 section.grid-container {
     position: relative;
@@ -99,9 +99,9 @@ section.grid-container {
             color: #eee;
             background-color: #c33
         }
-div.control-container {
-    flex-basis: 35%;
-    min-width: 300px;
+.control-container {
+    flex-basis: 40%;
+    min-width: 380px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -116,13 +116,10 @@ div.control-container {
         background-color: darkslategrey
     }
     .ta-code-editor, .div-code-display {
-        
         font-family: Consolas, monospace;
         font-size: .8125em; /* 13px/16px */
         font-weight: 400;
-        
         background-color: #333;
-        
         tab-size: 2;
             -moz-tab-size: 2;
     }
@@ -137,14 +134,12 @@ div.control-container {
     }
     .mce-line { color: #fff; }
     .mce-selector { color: #A6E22E; }
-    .mce-property { color: #66D9EF; }
-    /* .mce-constant { color: #FD971F; } */
-    /* .mce-constant { color: #66D9EF; } */
-    .mce-constant { color: #A6E22E; }
+    .mce-element { color: #F92672; }
+    .mce-property { color: #66D9EF; font-style: italic; }
+    .mce-constant { color: #66D9EF; }
     .mce-keyword { color: #F92672; }
     .mce-number { color: #ae81ff; }
     .mce-quotes { color: #dadb6e; }
-    /* .mce-function { color: rgb(255, 118, 248);} */
     .mce-function { color: #FD971F;}
     /* .mce-comment { color: rgb(255, 118, 248); } */
     .mce-comment { color: gray !important; }
