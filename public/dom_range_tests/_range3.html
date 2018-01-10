@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <title>4.range</title>
+        <title>3.range</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link href="css/_range.css" rel="stylesheet">
+        <link href="../css/_range.css" rel="stylesheet">
     </head>
     <body>
         <h1 id="h1">Heading</h1>
@@ -16,7 +16,7 @@
             <tr>
                 <td>
         <label for="html1">html</label><br >
-        <textarea name="" id="html1" cols="50" rows="22" style="padding: .5em">
+        <textarea name="" id="html1" cols="50" rows="20" style="padding: .5em">
 <body>
     <h1 id="h1">Heading</h1>
     <p id="p1">Hello <b>bold</b> World</p>
@@ -26,12 +26,12 @@
                 </td>
                 <td>
         <label for="js1">js</label><br >
-        <textarea name="" id="js1" cols="70" rows="22" style="padding: .5em"></textarea>
+        <textarea name="" id="js1" cols="60" rows="20" style="padding: .5em"></textarea>
                 </td>
             </tr>
         </table>
 
-        <h3>Insert content into range</h3> 
+        <h3>Advanced select & remove from range</h3> 
         <ol>
             <li>When a range is created, internally it creates a document fragment node onto which all the nodes in the selection are attached.
                 <ul>
@@ -54,34 +54,33 @@
                     </li>
                 </ul>
             </li>
-            <li>With the same document fragment created, we can also insert content into range using a couple different methods.
+            <li>With the document fragment created, we can delete, extract, or clone the contents of the range using a variety of methods.
                 <ul>
-                    <li><code>Range.insertNode(refNode)</code> - inserts a node at the beginning of the selection. <code>refNode</code> is the node to be inserted.</li>
-                    <li><code>Range.surroundContents(refNode)</code> - surrounds the range with the node specified in <code>refNode</code>.</li>
+                    <li><code>Range.deleteContents()</code> - removes and discards the contents of the range from the document.</li>
+                    <li><code>Range.extractContents()</code> - removes and copies the contents of the range from the document.</li>
+                    <li><code>Range.cloneContents()</code> - leaves the fragment in place but creates a copy that can be inserted elsewhere.</li>
                 </ul>
             </li>
         </ol>
 
-<script id="script1">function useRanges() {
+<script id="script1" type="text/javascript">function useRanges() {
+    var h1 = document.getElementById('h1');
     var p1 = document.getElementById('p1');
     var oHello = p1.firstChild;
     var oBold = p1.childNodes[1];
     var oBoldText = p1.childNodes[1].firstChild;
     var oWorld = p1.lastChild;
 
-    var oSpan1 = document.createElement('span');
-    var oSpan2 = document.createElement('span');
-    oSpan1.style.color = 'red';
-    oSpan1.appendChild(document.createTextNode('Inserted text'));
-    oSpan2.style.backgroundColor = 'yellow';
-
     var oRange = document.createRange();
-    oRange.setStart(oHello, 3); // lo
-    // oRange.setStart(oBoldText, 1); // old
+    // oRange.setStart(oHello, 3); // lo
+    // oRange.setEnd(oWorld, 3); // Wo
+    oRange.setStart(oBoldText, 1); // old
     oRange.setEnd(oWorld, 3); // Wo
 
-    // oRange.insertNode(oSpan1);
-    oRange.surroundContents(oSpan2);
+    // oRange2.deleteContents();
+    var oFragment = oRange.extractContents();
+    // var oFragment = oRange.cloneContents();
+    document.body.insertBefore(oFragment, h1);
 }</script>
 
         <script>
