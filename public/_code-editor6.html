@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>6-mce-ta</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link href="css/style6.css" rel="stylesheet">
+        <style>
+            .guide {
+                grid-template-rows: 100px 200px;
+            }
+        </style>
+    </head>
+    <body>
+        <main>
+            <div id="sandbox">
+                <section class="grid-container">
+                    <div class="target dunes"></div>
+                    <div class="target rocky"></div>
+                    <div class="guide">
+                        <div class="dunes"></div>
+                        <div class="rocky"></div>
+                    </div>
+                </section>
+            </div>
+
+            <div class="control-container">
+                <textarea name="ta-code-editor" class="ta-code-editor" autofocus="true" autocorrect="off" autocapitalize="off" spellcheck="false"></textarea>
+                <div class="div-code-display" contenteditable="false" autocorrect="off" autocapitalize="off" spellcheck="false"></div>
+            </div>
+        </main>
+        <script src="../lib/css-constants.js"></script>
+        <script src="script/mce_ta6.js"></script>
+        <script>
+            var preFill = ".grid-container {\n\t\n}", curPos = 19;
+            window.onload = myTACodeEditor.init(preFill, curPos);
+        </script>
+    </body>
+</html>
