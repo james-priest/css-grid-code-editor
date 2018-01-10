@@ -2,10 +2,10 @@ html {
     font-size: 16px; 
     height: 80%;
 }
-html, body {
-    /* font-size: calc(11px + .28vmax);
-    line-height: calc(15px + .5vmax); */
-}
+/* html, body {
+    font-size: calc(11px + .28vmax);
+    line-height: calc(15px + .5vmax);
+} */
 body * { box-sizing: border-box; }
 body { 
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
@@ -121,7 +121,7 @@ section.grid-container {
         /* height: 200px; */
         /* padding: 0.5em; */
         box-sizing: border-box;
-        font-family: monospace;
+        font-family: Consolas, monospace;
         font-weight: 400;
         /* font-size: 13.333333px; */
         font-size: 12.8px;
@@ -174,7 +174,7 @@ section.grid-container {
     }
     .div-text-layer {
         /* font-family: "Source Code Pro", monospace; */
-        font-family: monospace;
+        font-family: Consolas, monospace;
         font-weight: 400;
         font-size: 12.8px;
         /* font-size: 14px; */

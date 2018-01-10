@@ -5,16 +5,18 @@ var myCodeEditor = {
 
     rxSelectors: /^[^/*][\S]+(?=\s*{)/gm,
     rxConstants: new RegExp('^[\\s\\w-]+|.*?{|\\w+\\(.*\\)|\\/\\*.*|(\\b(' + getConstants() + ')(?![\\w-\\()]))', 'gm'),
-    rxKeywords: new RegExp('^[\\s\\w-]+:|\\/\\*.*|([\\d.]+)(em|ex|%|px|cm|mm|in|pt|pc|ch|rem|vh|vw|vmin|vmax|fr)(?=\\W)', 'gm'),
-    rxNumbers: /^[\s\w-]+:|.*?{|[a-z]\d+|\/\*.*|([^:>("'/_-]\d*\.?\d+|#[0-9A-Fa-f]{3,6})/gm,
+    rxKeywords: new RegExp('^[\\s\\w-]+:|\\/\\*.*|\\(.*\\)|([\\d.]+)(em|ex|%|px|cm|mm|in|pt|pc|ch|rem|vh|vw|vmin|vmax|fr)(?=\\W)', 'gm'),
+    rxNumbers: /^[\s\w-]+:|.*?{|[a-z]\d+|\/\*.*|\(.*\)|([^:>("'/_-]\d*\.?\d+|#[0-9A-Fa-f]{3,6})/gm,
     rxProperties: /^[ \t\w-]+(?=:)/gm,
-    rxFunctions: new RegExp( '\\/\\*.*|((' + getFunctions() + ')\\([\\w"' + String.fromCharCode(39) + ':\\/\\._\\-]*\\))', 'gm' ),
+    rxFunctions: new RegExp( '\\/\\*.*|((' + getFunctions() + ')\\([\\w\\d `~!@#$%^&*()\\-_=+[\\]{}\\\\|:;' + String.fromCharCode(39) + '",.\\/?]*\\))', 'gm' ),
     rxQuotes: /^[/*].*\*\/|("[\w\s-]*"(?!>)|'[\w\s-]*'(?!>))/gm,
     rxRules: /(.+)\s*(?={)|^[\t\s]*(.+;)/gm,
     rxTextToWrap: /[\w\d\-[\] {}.:;#,>+'"=()/~^$*]+$/gm,
     rxFindComment: /\/\*|\*\//,
     rxReplaceComment: /\/\*|\*\//gm,
     rxComments: /\/\*.*\*\//gm,
+
+    lastCursorColumn: -1,
     
     init: function(preFill, curPos) {
         var mceObj = this;
@@ -86,14 +88,21 @@ var myCodeEditor = {
             selStart = ta.selectionStart,
             selEnd = ta.selectionEnd,
             selDir = ta.selectionDirection,
-            firstLineStartPos = val.lastIndexOf( '\n', selStart - 1 ) > -1 ? val.lastIndexOf( '\n', selStart - 1 ) + 1 : 0,
-            lastLineEndPos = val.indexOf( '\n', selEnd ) > -1 ? val.indexOf( '\n', selEnd ) : val.length,
+            lineStartPos = val.lastIndexOf( '\n', selStart - 1 ) > -1 ? val.lastIndexOf( '\n', selStart - 1 ) + 1 : 0,
+            lineEndPos = val.indexOf( '\n', selEnd ) > -1 ? val.indexOf( '\n', selEnd ) : val.length,
+            firstLineEndPos = val.indexOf( '\n' ) > -1 ? val.indexOf( '\n' ) : val.length,
+            lastLineStartPos = val.lastIndexOf( '\n' ) > -1 ? val.lastIndexOf( '\n' ) + 1 : 0,
+            
+            // linePos = selStart - lineStartPos,
+            posInLine = val.lastIndexOf( '\t', selStart ) >= lineStartPos ? selStart - lineStartPos + 1 : selStart - lineStartPos,
             offsetLeft = ta.offsetLeft, scrollLeft = ta.scrollLeft, clientLeft = ta.clientLeft,
             offsetTop = ta.offsetTop, scrollTop = ta.scrollTop, clientTop = ta.clientTop;
         console.log( '' );
         console.log( 'Chars' );
-        console.log( '  selStart:', selStart );
-        console.log( '  keyup:', 'firstLineStartPos:', firstLineStartPos, 'lastLineEndPos:', lastLineEndPos );
+        console.log( '  selStart:', selStart, 'posInLine', posInLine, 'this.lastCursorColumn', this.lastCursorColumn );
+        console.log( '  lineStartPos:', lineStartPos, 'lineEndPos:', lineEndPos );
+        console.log( '  firstLineStartPos:', 0, 'firstLineEndPos:', firstLineEndPos );
+        console.log( '  lastLineStartPos:', lastLineStartPos, 'lastLineEndPos:', val.length );
         // if ( selDir === 'forward' ) {
         //     console.log( 'selStart:', selStart, 'selEnd:', selEnd, 'selDirection:', selDir );
         // } else {
@@ -273,8 +282,10 @@ var myCodeEditor = {
             selEnd = ta.selectionEnd,
             selLen = selEnd - selStart,
             deletedText, deletedCharCode,
-            lineStartPos = val.lastIndexOf( '\n', selStart-1 ) > -1 ? val.lastIndexOf( '\n', selStart-1 ) + 1: 0,
-            lineEndPos = val.indexOf( '\n', selStart ) > -1 ? val.indexOf( '\n', selStart ) : val.length;
+            lineStartPos = val.lastIndexOf( '\n', selStart - 1 ) > -1 ? val.lastIndexOf( '\n', selStart - 1 ) + 1 : 0,
+            lineEndPos = val.indexOf( '\n', selStart ) > -1 ? val.indexOf( '\n', selStart ) : val.length,
+            firstLineEndPos = val.indexOf( '\n' ) > -1 ? val.indexOf( '\n' ) : val.length,
+            lastLineStartPos = val.lastIndexOf( '\n' ) > -1 ? val.lastIndexOf( '\n' ) : 0;
         // console.log( 'before:', 'selStart:', selStart );
         // console.log( 'before:', 'lineStartPos:', lineStartPos, 'lineEndPos:', lineEndPos );
 
@@ -338,15 +349,13 @@ var myCodeEditor = {
                 break;
             case SHIFT:
                 return true;
-            case ARROW_UP:
-                mceObj.moveTAPos( 'up' );
-                return true;
             case ARROW_RIGHT:
                 var nextCharCode = val.charCodeAt( selStart );
-                console.log( 'selStart', selStart, 'val.length', val.length );
+                // console.log( 'selStart', selStart, 'val.length', val.length );
                 if ( nextCharCode === 9 ) {
                     mceObj.moveTAPos( 'tab' );
                 } else if ( nextCharCode === 13 || nextCharCode === 10 ) {
+                    console.log( 'begin new line' );
                     mceObj.moveTAPos( 'newline' );
                 } else if ( selStart >= val.length ) {
                     console.log( 'end of string' );
@@ -355,16 +364,13 @@ var myCodeEditor = {
                     mceObj.moveTAPos( 'forward' );
                 }
                 return true;
-            case ARROW_DOWN:
-                mceObj.moveTAPos( 'down' );
-                return true;
             case ARROW_LEFT:
                 var prevCharCode = val.charCodeAt( selStart - 1 );
-                console.log( 'selStart', selStart );
+                // console.log( 'selStart', selStart );
                 if ( prevCharCode === 9 ) {
                     mceObj.moveTAPos( 'backward-tab' );
                 } else if ( prevCharCode === 13 || prevCharCode === 10 ) {
-                    console.log( 'end-prev-line' );
+                    console.log( 'end prev line' );
                     mceObj.moveTAPos( 'end-prev-line' );
                 } else if( selStart <= 0) {
                     console.log( 'beginning of string' );
@@ -373,25 +379,60 @@ var myCodeEditor = {
                     mceObj.moveTAPos( 'backward' );
                 }
                 return true;
+            case ARROW_DOWN:
+                console.log( '' );
+                console.log( 'selStart', selStart, 'val.length', val.length );
+                var posInLine = selStart - lineStartPos;
+                console.log( 'lineStartPos', lineStartPos, 'lineEndPos', lineEndPos, 'posInLine', posInLine );
+                var nextLineStartPos = val.indexOf( '\n', selStart ) > -1 ? val.indexOf( '\n', selStart ) + 1 : val.length,
+                    nextLineEndPos = val.indexOf( '\n', nextLineStartPos ) > -1 ? val.indexOf( '\n', nextLineStartPos ) : val.length,
+                    nextChar = val.charAt( nextLineStartPos + posInLine - 1);
+                console.log( 'nextChar', nextChar, 'nextLineStartPos', nextLineStartPos, 'nextLineEndPos', nextLineEndPos );
+                if ( selStart >= lastLineStartPos ) {
+                    this.lastCursorColumn = selStart - lineStartPos;
+                    mceObj.moveTAPos( 'eos' );
+                } else {
+                    mceObj.moveTAPos( 'down', this.lastCursorColumn );
+                }
+                return true;
+            case ARROW_UP:
+                console.log( '' );    
+                console.log( 'selStart', selStart, 'val.length', val.length );
+                var prevChar = val.charAt( selStart - 1 ),
+                    prevLineStartPos = val.lastIndexOf( '\n', selStart-2 ) > -1 ? val.lastIndexOf( '\n', selStart-2 ) + 1: 0,
+                    prevLineEndPos = val.indexOf( '\n', selStart - 1 ) > -1 ? val.indexOf( '\n', selStart - 1 ) : val.length,
+                    prevLineLen = prevLineEndPos - prevLineStartPos;
+                console.log( 'prevChar', prevChar, 'prevLineStartPos', prevLineStartPos, 'prevLineEndPos', prevLineEndPos, 'prevLineLen', prevLineLen );
+                if ( selStart <= firstLineEndPos ) {
+                    this.lastCursorColumn = selStart - lineStartPos;
+                    mceObj.moveTAPos( 'bos' );
+                } else {
+                    mceObj.moveTAPos( 'up' );
+                }
+                return true;
             case DELETE:
-                return true;    
+                return true;
             default:
-                mceObj.moveTAPos( 'forward' );
+                if ( ( evt.which >= 32 && evt.which <= 126 ) && !evt.ctrlKey ) {
+                    // only move forward on a-z, 0-9, etc
+                    console.log( 'move cursor back on ctrl-z' );
+                    mceObj.moveTAPos( 'forward' );
+                }
                 return true;
         }
         mceObj.taCodeEditor.dispatchEvent( new Event( 'input' ) );
         return false;
     },
-    moveTAPos: function( type ) {
+    moveTAPos: function( type, m ) {
         var mceObj = this,
             ta = mceObj.taCodeEditor,
             val = ta.value,
             selStart = ta.selectionStart,
-            selEnd = ta.selectionEnd;
+            selEnd = ta.selectionEnd,
             // len = selEnd - selStart,
             // deletedText, deletedCharCode,
-            // lineStartPos = val.lastIndexOf( '\n', selStart-1 ) > -1 ? val.lastIndexOf( '\n', selStart-1 ) + 1: 0,
-            // lineEndPos = val.indexOf( '\n', selStart ) > -1 ? val.indexOf( '\n', selStart ) : val.length;
+            lineStartPos = val.lastIndexOf( '\n', selStart - 1 ) > -1 ? val.lastIndexOf( '\n', selStart - 1 ) + 1 : 0,
+            lineEndPos = val.indexOf( '\n', selStart ) > -1 ? val.indexOf( '\n', selStart ) : val.length;
         // console.log( 'offsetLeft:', ta.offsetLeft, 'clientLeft', ta.clientLeft );
         // console.log( 'offsetTop:', ta.offsetTop, 'clientTop', ta.clientTop );
         // var w = 6.61313, h = 14.4;
@@ -416,6 +457,21 @@ var myCodeEditor = {
                 ta.style.top = (ta.offsetTop - 1 - h) + 'px';
                 break;
             case 'down':
+                if ( m > -1 ) {
+                    console.log( 'm exists' );
+                    ta.style.left = ( ta.offsetLeft + Math.floor( w ) * m ) + 'px';
+                    // TODO: if selectionStart = 0 then set it to lineStartPos + this.lastCursorColumn
+                    // TODO: ta ta.selectionStart = ta.selectionEnd = this.lastCursorColumn;
+                    if ( ta.selectionStart === 0 ) {
+                        if ( val.indexOf( '\t', lineStartPos ) <= lineEndPos ) {
+                            ta.selectionStart = ta.selectionEnd = this.lastCursorColumn - 1;
+                        } else {
+                            ta.selectionStart = ta.selectionEnd = this.lastCursorColumn;
+                        }
+                        console.log( '+++++++', 'new cursor sel pos', ta.selectionStart );
+                    }
+                    this.lastCursorColumn = -1;
+                }
                 ta.style.top = (ta.offsetTop + 1 + h) + 'px';
                 break;
             case 'newline':
@@ -447,6 +503,15 @@ var myCodeEditor = {
                 console.log( 'c', ( b + Math.floor( w * (prevLineLen - 1 ) ) ) + 'px' );
                 ta.style.left = (b + Math.floor(w) * prevLineLen) + 'px';
                 ta.style.top = (ta.offsetTop -1 - h) + 'px';
+                break;
+            case 'bos':
+                console.log( 'jump to beginning of string' );
+                ta.style.left = ( b ) + 'px';
+                // TODO: if selectionStart = 0 then set it to lineStartPos + this.lastCursorColumn
+                console.log( '*******', 'selStart', selStart, 'lineStartPos', lineStartPos);
+                break;    
+            case 'eos':
+                console.log( 'jump to end of string' );
                 break;    
             default:
                 return true;    

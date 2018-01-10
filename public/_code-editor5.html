@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <title>5-mce-ta-jquery</title>
+        <title>5-mce-merged</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet">
@@ -34,12 +34,12 @@
                 </div>
             </div>
         </main>
-        <!-- <script src="script/jquery.js"></script> -->
         <script src="../lib/css-constants.js"></script>
         <script src="script/mce_ta5.js"></script>
         <script>
             // var preFill = ".grid-container {\n\t\n}", curPos = 19;
-            var preFill = "planet this is a super long line that should work {\n\tabc\n}\nabc {\n\tasdf\n}\nHello {\n\tsomething else\n}\njames {\n\tprop: val;\n}", curPos = 0;
+            // var preFill = "planet-this-is-a-super-long-line-that-should-work {\n\tdisplay: grid;\n\tgrid-template-rows: 100px 200px;\n\tborder-top: 10px dashed grey;\n\tborder-bottom:10px dotted blue;\n}\nabc {\n\tfont-size: calc(11px + .28vmax);\n}\njames {\n\tprop: val;\n}", curPos = 0;
+            var preFill = ".grid-container {\n\tdisplay: grid;\n\tgrid-template-rows: 100px 200px;\n\tborder-top: 2px dashed red;\n\tborder-bottom:10px dotted blue;\n}\nabc {\n\tfont-size: calc(11px + .28vmax);\n}\njames {\n\tprop: val;\n}", curPos = 0;
             window.onload = myCodeEditor.init(preFill, curPos);
         </script>
     </body>
