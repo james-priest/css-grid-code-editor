@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>8-Grid</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link href="css/style.css" rel="stylesheet">
+        <style>
+            .guide {
+                grid-template-columns: repeat(4, 100px);
+                grid-template-rows: repeat(4, 100px);
+            }
+            .guidelines {
+                grid-template-columns: repeat(4, 100px) 1fr;
+                grid-template-rows: repeat(4, 100px) 1fr;
+            }
+        </style>
+    </head>
+    <body>
+        <header>
+            <h1>CSS Grid</h1>
+        </header>
+        <main>
+            <div class="control-container">
+                <div class="instructions">
+                    <h1>8. Repeat</h1>
+                    <p>Use the <code>repeat</code> function as a shorthand.</p>
+                    <p class="code"><code><em>display: grid;</em><br>
+                        <em>grid-template-columns: repeat(4, 100px);</em><br>
+                        <em>grid-template-rows: repeat(4, 100px);</em>
+                    </code></p>
+                    <p>Normally this would be typed as<br>
+                        <code>grid-template-columns: 100px 100px 100px 100px;</code></p>
+                    <p>Instead this can be typed as<br>
+                        <code>grid-template-columns: repeat(4, 100px);</code>.</p>
+                    <p>Use <code>repeat()</code> with the number of columns or rows followed by size.</p>
+                </div>
+                <textarea name="ta-code-editor" class="ta-code-editor" autofocus="true" autocorrect="off" autocapitalize="off" spellcheck="false"></textarea>
+                <div class="div-code-display" contenteditable="false" autocorrect="off" autocapitalize="off" spellcheck="false"></div>
+            </div>  
+            <div class="sandbox-wrapper">
+                <div id="sandbox">
+                    <section class="grid-container">
+                        <div class="guide">
+                            <div class="cloudy"></div>
+                            <div class="cloudy"></div>
+                            <div class="cloudy"></div>
+                            <div class="cloudy"></div>
+                            <div class="cloudy"></div>
+                            <div class="cloudy"></div>
+                            <div class="cloudy"></div>
+                            <div class="cloudy"></div>
+                            <div class="cloudy"></div>
+                            <div class="cloudy"></div>
+                            <div class="cloudy"></div>
+                            <div class="cloudy"></div>
+                            <div class="cloudy"></div>
+                            <div class="cloudy"></div>
+                            <div class="cloudy"></div>
+                            <div class="cloudy"></div>
+                        </div>
+                        <div class="guidelines">
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                        </div>
+                        <div class="target cloudy"></div>
+                        <div class="target cloudy"></div>
+                        <div class="target cloudy"></div>
+                        <div class="target cloudy"></div>
+                        <div class="target cloudy"></div>
+                        <div class="target cloudy"></div>
+                        <div class="target cloudy"></div>
+                        <div class="target cloudy"></div>
+                        <div class="target cloudy"></div>
+                        <div class="target cloudy"></div>
+                        <div class="target cloudy"></div>
+                        <div class="target cloudy"></div>
+                        <div class="target cloudy"></div>
+                        <div class="target cloudy"></div>
+                        <div class="target cloudy"></div>
+                        <div class="target cloudy"></div>
+                    </section>
+                </div>
+                <nav class="page-nav">
+                    <ul>
+                        <li><a href="a-grid7.html">Back</a></li>
+                        <li><a href="a-grid9.html">Next</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </main>
+        <script src="../../lib/css-constants.js"></script>
+        <script src="script/mce_ta.js"></script>
+        <script>
+            var preFill = ".grid-container {\n\t\n}", curPos = 19;
+            window.onload = myTACodeEditor.init(preFill, curPos);
+        </script>
+    </body>
+</html>

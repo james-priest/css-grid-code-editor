@@ -23,17 +23,51 @@ main {
     justify-content: space-between;
 }
 .sandbox-wrapper {
-    
+    flex-basis: 58%;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 #sandbox {
     box-sizing: border-box;
-    height: 100%;
-    flex-basis: 58%;
+    flex-basis: 95%;
+    margin-bottom: 10px;
 }
+.page-nav {
+    /* border: 1px solid gray; */
+    text-align: right;
+    /* height: 24px; */
+}
+    .page-nav ul {
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+    }
+    .page-nav ul li {
+        display: inline-block;
+        background-color: #333;
+        padding: 4px 0px;
+    }
+    .page-nav ul li a {
+        padding: 8px 14px;
+        color: gray;
+        text-align: center;
+        text-decoration: none;
+        font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+
+    }
+    .page-nav ul li a:hover {
+        color: #eee;
+        background-color: #111;
+    }
 section.grid-container {
     position: relative;
     box-sizing: border-box;
-    border: 2px dashed #ccc;
+    /* border: 2px dashed #ccc; */
+    border: 8px solid #555;
     height: 100%;
     width: 100%;
     transition: height 1.4s ease-out, width 1.4s ease-out;
@@ -46,7 +80,7 @@ section.grid-container {
         height: 250px;
         width: 400px;
     }
-    .guide {
+    .guide, .guidelines {
         position: absolute;
         z-index: 1;
         box-sizing: border-box;
@@ -68,13 +102,16 @@ section.grid-container {
         .guide>.cloudy {
             border: 8px dashed rgb(146, 150, 204);
         }
+        .guidelines>div {
+            border: 1px solid #eee;
+        }
     .target {
         /* width: 100px; */
         /* height: 100px; */
         color: #333;
         font-size: 1.25em; /* 20px/16px */
         font-weight: bold;
-        padding: 4px;
+        /* padding: 1px; */
 
         display: flex;
         justify-content: center;
