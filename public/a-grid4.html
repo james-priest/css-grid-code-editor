@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <title>3-Grid</title>
+        <title>4-Grid</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link href="css/style.css" rel="stylesheet">
         <style>
             .guide {
-                /* grid-template-rows: 200px; */
+                grid-template-rows: 100px 200px;
             }
         </style>
     </head>
@@ -18,20 +18,25 @@
         <main>
             <div class="control-container">
                 <div class="instructions">
-                    <h1>3. Grid</h1>
-                    <p>Child elements with margin.</p>
-                    <p class="code"><code><em>display: grid;</em></code></p>
-                    <p>Margin is taken into account when filling the space with <em>equal height rows</em>.</p>
+                    <h1>4. Grid template rows</h1>
+                    <p>Using <code>grid-template-rows</code>.</p>
+                    <p class="code"><code>display: grid;<br>
+                        <em>grid-template-rows: 100px 200px;</em>
+                    </code></p>
+                    <p>This lets you configure the size of every row in the Grid.</p>
+                    <p>It even lets you add new rows when you need.</p>
                 </div>
                 <textarea name="ta-code-editor" class="ta-code-editor" autofocus="true" autocorrect="off" autocapitalize="off" spellcheck="false"></textarea>
                 <div class="div-code-display" contenteditable="false" autocorrect="off" autocapitalize="off" spellcheck="false"></div>
             </div>  
             <div id="sandbox">
                 <section class="grid-container">
-                    <!-- <div class="target">1</div>
-                    <div class="target">2</div> -->
-                    <p class="target">&lt;p&gt;</p>
-                    <p class="target">&lt;p&gt;</p>
+                    <div class="guide">
+                        <div class="dunes"></div>
+                        <div class="rocky"></div>
+                    </div>
+                    <div class="target dunes"></div>
+                    <div class="target rocky"></div>
                 </section>
             </div>
         </main>

@@ -1,17 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <title>1-Grid</title>
+        <title>7-Grid</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link href="css/style.css" rel="stylesheet">
         <style>
             .guide {
-                /* top: 0; */
-                grid-template-rows: 200px;
-            }
-            .grid-container {
-                grid-template-rows: 200px;
+                grid-template-columns: 100px 1fr;
+                grid-template-rows: 1fr 100px;
             }
         </style>
     </head>
@@ -22,10 +19,16 @@
         <main>
             <div class="control-container">
                 <div class="instructions">
-                    <h1>1. Grid</h1>
-                    <p>Establish a grid.</p>
-                    <p class="code"><code><em>display: grid;</em></code></p>
-                    <p>This fill the open space.</p>
+                    <h1>7. Mixing units</h1>
+                    <p>Use <code>px</code> and <code>fr</code> together.</p>
+                    <p class="code"><code><em>display: grid;</em><br>
+                        <em>grid-template-columns: 100px 1fr;</em><br>
+                        <em>grid-template-rows: 1fr 100px;</em>
+                    </code></p>
+                    <p>Start by establishing the Grid.</p>
+                    <p>The Grid's default behavior is to <em>layout the rows equally</em>.</p>
+                    <p>Next define the two columns using <code>100px</code> and <code>1fr</code>.</p>
+                    <p>Lastly define the rows with <code>1fr</code> and <code>100px</code>.</p>
                 </div>
                 <textarea name="ta-code-editor" class="ta-code-editor" autofocus="true" autocorrect="off" autocapitalize="off" spellcheck="false"></textarea>
                 <div class="div-code-display" contenteditable="false" autocorrect="off" autocapitalize="off" spellcheck="false"></div>
@@ -33,10 +36,15 @@
             <div id="sandbox">
                 <section class="grid-container">
                     <div class="guide">
-                        <div class=""></div>
+                        <div class="rocky"></div>
+                        <div class="cloudy"></div>
+                        <div class="dunes"></div>
+                        <div class="rocky"></div>
                     </div>
-                    <div class="target">1</div>
-                    <!-- <div class="target">2</div> -->
+                    <div class="target rocky"></div>
+                    <div class="target cloudy"></div>
+                    <div class="target dunes"></div>
+                    <div class="target rocky"></div>
                 </section>
             </div>
         </main>

@@ -1,16 +1,41 @@
-html { font-size: 16px; }
+html { font-size: 16px; height: 90%; }
+body * { box-sizing: border-box; }
 body { 
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
     font-size: 1em;
     background-color: #666;
-    margin: 2em;
+    color: #cccccc;
+    margin: 1em;
+    /* display: flex;
+    flex-direction: column; */
+    height: 100%;
+}
+header h1 {
+    margin: 10px 0;
+}
+main { 
+    /* margin:auto; */
+    /* height: 75vh; */
+    /* width: 90vw; */
+    /* max-width: 700px; */
+    height: 96%;
+    display: flex;
+    justify-content: space-between;
+}
+.sandbox-wrapper {
+    
+}
+#sandbox {
+    box-sizing: border-box;
+    height: 100%;
+    flex-basis: 58%;
 }
 section.grid-container {
     position: relative;
+    box-sizing: border-box;
     border: 2px dashed #ccc;
-    height: 75vh;
-    width: 90vw;
-    max-width: 700px;
+    height: 100%;
+    width: 100%;
     transition: height 1.4s ease-out, width 1.4s ease-out;
 }
     section.flex-container.expand {
@@ -24,42 +49,54 @@ section.grid-container {
     .guide {
         position: absolute;
         z-index: 1;
-        min-height: 100%;
-        min-width: 100%;
+        box-sizing: border-box;
+        /* min-height: 100%;
+        min-width: 100%; */
+        height: 100%;
+        width: 100%;
         display: grid;
     }
+        .guide>* {
+            border: 8px dashed #bbb;
+        }
         .guide>.dunes {
             border: 8px dashed #F99;
         }
         .guide>.rocky {
             border: 8px dashed aquamarine;
         }
+        .guide>.cloudy {
+            border: 8px dashed rgb(146, 150, 204);
+        }
     .target {
         /* width: 100px; */
         /* height: 100px; */
-        /* background-color:aquamarine; */
-        background-color: #ccc;
-        /* border: 8px dashed #ccc; */
-        /* margin: .6rem; */
-        box-sizing: border-box;
-        font-size: 4em;
+        color: #333;
+        font-size: 1.25em; /* 20px/16px */
+        font-weight: bold;
+        padding: 4px;
 
         display: flex;
         justify-content: center;
         align-items: center;
-    }
+    }   
+        .target:nth-of-type(1) {
+            background-color: #7f7f7f;
+        }
+        .target:nth-of-type(2) {
+            background-color: #999;
+        }
         .target.dunes {
             background-color: lightcoral;
-            /* border: 8px dashed rgb(199, 107, 107); */
         }
         .target.rocky {
-            /* background-color:aquamarine; */
             background-color: rgb(100, 201, 165)
-            /* border: 8px dashed rgb(100, 201, 165); */
+        }
+        .target.cloudy {
+            background-color: rgb(100, 107, 201)
         }
 
-
-        .target.zombie { 
+        /* .target.zombie { 
             height: 200px;
             background-image: url('../images/zombie-male.png');
             color: #eee;
@@ -74,42 +111,86 @@ section.grid-container {
             width: 150px;
             color: #eee;
             background-color: #c33
-        }
-div.control-container {
+        } */
+.control-container {
+    flex-basis: 40%;
+    min-width: 380px;
     display: flex;
+    flex-direction: column;
     justify-content: space-between;
-    max-width: 700px;
-}
-    .control-container>fieldset {
-        box-sizing: border-box;
-        margin: 1em 5px 0 0;
-        padding: 0 10px 0 0;
-        border: none;
-        /* width:100%; */
-        -webkit-margin-start: 0;
-        -webkit-margin-end: 5px;
-        -webkit-padding-before: 0;
-        -webkit-padding-start: 0;
-        -webkit-padding-end: 0;
-        -webkit-padding-after: 0;
-    }
-        .control-container>fieldset.controls>textarea.ta-code-editor {
-            max-width: 340px;
-            width: 98%;
-            height: 90px;
-            padding: 0.5em;
-            font-weight: 500;
-            color: #66D9EF;
-            background-color: #333;
-        }
-    .control-container>div.code-editor {
-        font-family: "Source Code Pro", monospace;
-        font-size: 13.333333px;
-        font-weight: 500;
+    height: 100%;
+    margin-right: 16px;
+}   
+    .ta-code-editor, .div-code-display, .instructions {
+        /* flex-basis: 32%; */
         border: 1px solid darkgray;
-        box-sizing: border-box;
-        margin: 1em 1em 5px 0;
-        padding: 0.5em;
-        width: 100%;
-        /* height: 100px; */
+        margin: 0;
+        padding: 0.8em 1em;
+        background-color: darkslategrey
     }
+    .ta-code-editor, .div-code-display {
+        flex-basis: 24%;
+        font-family: Consolas, monospace;
+        font-size: .8125em; /* 13px/16px */
+        font-weight: 400;
+        background-color: #333;
+        tab-size: 2;
+            -moz-tab-size: 2;
+    }
+    .instructions {
+        flex-basis: 50%;
+        font-size: .875em; /* 14px/16px */
+    }
+        .instructions h1 { 
+            margin: 0 0 14px; 
+            font-size: 1.428571em; /* 20px/14px */
+            /* text-decoration: underline; */
+            border-bottom: 1px solid;
+        }
+        .instructions em {
+            color: lightcoral;
+            color: #ae81ff;
+            color: #A6E22E; 
+            font-style: normal;
+        }
+        .instructions code {
+            color: #66D9EF;
+            font-size: .928571em; /* 13px/14px */
+        } 
+        .instructions p.code {
+            color: lightcoral;
+            font-size: .923077em; /* 12px/13px */
+            margin: 20px;
+            background-color: #333;
+            padding: .5em 1em .8em;
+            border: 1px solid grey;
+        }
+            .instructions p.code code {
+                color: darkgrey;
+            }
+                .instructions p.code code em {
+                    color: lightcoral;
+                }
+    .ta-code-editor {
+        color: #66D9EF;
+        resize: none;
+        color: lightgrey;
+        background-color: rgb(20, 20, 20);
+        }
+    .div-code-display {
+        color: #FFF;
+        word-wrap: normal;
+        white-space: pre-wrap;
+        cursor: not-allowed;
+    }
+    .mce-line { color: #fff; }
+    .mce-selector { color: #A6E22E; }
+    .mce-element { color: #F92672; }
+    .mce-property { color: #66D9EF; font-style: italic; }
+    .mce-constant { color: #66D9EF; }
+    .mce-keyword { color: #F92672; }
+    .mce-number { color: #ae81ff; }
+    .mce-quotes { color: #dadb6e; }
+    .mce-function { color: #FD971F;}
+    /* .mce-comment { color: rgb(255, 118, 248); } */
+    .mce-comment { color: gray !important; }
