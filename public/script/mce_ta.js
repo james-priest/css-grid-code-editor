@@ -3,11 +3,10 @@ var myTACodeEditor = {
     taCodeEditor: document.querySelector( '.ta-code-editor' ),
     divCodeEditor: document.querySelector( '.div-code-display' ),
 
-    // rxSelectors: /^[^/*][\S]+(?=\s*{)/gm,
     rxSelectors: /^[\w .\-#[\]'"=:()>^~*+,|$]+(?={)/gm,
     rxHtmlElements: new RegExp('\\/\\*.*|<.*?>|\\b(' + getHtmlElements() + ')\\b(?=.*{)','gm'),
     rxConstants: new RegExp('^[\\s\\w-]+|.*?{|\\w+\\(.*\\)|\\/\\*.*|<.*>|(\\b(' + getConstants() + ')(?![\\w-\\()]))', 'gm'),
-    rxKeywords: new RegExp('^[\\s\\w-]+:|\\/\\*.*|\\(.*\\)|([\\d.]+)(em|ex|%|px|cm|mm|in|pt|pc|ch|rem|vh|vw|vmin|vmax|fr)(?=\\W)', 'gm'),
+    rxKeywords: new RegExp('^[\\s\\w-]+:|\\/\\*.*|\\(.*\\)|([\\d.]+)(ch|cm|deg|em|ex|fr|gd|grad|Hz|in|kHz|mm|ms|pc|pt|px|rad|rem|s|turn|vh|vm|vmin|vmax|vw|%)(?=\\W)', 'gm'),
     rxNumbers: /^[\s\w-]+:|.*?{|[a-z]\d+|\/\*.*|\(.*\)|([^:>("'/_-]\d*\.?\d+|#[0-9A-Fa-f]{3,6})/gm,
     rxProperties: /^[ \t\w-]+(?=:)/gm,
     rxFunctions: new RegExp( '\\/\\*.*|((' + getFunctions() + ')\\([\\w\\d `~!@#$%^&*()\\-_=+[\\]{}\\\\|:;' + String.fromCharCode(39) + '",.\\/?]*\\))', 'gm' ),
@@ -18,9 +17,15 @@ var myTACodeEditor = {
     rxReplaceComment: /\/\*|\*\//gm,
     rxComments: /\/\*.*\*\//gm,
     
+    browser: { chrome: 0, ie: 0, firefox: 0, safari: 0, opera: 0, edge: 0 },
     init: function(preFill, curPos) {
         var mceObj = this;
-        mceObj.taCodeEditor.defaultValue = preFill;
+        mceObj.sniffBrowser();
+        if ( mceObj.browser.ie ) {
+            mceObj.taCodeEditor.value = preFill;
+        } else {
+            mceObj.taCodeEditor.defaultValue = preFill;
+        }
         mceObj.taCodeEditor.selectionStart = mceObj.taCodeEditor.selectionEnd = curPos;
         
         mceObj.taCodeEditor.onkeydown = function( evt ) {
@@ -36,7 +41,28 @@ var myTACodeEditor = {
             return mceObj.captureKeyUp( evt );
         };
 
-        mceObj.taCodeEditor.dispatchEvent( new Event( 'input' ) );
+        mceObj.triggerInputEvent();
+    },
+    triggerInputEvent: function() {
+        var mceObj = this;
+        if ( mceObj.browser.ie ) {
+            var event = document.createEvent( 'Event' );
+            event.initEvent( 'input', false, true );
+            mceObj.taCodeEditor.dispatchEvent( event );
+        } else {
+            mceObj.taCodeEditor.dispatchEvent( new Event( 'input' ) );
+        }
+    },
+    sniffBrowser: function() {
+        this.browser.chrome = navigator.userAgent.indexOf('Chrome') > -1;
+        this.browser.ie = navigator.userAgent.indexOf( 'MSIE' ) > -1 ||
+            navigator.userAgent.indexOf( 'Trident/7.' ) > -1;
+        this.browser.firefox = navigator.userAgent.indexOf('Firefox') > -1;
+        this.browser.safari  = navigator.userAgent.indexOf('Safari') > -1;
+        this.browser.edge    = navigator.userAgent.indexOf('Edge') > -1;
+        this.browser.opera   = navigator.userAgent.toLowerCase().indexOf('op') > -1;
+        if ( ( this.browser.chrome ) && ( this.browser.safari ) ) { this.browser.safari = false; }
+        if ( ( this.browser.chrome ) && ( this.browser.opera ) ) { this.browser.chrome = false; }
     },
     captureKeyUp: function( evt ) {
         const SLASH = '/';
@@ -70,7 +96,7 @@ var myTACodeEditor = {
                 }
                 break;   
         }
-        mceObj.taCodeEditor.dispatchEvent( new Event( 'input' ) );
+        mceObj.triggerInputEvent();
         return false;
     },
     commentSelection: function( el ) {
@@ -121,7 +147,8 @@ var myTACodeEditor = {
                 console.log( '##########################' );
                 console.log( 'before (lines):', lines );
 
-                lines.forEach( ( line ) => {
+                // lines.forEach( ( line ) => {
+                lines.forEach( function( line ){
                     lineEndPos = lineStartPos + line.length;
                     if ( ( selStart <= lineEndPos ) && ( lineStartPos < selEnd ) ) {
                         if ( this.rxFindComment.test( line ) === true ) {
@@ -139,7 +166,8 @@ var myTACodeEditor = {
 
                 lineStartPos = 0; lineEndPos = 0;
                 var newCommentLineCount = 0;
-                lines.forEach( ( line, idx, arr ) => {
+                // lines.forEach( ( line, idx, arr ) => {
+                lines.forEach( function( line, idx, arr ) {
                     lineEndPos = lineStartPos + line.length;
                     if ( ( selStart <= lineEndPos ) && ( lineStartPos < selEnd ) ) {
                         var hasComment = this.rxFindComment.test( line );
@@ -211,10 +239,10 @@ var myTACodeEditor = {
             LEFT_CURLY_BRACE = String.fromCharCode(123),
             RIGHT_CURLY_BRACE = String.fromCharCode(125),
             charNewLine = String.fromCharCode( 10 ),
-            charTab = String.fromCharCode( 9 );
+            charTab = String.fromCharCode( 9 ),
+            FIREFOX = this.browser.firefox;
             // charBackspace = String.fromCharCode( 8 );
         var mceObj = this,
-            // ta = mceObj.taCodeEditor,    
             ta = evt.target,
             val = ta.value,
             selStart = ta.selectionStart,
@@ -225,32 +253,53 @@ var myTACodeEditor = {
                 var openBracketPos = val.lastIndexOf( '{', ta.selectionStart ),
                     closeBracketPos = val.lastIndexOf( '}', ta.selectionStart );
                 if ( ( openBracketPos - ta.selectionStart ) > ( closeBracketPos - ta.selectionStart ) ) {
-                    // mceObj.insertText2( ta, charNewLine + charTab, 0 );
-                    document.execCommand( 'insertText', false, charNewLine + charTab );
+                    if ( FIREFOX ) {
+                        mceObj.insertText( ta, charNewLine + charTab, 2 );
+                    } else {
+                        // mceObj.insertText2( ta, charNewLine + charTab, 0 );
+                        document.execCommand( 'insertText', false, charNewLine + charTab );
+                    }
                 } else {
-                    // mceObj.insertText2( ta, charNewLine, 0 );
-                    document.execCommand( 'insertText', false, charNewLine );
+                    if ( FIREFOX ) {
+                        mceObj.insertText( ta, charNewLine, 1 );
+                    } else {
+                        // mceObj.insertText2( ta, charNewLine, 0 );
+                        document.execCommand( 'insertText', false, charNewLine );
+                    }
                 }
                 break;
             case TAB:
-                // mceObj.insertText2( ta, charTab, 0 );
-                document.execCommand( 'insertText', false, charTab );
+                if ( FIREFOX ) {
+                    mceObj.insertText( ta, charTab, 1 );
+                } else {
+                    // mceObj.insertText2( ta, charTab, 0 );
+                    document.execCommand( 'insertText', false, charTab );
+                }
                 break;    
             case COLON:
                 var colonPos = val.indexOf( COLON, lineStartPos );
                 var semiPos = val.indexOf( SEMI, lineStartPos );
                 if ((colonPos > lineEndPos || colonPos === -1) && (semiPos > lineEndPos || semiPos === -1) ){
-                    // mceObj.insertText( ta, COLON + SEMI, 1 );
-                    mceObj.insertText2( ta, COLON + SEMI, -1 );
+                    if ( FIREFOX ) {
+                        mceObj.insertText( ta, COLON + SEMI, 1 );
+                    } else {
+                        // mceObj.insertText( ta, COLON + SEMI, 1 );
+                        mceObj.insertText2( ta, COLON + SEMI, -1 );
+                    }
                 } else {
                     return true;
                 }
                 break;
             case SEMI:
-                if ( val.charAt(selStart)  === SEMI ) {
-                    // mceObj.insertText2( ta, '', 1 );
-                    document.execCommand( 'forwardDelete', false );
-                    document.execCommand( 'insertText', false, SEMI );
+                if ( val.charAt( selStart ) === SEMI ) {
+                    if ( FIREFOX ) {
+                        // mceObj.insertText( ta, '', 1 );
+                        mceObj.moveCursor( ta, 1 );
+                    } else {
+                        // mceObj.insertText2( ta, '', 1 );
+                        document.execCommand( 'forwardDelete', false );
+                        document.execCommand( 'insertText', false, SEMI );
+                    }
                 } else {
                     return true;
                 }
@@ -259,25 +308,40 @@ var myTACodeEditor = {
                 return true;
                 // break;    
             case QUOTE:
-                // mceObj.insertText( ta, QUOTE + QUOTE, 1 );
-                mceObj.insertText2( ta, QUOTE + QUOTE, -1 );
+                if ( FIREFOX ) {
+                    mceObj.insertText( ta, QUOTE + QUOTE, 1 );
+                } else {
+                    mceObj.insertText2( ta, QUOTE + QUOTE, -1 );
+                }
                 break;
             case APOSTROPHE:
-                // mceObj.insertText( ta, APOSTROPHE + APOSTROPHE, 1 );
-                mceObj.insertText2( ta, APOSTROPHE + APOSTROPHE, -1 );
+                if ( FIREFOX ) {
+                    mceObj.insertText( ta, APOSTROPHE + APOSTROPHE, 1 );
+                } else {
+                    mceObj.insertText2( ta, APOSTROPHE + APOSTROPHE, -1 );
+                }
                 break;
             case LEFT_PAREN:
-                // mceObj.insertText( ta, LEFT_PAREN + RIGHT_PAREN, 1 );
-                mceObj.insertText2( ta, LEFT_PAREN + RIGHT_PAREN, -1 );
+                if ( FIREFOX ) {
+                    mceObj.insertText( ta, LEFT_PAREN + RIGHT_PAREN, 1 );
+                } else {
+                    mceObj.insertText2( ta, LEFT_PAREN + RIGHT_PAREN, -1 );
+                }    
                 break;
             case LEFT_BRACKET:
-                // mceObj.insertText( ta, LEFT_BRACKET + RIGHT_BRACKET, 1 );
-                mceObj.insertText2( ta, LEFT_BRACKET + RIGHT_BRACKET, -1 );
+                if ( FIREFOX ) {
+                    mceObj.insertText( ta, LEFT_BRACKET + RIGHT_BRACKET, 1 );
+                } else {
+                    mceObj.insertText2( ta, LEFT_BRACKET + RIGHT_BRACKET, -1 );
+                }    
                 break;
             case LEFT_CURLY_BRACE:
                 if ( val.lastIndexOf( '{', selStart ) === -1 || ( val.lastIndexOf( '}', selStart ) > val.lastIndexOf( '{', selStart ) ) ) {
-                    // mceObj.insertText( ta, LEFT_CURLY_BRACE + charNewLine + charTab + charNewLine + RIGHT_CURLY_BRACE, 3 );
-                    mceObj.insertText2( ta, LEFT_CURLY_BRACE + charNewLine + charTab + charNewLine + RIGHT_CURLY_BRACE, -2 );
+                    if ( FIREFOX ) {
+                        mceObj.insertText( ta, LEFT_CURLY_BRACE + charNewLine + charTab + charNewLine + RIGHT_CURLY_BRACE, 3 );
+                    } else {
+                        mceObj.insertText2( ta, LEFT_CURLY_BRACE + charNewLine + charTab + charNewLine + RIGHT_CURLY_BRACE, -2 );
+                    }    
                 } else {
                     return true;
                 }
@@ -285,7 +349,7 @@ var myTACodeEditor = {
             default:
                 return true;
         }
-        mceObj.taCodeEditor.dispatchEvent( new Event( 'input' ) );
+        mceObj.triggerInputEvent();
         return false;
     },
     insertText: function( el, text, curPos) {
@@ -300,7 +364,8 @@ var myTACodeEditor = {
     },
     insertText2: function( el, text, m ) {
         // this allows the browser's undo & redo features to work
-        document.execCommand( 'insertText', false, text );
+        var result = document.execCommand( 'insertText', false, text );
+        console.log( 'insertText result:', result );
         el.selectionStart = el.selectionEnd =  el.selectionStart + m;
     },
     moveCursor: function( el, m ) {
@@ -352,18 +417,28 @@ var myTACodeEditor = {
         this.divCodeEditor.innerHTML = formatted;
     },
     applyStyle: function( selector, declarations ) {
-        var elArr = document.getElementById('sandbox').querySelectorAll( selector );
-        elArr.forEach( el => {
-            el.style = declarations;
-        } );
+        if ( selector ) {
+            // var elArr = document.getElementById('sandbox').querySelectorAll( selector );
+            var el = document.getElementById( 'sandbox' );
+            var elArr = el.querySelectorAll( selector );
+            // elArr.forEach( el => {
+            elArr.forEach( function(el) {
+                el.style = declarations;
+            } );      
+        }
     },
     clearStyle: function() {
+        if ( this.browser.ie ) {
+            NodeList.prototype.forEach = Array.prototype.forEach;
+        }
         var elArr = document.getElementById('sandbox').querySelectorAll( '*' );
-        elArr.forEach( el => {
+        // elArr.forEach( el => {
+        elArr.forEach( function(el) {
             el.removeAttribute( 'style' );
         } );
     },
     processRules: function( evt ) {
+        var mceObj = this;
         var css = evt.target.value;
         var m, selector, prev = '', rules = '', rulesArr = [], count=0;
 
@@ -393,8 +468,9 @@ var myTACodeEditor = {
         // console.log( rulesArr );
 
         this.clearStyle();
-        rulesArr.forEach( rule => {
-            this.applyStyle( rule[ 0 ], rule[ 1 ] );
+        // rulesArr.forEach( rule => {
+        rulesArr.forEach( function(rule) {
+            mceObj.applyStyle( rule[ 0 ], rule[ 1 ] );
         } );
     }
 };
