@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>14-Grid</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link href="css/style.css" rel="stylesheet">
+        <style>
+            .guide, .guidelines {
+                grid-template-columns: 1fr 1fr;
+                grid-template-rows: 20vh 1fr 20vh;
+            }
+        </style>
+    </head>
+    <body>
+        <header>
+            <h1>CSS Grid</h1>
+        </header>
+        <main>
+            <div class="control-container">
+                <div class="instructions">
+                    <h2>14. Challenge 1.3</h2>
+                    <p>The top and bottom rows are each using <code>20vh</code> units.</p>
+                    <p>Those are just like percents(<code>%</code>) but are relative to the <em>viewport's height</em> rather than to the Grid element's height.</p>
+                    <p><u>Answer</u></p>
+                    <div class="code">
+                        <div class="answer hide">
+                            <code></code>
+                        </div>
+                    </div>
+                    <p class="right">
+                        <a class="inst-btn answer-btn" href="#" onclick="myTACodeEditor.showAnswer();">Show</a>
+                        <a class="inst-btn paste-btn" href="#" onclick="myTACodeEditor.pasteAnswer();">Paste</a>
+                    </p>
+                    <p>In this case, the <code>vh</code> units will match the sizes and the <code>fr</code> units will take up the rest of the space.</p>
+                    
+                </div>
+                <textarea name="ta-code-editor" class="ta-code-editor" autofocus="true" autocorrect="off" autocapitalize="off" spellcheck="false"></textarea>
+                <div class="div-code-display" contenteditable="false" autocorrect="off" autocapitalize="off" spellcheck="false"></div>
+            </div>  
+            <div class="sandbox-wrapper">
+                <div id="sandbox">
+                    <section class="grid-container">
+                        <div class="guide">
+                            <div class="dunes"></div>
+                            <div class="dunes"></div>
+                            <div class="rocky"></div>
+                            <div class="rocky"></div>
+                            <div class="cloudy"></div>
+                            <div class="cloudy"></div>
+                        </div>
+                        <div class="guidelines">
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                        </div>
+                        <div class="target dunes"></div>
+                        <div class="target dunes"></div>
+                        <div class="target rocky"></div>
+                        <div class="target rocky"></div>
+                        <div class="target cloudy"></div>
+                        <div class="target cloudy"></div>
+                    </section>
+                </div>
+                <nav class="page-nav">
+                    <ul>
+                        <li class="left"><a class="nav-btn toggle-code-btn show" href="#"  onclick="myTACodeEditor.toggleCode();">toggle code</a></li>
+                        <li><a class="nav-btn back-btn" href="a-grid13.html">Back</a></li>
+                        <li><a class="nav-btn next-btn disabled" href="a-grid15.html">Next</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </main>
+        <script src="../../lib/css-constants.js"></script>
+        <script src="script/mce_ta.js"></script>
+        <script>
+            var preFill = ".grid-container {\n\t\n}", curPos = 19;
+            var answer = '\tdisplay: grid;\n\tgrid-template-columns: 1fr 1fr;\n\tgrid-template-rows: 20vh 1fr 20vh;';
+            window.onload = myTACodeEditor.init(preFill, curPos, answer);
+        </script>
+    </body>
+</html>

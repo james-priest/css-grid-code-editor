@@ -38,7 +38,7 @@ main {
 }
 .page-nav {
     /* border: 1px solid gray; */
-    /* text-align: right; */
+    text-align: right;
     height: 28px;
 }
     .page-nav ul {
@@ -51,6 +51,10 @@ main {
     .page-nav .right {
         float: right;
         margin-left: 6px;
+    }
+    .page-nav .left {
+        float: left;
+        margin-right: 6px;
     }
     .page-nav ul li {
         display: inline-block;
@@ -101,12 +105,14 @@ main {
 section.grid-container {
     position: relative;
     box-sizing: border-box;
-    /* border: 2px dashed #ccc; */
     border: 8px solid #555;
     height: 100%;
     width: 100%;
-    transition: height 1.4s ease-out, width 1.4s ease-out;
+    transition: height 1.4s ease-out, width 1.4s ease-out, border .1s;
 }
+    .grid-container.solved {
+        border: 12px solid #A6E22E;    
+    }
     section.flex-container.expand {
         min-height: 80vh;
         min-width: 80vw;
@@ -233,12 +239,11 @@ section.grid-container {
         .instructions .code {
             color: lightcoral;
             font-size: .923077em; /* 12px/13px */
-            margin: 20px;
+            /* margin: 20px; */
             background-color: #333;
-            padding: .5em 1em .8em;
+            padding: .5em .5em .8em;
             border: 1px solid grey;
         }
-
             .instructions .code code {
                 color: darkgrey;
             }
@@ -250,7 +255,7 @@ section.grid-container {
                     color: #dadb6e;
                     color: #A6E22E;;
                 }
-        .answer-btn {
+        .inst-btn  {
             color: #fff;
             background-color: #999;
             border: 1px solid #777;
@@ -259,10 +264,10 @@ section.grid-container {
             font-size: .857143em; /* 12px/14px */
             
         }
-        .answer-btn:hover { color: #ccc; background-color: #666;}
-        .answer-btn.disabled {color: #ccc; background-color: #666; cursor: default; }
-        .instructions .right { text-align: right; margin-right: 20px; }
-        .left { text-align: left; }
+        .inst-btn:hover { color: #ccc; background-color: #666;}
+        .inst-btn.disabled {color: #ccc; background-color: #666; cursor: default; }
+        .instructions .right { text-align: right; /*margin-right: 20px;*/ }
+        .left { text-align: left; }1
         .answer { transition: visibility .3s ease-out, opacity .3s ease-out; }
         .answer.hide { visibility: hidden; opacity: 0; }
         .answer.show { visibility: visible; opacity: 1; }

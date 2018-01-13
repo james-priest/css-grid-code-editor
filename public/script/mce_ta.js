@@ -1,5 +1,6 @@
 var myTACodeEditor = {
     gridContainer: document.querySelector( '.grid-container' ),
+    divAnswer: document.querySelector( '.answer code' ),
     taCodeEditor: document.querySelector( '.ta-code-editor' ),
     divCodeDisplay: document.querySelector( '.div-code-display' ),
 
@@ -8,7 +9,8 @@ var myTACodeEditor = {
     rxConstants: new RegExp('^[\\s\\w-]+|.*?{|\\w+\\(.*\\)|\\/\\*.*|<.*>|(\\b(' + getConstants() + ')(?![\\w-\\()]))', 'gm'),
     rxKeywords: new RegExp('^[\\s\\w-]+:|\\/\\*.*|\\(.*\\)|([\\d.]+)(ch|cm|deg|em|ex|fr|gd|grad|Hz|in|kHz|mm|ms|pc|pt|px|rad|rem|s|turn|vh|vm|vmin|vmax|vw|%)(?=\\W)', 'gm'),
     rxNumbers: /^[\s\w-]+:|.*?{|[a-z]\d+|\/\*.*|\(.*\)|([^:>("'/_-]\d*\.?\d+|#[0-9A-Fa-f]{3,6})/gm,
-    rxProperties: /^[ \t\w-]+(?=:)/gm,
+    // rxProperties: /^[ \t\w-]+(?=:)/gm,
+    rxProperties: /^[^{][ \t\w-]+(?=:)/gm,
     rxFunctions: new RegExp( '\\/\\*.*|((' + getFunctions() + ')\\([\\w\\d `~!@#$%^&*()\\-_=+[\\]{}\\\\|:;' + String.fromCharCode(39) + '",.\\/?]*\\))', 'gm' ),
     rxQuotes: /^[/*].*\*\/|("[\w\s-]*"(?!>)|'[\w\s-]*'(?!>))/gm,
     rxRules: /(.+)\s*(?={)|^[\t\s]*(.+;)/gm,
@@ -18,17 +20,15 @@ var myTACodeEditor = {
     rxReplaceComment: /\/\*|\*\//gm,
     rxComments: /\/\*.*\*\//gm,
     
+    preFill: '',
+    curPos: 0,
+    answerCode: '',
     browser: { chrome: 0, ie: 0, firefox: 0, safari: 0, opera: 0, edge: 0 },
-    init: function(preFill, curPos) {
+    init: function(preFill, curPos, answer) {
         var mceObj = this;
+
         mceObj.sniffBrowser();
-        if ( mceObj.browser.ie ) {
-            mceObj.taCodeEditor.value = preFill;
-        } else {
-            mceObj.taCodeEditor.defaultValue = preFill;
-        }
-        mceObj.taCodeEditor.selectionStart = mceObj.taCodeEditor.selectionEnd = curPos;
-        
+
         mceObj.taCodeEditor.onkeydown = function( evt ) {
             return mceObj.captureKeyDown( evt );
         };
@@ -42,6 +42,21 @@ var myTACodeEditor = {
             return mceObj.captureKeyUp( evt );
         };
 
+        mceObj.setTaVal( preFill, curPos );
+        mceObj.preFill = preFill;
+        mceObj.curPos = curPos;
+        mceObj.formatAnswer(answer);
+    },
+    formatAnswer: function(answer) {
+        // var code = document.querySelector( '.answer code' ).innerText;
+        // this.answerCode = code.replace( /^[\xA0 ]+/gm, '\t' );
+        this.divAnswer.innerText = answer;
+        this.answerCode = answer;
+    },
+    setTaVal: function( preFill, curPos ) {
+        var mceObj = this;
+        mceObj.taCodeEditor.value = preFill;
+        mceObj.taCodeEditor.selectionStart = mceObj.taCodeEditor.selectionEnd = curPos;
         mceObj.triggerInputEvent();
     },
     triggerInputEvent: function() {
@@ -481,11 +496,47 @@ var myTACodeEditor = {
                 mceObj.applyStyle( rule[ 0 ], rule[ 1 ] );
             }
         } );
+        this.displaySolved();
+    },
+    displaySolved: function() {
+        var ta = this.taCodeEditor,
+            answer = '.grid-container {\n' + this.answerCode + '\n}',
+            gridContainer = document.querySelector('.grid-container');
+
+        
+        console.log( 'ta.value:', ta.value );
+        console.log( 'answer:', answer );
+
+        if ( ta.value === answer ) {
+            // gridContainer.style.border = '8px solid LimeGreen';
+            // gridContainer.style.border = '8px solid #A6E22E';
+            gridContainer.classList.add( 'solved' );
+        } else {
+            // gridContainer.style.border = '8px solid #555';
+            gridContainer.classList.remove( 'solved' );
+        }
     },
     showAnswer: function() {
         document.querySelector( '.answer' ).classList.add( 'show' );
         document.querySelector( '.answer-btn' ).classList.add( 'disabled' );
         return false;
+    },
+    pasteAnswer: function() {
+        var mceObj = this,
+            ta = this.taCodeEditor,
+            code = document.querySelector( '.answer code' ).innerText,
+            pasteBtn = document.querySelector( '.paste-btn' );
+            
+        if ( pasteBtn.innerText === 'Paste' && code.trim().length > 0) {
+            console.log( code.trim().length );
+            pasteBtn.innerText = 'Clear';
+            // replace non-breaking space (char code 160) with tab
+            ta.value = '.grid-container {\n' + code.replace(/^[\xA0 ]+/gm, '\t') + '\n}';
+            mceObj.triggerInputEvent();
+        } else if(pasteBtn.innerText === 'Clear') {
+            pasteBtn.innerText = 'Paste';
+            this.setTaVal( mceObj.preFill, mceObj.curPos );
+        }
     },
     toggleCode: function() {
         var mceObj = this,
