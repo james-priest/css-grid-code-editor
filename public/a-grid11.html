@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <title>10-Grid</title>
+        <title>11-Grid</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link href="css/style.css" rel="stylesheet">
@@ -18,12 +18,12 @@
         <main>
             <div class="control-container">
                 <div class="instructions">
-                    <h1>11. Tracks</h1>
+                    <h2>11. Tracks</h2>
                     <p>By default, terrain items flow into the Grid as equal height <em>rows</em>. But we can control how the Grid terrains are sized and positioned by defining the number and size of the rows and columns.</p>
                     <p>For columns we use <code>grid-template-columns</code>, and for rows we use <code>grid-template-rows</code>.</p>
-                    <p>We can use a more general term for both rows and columns. Let's call them <em>tracks</em>: a horizontal or vertical slice of the Grid which can be sized and filled with items.</p>
+                    <p>We can use a more general term for both rows and columns. Let's call them <em>tracks</em>: <i>a horizontal or vertical slice of the Grid which can be sized and filled with items</i>.</p>
                     <p>The new <code>fr</code> unit lets us tell rows and columns - a.k.a <em>tracks</em> - how much of the available space to take up, after any fixed-unit tracks get their dibs.</p>
-                    <p>Lastly, thanks to your crafty little <code>repeat(*number of tracks*, *size of tracks*)</code> shorthand I can define the Grid even faster.
+                    <p>Lastly, thanks to this shorthand, <code>repeat(*number of tracks*, *size of tracks*)</code>, the Grid can be defined even faster.</p>
                 </div>
                 <textarea name="ta-code-editor" class="ta-code-editor" autofocus="true" autocorrect="off" autocapitalize="off" spellcheck="false"></textarea>
                 <div class="div-code-display" contenteditable="false" autocorrect="off" autocapitalize="off" spellcheck="false"></div>
@@ -36,8 +36,9 @@
                 </div>
                 <nav class="page-nav">
                     <ul>
-                        <li><a href="a-grid9.html">Back</a></li>
-                        <li><a href="a-grid11.html">Next</a></li>
+                        <li><a class="nav-btn toggle-code-btn show" href="#"  onclick="myTACodeEditor.toggleCode();">toggle code</a></li>
+                        <li class="right"><a class="nav-btn next-btn" href="a-grid12.html">Next</a></li>
+                        <li class="right"><a class="nav-btn back-btn" href="a-grid10.html">Back</a></li>
                     </ul>
                 </nav>
             </div>

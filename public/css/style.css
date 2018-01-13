@@ -29,6 +29,7 @@ main {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    padding-bottom: 1px;
 }
 #sandbox {
     box-sizing: border-box;
@@ -37,32 +38,66 @@ main {
 }
 .page-nav {
     /* border: 1px solid gray; */
-    text-align: right;
-    /* height: 24px; */
+    /* text-align: right; */
+    height: 28px;
 }
     .page-nav ul {
         list-style-type: none;
         margin: 0;
         padding: 0;
         overflow: hidden;
+        font-size: .875em; /* 16px/14px */
+    }
+    .page-nav .right {
+        float: right;
+        margin-left: 6px;
     }
     .page-nav ul li {
         display: inline-block;
-        background-color: #333;
-        padding: 4px 0px;
+        /* background-color: #333; */
+        padding: 6px 0px;
     }
-    .page-nav ul li a {
+    /* .page-nav ul li a { */
+    .page-nav a.nav-btn {
         padding: 8px 14px;
-        color: gray;
+        color: darkgrey;
         text-align: center;
         text-decoration: none;
         font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-
+        background-color: #333;
+        /* border-radius: 10px; */
     }
-    .page-nav ul li a:hover {
+    /* .page-nav ul li a:hover { */
+    .page-nav a.nav-btn:hover {
         color: #eee;
         background-color: #111;
     }
+    .page-nav a.nav-btn.disabled {
+        color: #555;
+    }
+    .page-nav a.nav-btn.disabled:hover {
+        color: #555;
+        background-color: #333;
+        cursor: default;
+    }
+    .page-nav a.toggle-code-btn {
+        color: #eee;
+        background-color: #888;
+        border: 1px solid #777;
+    }
+    .page-nav a.toggle-code-btn:hover {
+        color: #ccc;
+        background-color: #888;
+    }
+    .page-nav a.toggle-code-btn.show {
+        color: darkgrey;
+        background-color: #333;
+    }
+    .page-nav a.toggle-code-btn.show:hover {
+        color: #ccc;
+        background-color: #333;
+    }
+
 section.grid-container {
     position: relative;
     box-sizing: border-box;
@@ -112,6 +147,7 @@ section.grid-container {
         font-size: 1.25em; /* 20px/16px */
         font-weight: bold;
         /* padding: 1px; */
+        border-bottom: 2px dotted gray;
 
         display: flex;
         justify-content: center;
@@ -127,10 +163,10 @@ section.grid-container {
             background-color: lightcoral;
         }
         .target.rocky {
-            background-color: rgb(100, 201, 165)
+            background-color: rgb(100, 201, 165);
         }
         .target.cloudy {
-            background-color: rgb(100, 107, 201)
+            background-color: rgb(100, 107, 201);
         }
 
         /* .target.zombie { 
@@ -178,7 +214,7 @@ section.grid-container {
         flex-basis: 50%;
         font-size: .875em; /* 14px/16px */
     }
-        .instructions h1 { 
+        .instructions h2 { 
             margin: 0 0 14px; 
             font-size: 1.428571em; /* 20px/14px */
             /* text-decoration: underline; */
@@ -194,7 +230,7 @@ section.grid-container {
             color: #66D9EF;
             font-size: .928571em; /* 13px/14px */
         } 
-        .instructions p.code {
+        .instructions .code {
             color: lightcoral;
             font-size: .923077em; /* 12px/13px */
             margin: 20px;
@@ -202,12 +238,34 @@ section.grid-container {
             padding: .5em 1em .8em;
             border: 1px solid grey;
         }
-            .instructions p.code code {
+
+            .instructions .code code {
                 color: darkgrey;
             }
-                .instructions p.code code em {
+                .instructions .code code em {
                     color: lightcoral;
                 }
+                .instructions .code .answer code {
+                    color: #66D9EF;
+                    color: #dadb6e;
+                    color: #A6E22E;;
+                }
+        .answer-btn {
+            color: #fff;
+            background-color: #999;
+            border: 1px solid #777;
+            padding: 3px 10px;
+            text-decoration: none;
+            font-size: .857143em; /* 12px/14px */
+            
+        }
+        .answer-btn:hover { color: #ccc; background-color: #666;}
+        .answer-btn.disabled {color: #ccc; background-color: #666; cursor: default; }
+        .instructions .right { text-align: right; margin-right: 20px; }
+        .left { text-align: left; }
+        .answer { transition: visibility .3s ease-out, opacity .3s ease-out; }
+        .answer.hide { visibility: hidden; opacity: 0; }
+        .answer.show { visibility: visible; opacity: 1; }
     .ta-code-editor {
         color: #66D9EF;
         resize: none;

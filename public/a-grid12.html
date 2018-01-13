@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <title>9-Grid</title>
+        <title>12-Grid</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link href="css/style.css" rel="stylesheet">
         <style>
             .guide, .guidelines {
-                grid-template-columns: repeat(7, 1fr);
+                grid-template-columns: 1fr 1fr 2fr;
             }
         </style>
     </head>
@@ -18,11 +18,23 @@
         <main>
             <div class="control-container">
                 <div class="instructions">
-                    <h2>9. Repeating fractions</h2>
-                    <p>The <code>repeat</code> function can also be used with <code>fr</code>.</p>
-                    <p class="code"><code>display: grid;<br>
-                        <em>grid-template-columns: repeat(7, 1fr);</em><br>
-                    </code></p>
+                    <h2>12. Challenge 1.1</h2>
+                    <p>Steps to solve the challenge:</p>
+                    <ol>
+                        <li>Power up the Grid using <code>display: grid;</code></li>
+                        <li>Define the correct number of tracks using <code>fr</code> units to begin.</li>
+                        <li>Adjust the sizes of the tracks until everything lines up.</li>
+                    </ol>
+                    <p><u>Answer</u></p>
+                    <div class="code">
+                        <div class="answer hide">
+                            <code>display: grid;<br>
+                            grid-template-columns: 1fr 1fr 2fr;</code>
+                        </div>
+                    </div>
+                    <p class="right">
+                        <a class="answer-btn" href="#" onclick="myTACodeEditor.showAnswer();">Show</a>
+                    </p>
                 </div>
                 <textarea name="ta-code-editor" class="ta-code-editor" autofocus="true" autocorrect="off" autocapitalize="off" spellcheck="false"></textarea>
                 <div class="div-code-display" contenteditable="false" autocorrect="off" autocapitalize="off" spellcheck="false"></div>
@@ -32,36 +44,24 @@
                     <section class="grid-container">
                         <div class="guide">
                             <div class="rocky"></div>
-                            <div class="rocky"></div>
-                            <div class="rocky"></div>
-                            <div class="rocky"></div>
-                            <div class="rocky"></div>
-                            <div class="rocky"></div>
+                            <div class="cloudy"></div>
                             <div class="rocky"></div>
                         </div>
                         <div class="guidelines">
                             <div></div>
                             <div></div>
                             <div></div>
-                            <div></div>
-                            <div></div>
-                            <div></div>
-                            <div></div>
                         </div>
                         <div class="target rocky"></div>
-                        <div class="target rocky"></div>
-                        <div class="target rocky"></div>
-                        <div class="target rocky"></div>
-                        <div class="target rocky"></div>
-                        <div class="target rocky"></div>
+                        <div class="target cloudy"></div>
                         <div class="target rocky"></div>
                     </section>
                 </div>
                 <nav class="page-nav">
-                     <ul>
+                    <ul>
                         <li><a class="nav-btn toggle-code-btn show" href="#"  onclick="myTACodeEditor.toggleCode();">toggle code</a></li>
-                        <li class="right"><a class="nav-btn next-btn" href="a-grid10.html">Next</a></li>
-                        <li class="right"><a class="nav-btn back-btn" href="a-grid8.html">Back</a></li>
+                        <li class="right"><a class="nav-btn next-btn" href="a-grid13.html">Next</a></li>
+                        <li class="right"><a class="nav-btn back-btn" href="a-grid11.html">Back</a></li>
                     </ul>
                 </nav>
             </div>

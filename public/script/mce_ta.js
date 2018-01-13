@@ -1,7 +1,7 @@
 var myTACodeEditor = {
     gridContainer: document.querySelector( '.grid-container' ),
     taCodeEditor: document.querySelector( '.ta-code-editor' ),
-    divCodeEditor: document.querySelector( '.div-code-display' ),
+    divCodeDisplay: document.querySelector( '.div-code-display' ),
 
     rxSelectors: /^[\w .\-#[\]'"=:()>^~*+,|$]+(?={)/gm,
     rxHtmlElements: new RegExp('\\/\\*.*|<.*?>|\\b(' + getHtmlElements() + ')\\b(?=.*{)','gm'),
@@ -13,6 +13,7 @@ var myTACodeEditor = {
     rxQuotes: /^[/*].*\*\/|("[\w\s-]*"(?!>)|'[\w\s-]*'(?!>))/gm,
     rxRules: /(.+)\s*(?={)|^[\t\s]*(.+;)/gm,
     rxTextToWrap: /[\w\d\-[\] {}.:;#,>+'"=()/~^$*]+$/gm,
+    rxBlockToWrap: /[\w\d\-[\] {}.:;#,>+'"=()/~^$*\t]+$/gm,
     rxFindComment: /\/\*|\*\//,
     rxReplaceComment: /\/\*|\*\//gm,
     rxComments: /\/\*.*\*\//gm,
@@ -118,7 +119,7 @@ var myTACodeEditor = {
                 lineEndPos = lastLineEndPos;
                 slicedLine = val.slice( lineStartPos, lineEndPos );
 
-                newSlicedLine = this.toggleComment( slicedLine );
+                newSlicedLine = this.toggleComment( slicedLine, false );
                 el.value = val.slice( 0, lineStartPos ) + newSlicedLine + val.slice( lineEndPos );
 
                 // set caret selection for comment
@@ -151,7 +152,7 @@ var myTACodeEditor = {
                 lines.forEach( function( line ){
                     lineEndPos = lineStartPos + line.length;
                     if ( ( selStart <= lineEndPos ) && ( lineStartPos < selEnd ) ) {
-                        if ( this.rxFindComment.test( line ) === true ) {
+                        if ( mceObj.rxFindComment.test( line ) === true ) {
                             prevCommentLineCount += 1;
                         }
                         selLineCount += 1;
@@ -170,14 +171,15 @@ var myTACodeEditor = {
                 lines.forEach( function( line, idx, arr ) {
                     lineEndPos = lineStartPos + line.length;
                     if ( ( selStart <= lineEndPos ) && ( lineStartPos < selEnd ) ) {
-                        var hasComment = this.rxFindComment.test( line );
+                        var hasComment = mceObj.rxFindComment.test( line );
                         if ( hasComment === false && doComment === true ) {
-                            arr[ idx ] = mceObj.toggleComment( line );
+                            // arr[ idx ] = mceObj.toggleComment( line );
                             newCommentLineCount += 1;
                         } else if ( hasComment && doComment === false  ) {
-                            arr[ idx ] = mceObj.toggleComment( line );
+                            // arr[ idx ] = mceObj.toggleComment( line );
                             newCommentLineCount -= 1;
                         }
+                        arr[ idx ] = mceObj.toggleComment( line, true );
                         selLineCount += 1;
                     }
                     lineStartPos = lineStartPos + line.length + 1;
@@ -214,13 +216,18 @@ var myTACodeEditor = {
             }
         }
     },
-    toggleComment: function( slicedLine ) {
+    toggleComment: function( slicedLine, isBlock ) {
         var newSlicedLine,
             hasComment = this.rxFindComment.test( slicedLine );
         if ( hasComment ) {
             newSlicedLine = slicedLine.replace( this.rxReplaceComment, '' );
         } else {
-            newSlicedLine = slicedLine.replace( this.rxTextToWrap, '/*' + '$&' + '*/' );
+            if ( isBlock ) {
+                newSlicedLine = slicedLine.replace( this.rxBlockToWrap, '/*' + '$&' + '*/' );
+            } else {
+                newSlicedLine = slicedLine.replace( this.rxTextToWrap, '/*' + '$&' + '*/' );
+            }
+            
         }
         return newSlicedLine;
     },
@@ -414,7 +421,7 @@ var myTACodeEditor = {
         } );
         formatted = formatted.replace( this.rxComments, '<span class="mce-comment">$&</span>' );
         
-        this.divCodeEditor.innerHTML = formatted;
+        this.divCodeDisplay.innerHTML = formatted;
     },
     applyStyle: function( selector, declarations ) {
         if ( selector ) {
@@ -469,8 +476,60 @@ var myTACodeEditor = {
 
         this.clearStyle();
         // rulesArr.forEach( rule => {
-        rulesArr.forEach( function(rule) {
-            mceObj.applyStyle( rule[ 0 ], rule[ 1 ] );
+        rulesArr.forEach( function( rule ) {
+            if ( rule[ 0 ].startsWith( '/*' ) === false ) {
+                mceObj.applyStyle( rule[ 0 ], rule[ 1 ] );
+            }
         } );
+    },
+    showAnswer: function() {
+        document.querySelector( '.answer' ).classList.add( 'show' );
+        document.querySelector( '.answer-btn' ).classList.add( 'disabled' );
+        return false;
+    },
+    toggleCode: function() {
+        var mceObj = this,
+            ta = this.taCodeEditor,
+            val = ta.value,
+            selStart = ta.selectionStart,
+            selEnd = ta.selectionEnd,
+            doComment = false,
+            startPartial = '', endPartial = '',
+            startCount = 0, endCount = 0;
+        
+        ta.selectionStart = 0;
+        ta.selectionEnd = ta.value.length;
+        mceObj.commentSelection(ta);
+        
+        if ( document.querySelector( '.toggle-code-btn' ).classList.contains( 'show' ) ) {
+            document.querySelector( '.toggle-code-btn' ).classList.remove( 'show' );
+            doComment = true;
+        } else {
+            document.querySelector( '.toggle-code-btn' ).classList.add( 'show' );
+            doComment = false;
+        }
+        mceObj.triggerInputEvent();
+
+        if ( doComment ) {
+            startPartial = ta.value.slice( 0, selStart );
+            endPartial = ta.value.slice( 0, selEnd );
+        } else {
+            startPartial = val.slice( 0, selStart );
+            endPartial = val.slice( 0, selEnd );
+        }
+        
+        startCount = ( startPartial.match( /\/\*|\*\//g ) || []).length;
+        endCount = ( endPartial.match( /\/\*|\*\//g ) || []).length;
+
+        ta.focus();
+        if ( doComment ) {
+            ta.selectionStart = selStart + (startCount * 2);
+            ta.selectionEnd = selEnd + (endCount * 2);
+        } else {
+            ta.selectionStart = selStart - (startCount * 2);
+            ta.selectionEnd = selEnd - (endCount * 2);
+        }
+        
+        return false;
     }
 };
