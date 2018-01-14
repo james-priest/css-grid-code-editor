@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title></title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link href="css/style1.css" rel="stylesheet">
+    </head>
+    <body>
+        <header>
+            <h1 class="title"></h1>
+        </header>
+        <main>
+            <div class="control-container">
+                <div class="instructions">
+                    <h2 class='subtitle'></h2>
+                    <div class="part1"></div>
+                    <div class="solution">
+                        <p><u>Answer</u></p>
+                        <div class="code">
+                            <div class="answer hide">
+                                <code></code>
+                            </div>
+                        </div>
+                        <p class="right">
+                            <a class="inst-btn answer-btn" href="#" onclick="myTACodeEditor.showAnswer();">Show</a>
+                            <a class="inst-btn paste-btn" href="#" onclick="myTACodeEditor.pasteAnswer();">Paste</a>
+                        </p>
+                    </div>
+                    <div class="part2"></div>
+                </div>
+                <textarea name="ta-code-editor" class="ta-code-editor" autofocus="true" autocorrect="off" autocapitalize="off" spellcheck="false"></textarea>
+                <div class="div-code-display" contenteditable="false" autocorrect="off" autocapitalize="off" spellcheck="false"></div>
+            </div>  
+            <div class="sandbox-wrapper">
+                <div id="sandbox">
+                    <section class="grid-container">
+                        <div class="guide"></div>
+                        <div class="guidelines"></div>
+                        <div class="grid"></div>
+                    </section>
+                </div>
+                <nav class="page-nav">
+                    <ul>
+                        <li class="left"><a class="nav-btn toggle-code-btn show" href="#"  onclick="myTACodeEditor.toggleCode();">toggle code</a></li>
+                        <li><a class="nav-btn back-btn" href="a-grid13.html">Back</a></li>
+                        <li><a class="nav-btn next-btn disabled" href="a-grid15.html">Next</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </main>
+        <script src="../../lib/css-constants.js"></script>
+        <script src="script/pages.js"></script>
+        <script src="script/mce_ta1.js"></script>
+    </body>
+</html>
