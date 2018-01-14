@@ -108,7 +108,7 @@ section.grid-container {
     border: 8px solid #555;
     height: 100%;
     width: 100%;
-    transition: height 1.4s ease-out, width 1.4s ease-out, border .1s;
+    transition: height 1.4s ease-out, width 1.4s ease-out, border .1s .4s;
 }
     .grid-container.solved {
         border: 12px solid #A6E22E;    
@@ -267,10 +267,17 @@ section.grid-container {
         .inst-btn:hover { color: #ccc; background-color: #666;}
         .inst-btn.disabled {color: #ccc; background-color: #666; cursor: default; }
         .instructions .right { text-align: right; /*margin-right: 20px;*/ }
-        .left { text-align: left; }1
-        .answer { transition: visibility .3s ease-out, opacity .3s ease-out; }
+        .left { text-align: left; }
+        .answer { 
+            transition: visibility .3s ease-out, opacity .3s ease-out;
+        }
         .answer.hide { visibility: hidden; opacity: 0; }
         .answer.show { visibility: visible; opacity: 1; }
+        .answer code {
+            white-space: pre-wrap;
+            tab-size: 2;
+                -moz-tab-size: 2;
+        }
     .ta-code-editor {
         color: #66D9EF;
         resize: none;

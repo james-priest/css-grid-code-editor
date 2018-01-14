@@ -50,8 +50,10 @@ var myTACodeEditor = {
     formatAnswer: function(answer) {
         // var code = document.querySelector( '.answer code' ).innerText;
         // this.answerCode = code.replace( /^[\xA0 ]+/gm, '\t' );
-        this.divAnswer.innerText = answer;
-        this.answerCode = answer;
+        if ( answer.length > 0 ) {
+            this.divAnswer.innerText = answer;
+            this.answerCode = answer;
+        }
     },
     setTaVal: function( preFill, curPos ) {
         var mceObj = this;
@@ -503,9 +505,8 @@ var myTACodeEditor = {
             answer = '.grid-container {\n' + this.answerCode + '\n}',
             gridContainer = document.querySelector('.grid-container');
 
-        
-        console.log( 'ta.value:', ta.value );
-        console.log( 'answer:', answer );
+        // console.log( 'ta.value:', ta.value );
+        // console.log( 'answer:', answer );
 
         if ( ta.value === answer ) {
             // gridContainer.style.border = '8px solid LimeGreen';
@@ -524,6 +525,7 @@ var myTACodeEditor = {
     pasteAnswer: function() {
         var mceObj = this,
             ta = this.taCodeEditor,
+            // code = document.querySelector( '.answer code' ).innerText,
             code = document.querySelector( '.answer code' ).innerText,
             pasteBtn = document.querySelector( '.paste-btn' );
             

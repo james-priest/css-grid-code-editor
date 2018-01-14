@@ -7,7 +7,7 @@
         <link href="css/style.css" rel="stylesheet">
         <style>
             .guide, .guidelines {
-                grid-template-columns: 1fr 1fr 1fr 1fr;
+                grid-template-columns: repeat(4, 1fr);
                 grid-template-rows: 1fr 2fr 1fr;
             }
         </style>
@@ -29,15 +29,12 @@
                     <p><u>Answer</u></p>
                     <div class="code">
                         <div class="answer hide">
-                            <code>
-                                display: grid;<br>
-                                grid-template-columns: repeat(4, 1fr);<br>
-                                grid-template-rows: repeat(4, 1fr);
-                            </code>
+                            <code></code>
                         </div>
                     </div>
-                    <p class="right">
-                        <a class="answer-btn" href="#" onclick="myTACodeEditor.showAnswer();">Show</a>
+                     <p class="right">
+                        <a class="inst-btn answer-btn" href="#" onclick="myTACodeEditor.showAnswer();">Show</a>
+                        <a class="inst-btn paste-btn" href="#" onclick="myTACodeEditor.pasteAnswer();">Paste</a>
                     </p>
                 </div>
                 <textarea name="ta-code-editor" class="ta-code-editor" autofocus="true" autocorrect="off" autocapitalize="off" spellcheck="false"></textarea>
@@ -74,9 +71,9 @@
                 </div>
                 <nav class="page-nav">
                     <ul>
-                        <li><a class="nav-btn toggle-code-btn show" href="#"  onclick="myTACodeEditor.toggleCode();">toggle code</a></li>
-                        <li class="right"><a class="nav-btn next-btn disabled" href="a-grid14.html">Next</a></li>
-                        <li class="right"><a class="nav-btn back-btn" href="a-grid12.html">Back</a></li>
+                        <li class="left"><a class="nav-btn toggle-code-btn show" href="#"  onclick="myTACodeEditor.toggleCode();">toggle code</a></li>
+                        <li><a class="nav-btn back-btn" href="a-grid12.html">Back</a></li>
+                        <li><a class="nav-btn next-btn" href="a-grid14.html">Next</a></li>
                     </ul>
                 </nav>
             </div>
@@ -84,8 +81,10 @@
         <script src="../../lib/css-constants.js"></script>
         <script src="script/mce_ta.js"></script>
         <script>
-            var preFill = ".grid-container {\n\t\n}", curPos = 19;
-            window.onload = myTACodeEditor.init(preFill, curPos);
+            var preFill = ".grid-container {\n\t\n}", curPos = 19,
+                answer = '\tdisplay: grid;\n\tgrid-template-columns: repeat(4, 1fr);\n\tgrid-template-rows: 1fr 2fr 1fr;';
+
+            window.onload = myTACodeEditor.init(preFill, curPos, answer);
         </script>
     </body>
 </html>

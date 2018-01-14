@@ -20,9 +20,12 @@
                 <div class="instructions">
                     <h2>6. Fills (fr unit)</h2>
                     <p>Use <code>fr</code> in place of <code>px</code>.</p>
-                    <p class="code"><code>display: grid;<br>
-                        <em>grid-template-columns: 1fr 2fr 1fr;</em>
-                    </code></p>
+                    <p class="code">
+                        <code>
+                            &nbsp;&nbsp;display: grid;<br>
+                            <em>&nbsp;&nbsp;grid-template-columns: 1fr 2fr 1fr;</em>
+                        </code>
+                    </p>
                     <p>Here we use a brand new unit <em>fr</em> for specifying <em>fractions</em>.</p>
                     <p>The center column will take up twice the space as the outer columns.</p>
                     <p>All three columns will fill the entire space.</p>
@@ -45,9 +48,9 @@
                 </div>
                 <nav class="page-nav">
                      <ul>
-                        <li><a class="nav-btn toggle-code-btn show" href="#"  onclick="myTACodeEditor.toggleCode();">toggle code</a></li>
-                        <li class="right"><a class="nav-btn next-btn" href="a-grid7.html">Next</a></li>
-                        <li class="right"><a class="nav-btn back-btn" href="a-grid5.html">Back</a></li>
+                        <li class="left"><a class="nav-btn toggle-code-btn show" href="#"  onclick="myTACodeEditor.toggleCode();">toggle code</a></li>
+                        <li><a class="nav-btn back-btn" href="a-grid5.html">Back</a></li>
+                        <li><a class="nav-btn next-btn" href="a-grid7.html">Next</a></li>
                     </ul>
                 </nav>
             </div>
@@ -55,8 +58,8 @@
         <script src="../../lib/css-constants.js"></script>
         <script src="script/mce_ta.js"></script>
         <script>
-            var preFill = ".grid-container {\n\t\n}", curPos = 19;
-            window.onload = myTACodeEditor.init(preFill, curPos);
+            var preFill = ".grid-container {\n\t\n}", curPos = 19, answer = '';
+            window.onload = myTACodeEditor.init(preFill, curPos, answer);
         </script>
     </body>
 </html>

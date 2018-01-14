@@ -24,7 +24,11 @@
                 <div class="instructions">
                     <h2>1. Grid</h2>
                     <p>Establish a grid.</p>
-                    <p class="code"><code><em>display: grid;</em></code></p>
+                    <p class="code">
+                        <code>
+                            <em>&nbsp;&nbsp;display: grid;</em>
+                        </code>
+                    </p>
                     <p>This fill the open space.</p>
                 </div>
                 <textarea name="ta-code-editor" class="ta-code-editor" autofocus="true" autocorrect="off" autocapitalize="off" spellcheck="false"></textarea>
@@ -42,9 +46,9 @@
                 </div>
                 <nav class="page-nav">
                      <ul>
-                        <li><a class="nav-btn toggle-code-btn show" href="#"  onclick="myTACodeEditor.toggleCode();">toggle code</a></li>
-                        <li class="right"><a class="nav-btn next-btn" href="a-grid2.html">Next</a></li>
-                        <li class="right"><a class="nav-btn back-btn disabled" href="#">Back</a></li>
+                        <li class="left"><a class="nav-btn toggle-code-btn show" href="#"  onclick="myTACodeEditor.toggleCode();">toggle code</a></li>
+                        <li><a class="nav-btn back-btn disabled" href="#">Back</a></li>
+                        <li><a class="nav-btn next-btn" href="a-grid2.html">Next</a></li>
                     </ul>
                 </nav>
             </div>
@@ -52,8 +56,8 @@
         <script src="../../lib/css-constants.js"></script>
         <script src="script/mce_ta.js"></script>
         <script>
-            var preFill = ".grid-container {\n\t\n}", curPos = 19;
-            window.onload = myTACodeEditor.init(preFill, curPos);
+            var preFill = ".grid-container {\n\t\n}", curPos = 19, answer = '';
+            window.onload = myTACodeEditor.init(preFill, curPos, answer);
         </script>
     </body>
 </html>
