@@ -1,15 +1,16 @@
 var myTACodeEditor = {
     gridContainer: document.querySelector( '.grid-container' ),
-    divAnswer: document.querySelector( '.answer code' ),
+    divSolution: document.querySelector( '.answer code' ),
     taCodeEditor: document.querySelector( '.ta-code-editor' ),
     divCodeDisplay: document.querySelector( '.div-code-display' ),
+    backBtn: document.querySelector( '.back-btn '),
+    nextBtn: document.querySelector( '.next-btn' ),
 
     rxSelectors: /^[\w .\-#[\]'"=:()>^~*+,|$]+(?={)/gm,
     rxHtmlElements: new RegExp('\\/\\*.*|<.*?>|\\b(' + getHtmlElements() + ')\\b(?=.*{)','gm'),
     rxConstants: new RegExp('^[\\s\\w-]+|.*?{|\\w+\\(.*\\)|\\/\\*.*|<.*>|(\\b(' + getConstants() + ')(?![\\w-\\()]))', 'gm'),
     rxKeywords: new RegExp('^[\\s\\w-]+:|\\/\\*.*|\\(.*\\)|([\\d.]+)(ch|cm|deg|em|ex|fr|gd|grad|Hz|in|kHz|mm|ms|pc|pt|px|rad|rem|s|turn|vh|vm|vmin|vmax|vw|%)(?=\\W)', 'gm'),
     rxNumbers: /^[\s\w-]+:|.*?{|[a-z]\d+|\/\*.*|\(.*\)|([^:>("'/_-]\d*\.?\d+|#[0-9A-Fa-f]{3,6})/gm,
-    // rxProperties: /^[ \t\w-]+(?=:)/gm,
     rxProperties: /^[^{][ \t\w-]+(?=:)/gm,
     rxFunctions: new RegExp( '\\/\\*.*|((' + getFunctions() + ')\\([\\w\\d `~!@#$%^&*()\\-_=+[\\]{}\\\\|:;' + String.fromCharCode(39) + '",.\\/?]*\\))', 'gm' ),
     rxQuotes: /^[/*].*\*\/|("[\w\s-]*"(?!>)|'[\w\s-]*'(?!>))/gm,
@@ -19,11 +20,11 @@ var myTACodeEditor = {
     rxFindComment: /\/\*|\*\//,
     rxReplaceComment: /\/\*|\*\//gm,
     rxComments: /\/\*.*\*\//gm,
-    
-    page: '',
+
     preFill: '',
     curPos: 0,
     answerCode: '',
+    styleRuleIdx: 0,
     browser: { chrome: 0, ie: 0, firefox: 0, safari: 0, opera: 0, edge: 0 },
     init: function() {
         var mceObj = this;
@@ -43,6 +44,14 @@ var myTACodeEditor = {
             return mceObj.captureKeyUp( evt );
         };
 
+        mceObj.backBtn.onclick = function( evt ) {
+            return mceObj.clickBack( evt );
+        };
+
+        mceObj.nextBtn.onclick = function( evt ) {
+            return mceObj.clickNext( evt );
+        };
+
         mceObj.loadPage(0);
     },
     loadPage: function( idx ) {
@@ -60,7 +69,8 @@ var myTACodeEditor = {
             grid = pages[ idx ].gridContainer.grid,
             style = pages[ idx ].style;
 
-
+        // TODO: reset default
+        mceObj.resetDefaults();
         document.title = num + '-' + title + ': ' + subtitle;
         document.querySelector( '.title' ).innerText = title;
         document.querySelector( '.subtitle' ).innerText = num + '. ' + subtitle;
@@ -68,23 +78,43 @@ var myTACodeEditor = {
         document.querySelector( '.part2' ).innerHTML = part2;
         mceObj.setTaVal( preFill );
         mceObj.formatSolution( solution );
+        mceObj.doNavButtons( idx, pages );
         document.querySelector( '.guide' ).innerHTML = guide;
         document.querySelector( '.guidelines' ).innerHTML = guidelines;
         document.querySelector( '.grid' ).innerHTML = grid;
-        
-        var styleEl = document.createElement( 'style' ),
-            styleSheet;
-        document.head.appendChild( styleEl );
-        styleSheet = styleEl.sheet;
-
-        styleSheet.insertRule( style );
+                
+        var styleSheet = document.styleSheets.guideStyle;
+        if ( typeof styleSheet.rules[ mceObj.styleRuleIdx ] !== 'undefined' ) {
+            styleSheet.deleteRule( mceObj.styleRuleIdx );
+        }
+        mceObj.styleRuleIdx = styleSheet.insertRule( style );
     },
-    formatSolution: function(answer) {
-        // var code = document.querySelector( '.answer code' ).innerText;
-        // this.answerCode = code.replace( /^[\xA0 ]+/gm, '\t' );
-        if ( answer.length > 0 ) {
-            this.divAnswer.innerText = answer;
-            this.answerCode = answer;
+    resetDefaults: function() {
+        var mceObj = this;
+        mceObj.hideAnswer();
+        document.querySelector( '.paste-btn' ).innerText = 'Paste';
+    },
+
+    doNavButtons( idx, pages ) {
+        var mceObj = this;
+        console.log( pages.length );
+        if ( idx > 0 ) {
+            mceObj.backBtn.classList.remove( 'disabled' );
+            mceObj.backBtn.dataset.prev = +idx - 1;
+        } else {
+            mceObj.backBtn.classList.add( 'disabled' );
+        }
+        if ( idx < pages.length - 1) {
+            mceObj.nextBtn.classList.remove( 'disabled' );
+            mceObj.nextBtn.dataset.next = +idx + 1;
+        } else {
+            mceObj.nextBtn.classList.add( 'disabled' );
+        }
+    },
+    formatSolution: function(solution) {
+        if ( solution.length > 0 ) {
+            this.divSolution.innerText = solution;
+            this.answerCode = solution;
         }
     },
     setTaVal: function( preFill ) {
@@ -98,6 +128,20 @@ var myTACodeEditor = {
         mceObj.taCodeEditor.selectionStart = mceObj.taCodeEditor.selectionEnd = curPos;
         mceObj.taCodeEditor.focus();
         mceObj.triggerInputEvent();
+    },
+    clickBack: function( evt ) {
+        var mceObj = this;
+        if ( mceObj.backBtn.classList.contains( 'disabled' ) === false ) {
+            mceObj.loadPage(evt.target.dataset.prev);
+        }
+        return false;
+    },
+    clickNext: function( evt ) {
+        var mceObj = this;
+        if ( mceObj.nextBtn.classList.contains( 'disabled') === false ) {
+            mceObj.loadPage( evt.target.dataset.next );
+        }
+        return false;
     },
     triggerInputEvent: function() {
         var mceObj = this;
@@ -552,6 +596,11 @@ var myTACodeEditor = {
     showAnswer: function() {
         document.querySelector( '.answer' ).classList.add( 'show' );
         document.querySelector( '.answer-btn' ).classList.add( 'disabled' );
+        return false;
+    },
+    hideAnswer: function() {
+        document.querySelector( '.answer' ).classList.remove( 'show' );
+        document.querySelector( '.answer-btn' ).classList.remove( 'disabled' );
         return false;
     },
     pasteAnswer: function() {

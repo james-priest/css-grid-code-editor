@@ -22,11 +22,30 @@ var pages = [
     //     style: '',
     // },
     {
+        num: 12,
+        title: 'CSS Grid',
+        subtitle: 'Challenge 1.1',
+        instructions: {
+            part1: "<p>Steps to solve the challenge:</p>\n<ol>\n\t<li>Power up the Grid using <code>display: grid;</code></li>\n\t<li>Define the correct number of tracks using <code>fr</code> units to begin.<br><code>grid-template-columns: <em>1fr 1fr 1fr</em>;</code></li>\n\t<li>Adjust the sizes of the tracks until everything lines up.<br><code>grid-template-columns: <em>1fr 1fr 2fr</em>;</code></li>\n</ol>",
+            part2: ''
+        },
+        code: {
+            preFill: '.grid {\n\t@\n}',
+            solution: '\tdisplay: grid;\n\tgrid-template-columns: 1fr 1fr 2fr;'
+        },
+        gridContainer: {
+            guide: '<div class="rocky"></div>\n<div class="cloudy"></div>\n<div class="rocky"></div>',
+            guidelines: '<div></div>\n<div></div>\n<div></div>',
+            grid: '<div class="target rocky"></div>\n<div class="target cloudy"></div>\n<div class="target rocky"></div>'
+        },
+        style: '.guide, .guidelines {\n\tgrid-template-columns: 1fr 1fr 2fr;\n}',
+    },
+    {
         num: 13,
         title: 'CSS Grid',
         subtitle: 'Challenge 1.2',
         instructions: {
-            part1: "<p>Steps to solve the challenge:</p>\n<ol>\n\t<li>Power up the Grid using <code>display: grid;</code></li>\n\t<li>Define the correct number of tracks using <code>fr</code> units to begin.</li>\n\t<li>Adjust the sizes of the tracks until everything lines up.</li>\n</ol>",
+            part1: "<p>Steps to solve the challenge:</p>\n<ol>\n\t<li>Power up the Grid.</li>\n\t<li>Define the correct number of tracks using <code>fr</code> units.</li>\n\t<li>Adjust the sizes of the tracks until everything lines up.</li>\n<li>Move on to the next axis.</li>\n</ol>",
             part2: ""
         },
         code: {
