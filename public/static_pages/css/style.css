@@ -18,19 +18,17 @@ main {
     /* height: 75vh; */
     /* width: 90vw; */
     /* max-width: 700px; */
-    /* height: 96%; */
-    height: 94%;
+    height: 96%;
     display: flex;
     justify-content: space-between;
 }
 .sandbox-wrapper {
     flex-basis: 58%;
     width: 100%;
-    /* height: 100%; */
+    height: 100%;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    flex-grow: 1;
     padding-bottom: 1px;
 }
 #sandbox {
@@ -110,10 +108,18 @@ section.grid-container {
     border: 8px solid #555;
     height: 100%;
     width: 100%;
-    transition: height 1.4s ease-out, width 1.4s ease-out, border .1s .2s;
+    transition: height 1.4s ease-out, width 1.4s ease-out, border .1s .4s;
 }
     .grid-container.solved {
         border: 12px solid #A6E22E;    
+    }
+    section.flex-container.expand {
+        min-height: 80vh;
+        min-width: 80vw;
+    }
+    section.flex-container.shrink {
+        height: 250px;
+        width: 400px;
     }
     .guide, .guidelines {
         position: absolute;
@@ -140,11 +146,6 @@ section.grid-container {
         .guidelines>div {
             border: 1px solid #eee;
         }
-    .grid {
-        /* position: relative; */
-        height: 100%;
-        width: 100%;
-    }
     .target {
         /* width: 100px; */
         /* height: 100px; */
@@ -193,7 +194,6 @@ section.grid-container {
 .control-container {
     flex-basis: 40%;
     min-width: 380px;
-    max-width: 420px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -215,7 +215,6 @@ section.grid-container {
         background-color: #333;
         tab-size: 2;
             -moz-tab-size: 2;
-        min-height: 98px;
     }
     .instructions {
         flex-basis: 50%;
@@ -289,8 +288,7 @@ section.grid-container {
         color: #FFF;
         word-wrap: normal;
         white-space: pre-wrap;
-        /* cursor: not-allowed; */
-        cursor: default;
+        cursor: not-allowed;
     }
     .mce-line { color: #fff; }
     .mce-selector { color: #A6E22E; }
@@ -303,15 +301,3 @@ section.grid-container {
     .mce-function { color: #FD971F;}
     /* .mce-comment { color: rgb(255, 118, 248); } */
     .mce-comment { color: gray !important; }
-
-@media screen and (max-width: 768px) {
-    html { height: initial; }
-    main { display: block; height: 100%; }
-    .control-container { min-width: 270px; max-width: 100%; margin-right: inherit; height: 100%;}
-    .sandbox-wrapper { margin-top: 10px; height: 70%; margin-bottom: 10px;}
-    #sandbox { height: 300px; }
-}
-
-@media screen and (max-width: 480px) {
-    html { font-size: 14px; }
-}

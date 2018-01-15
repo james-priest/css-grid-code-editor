@@ -1,16 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <title>4-Grid</title>
+        <title>9-Grid</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link href="css/style.css" rel="stylesheet">
         <style>
-            .guide {
-                grid-template-rows: 100px 200px;
-            }
-            .guidelines {
-                grid-template-rows: 100px 200px;
+            .guide, .guidelines {
+                grid-template-columns: repeat(7, 1fr);
             }
         </style>
     </head>
@@ -21,45 +18,58 @@
         <main>
             <div class="control-container">
                 <div class="instructions">
-                    <h2>4. Grid template rows</h2>
-                    <p>Using <code>grid-template-rows</code>.</p>
+                    <h2>9. Repeating fractions</h2>
+                    <p>The <code>repeat</code> function can also be used with <code>fr</code>.</p>
                     <p class="code">
                         <code>
                             &nbsp;&nbsp;display: grid;<br>
-                            <em>&nbsp;&nbsp;grid-template-rows: 100px 200px;</em>
+                            <em>&nbsp;&nbsp;grid-template-columns: repeat(7, 1fr);</em>
                         </code>
                     </p>
-                    <p>This lets you configure the size of every row in the Grid.</p>
-                    <p>It even lets you add new rows when you need.</p>
                 </div>
                 <textarea name="ta-code-editor" class="ta-code-editor" autofocus="true" autocorrect="off" autocapitalize="off" spellcheck="false"></textarea>
                 <div class="div-code-display" contenteditable="false" autocorrect="off" autocapitalize="off" spellcheck="false"></div>
-            </div>
+            </div>  
             <div class="sandbox-wrapper">
                 <div id="sandbox">
                     <section class="grid-container">
                         <div class="guide">
-                            <div class="dunes"></div>
+                            <div class="rocky"></div>
+                            <div class="rocky"></div>
+                            <div class="rocky"></div>
+                            <div class="rocky"></div>
+                            <div class="rocky"></div>
+                            <div class="rocky"></div>
                             <div class="rocky"></div>
                         </div>
-                        <!-- <div class="guidelines">
+                        <div class="guidelines">
                             <div></div>
                             <div></div>
-                        </div> -->
-                        <div class="target dunes"></div>
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                            <div></div>
+                        </div>
+                        <div class="target rocky"></div>
+                        <div class="target rocky"></div>
+                        <div class="target rocky"></div>
+                        <div class="target rocky"></div>
+                        <div class="target rocky"></div>
+                        <div class="target rocky"></div>
                         <div class="target rocky"></div>
                     </section>
                 </div>
                 <nav class="page-nav">
                      <ul>
                         <li class="left"><a class="nav-btn toggle-code-btn show" href="#"  onclick="myTACodeEditor.toggleCode();">toggle code</a></li>
-                        <li><a class="nav-btn back-btn" href="a-grid3.html">Back</a></li>
-                        <li><a class="nav-btn next-btn" href="a-grid5.html">Next</a></li>
+                        <li><a class="nav-btn back-btn" href="a-grid8.html">Back</a></li>
+                        <li><a class="nav-btn next-btn" href="a-grid10.html">Next</a></li>
                     </ul>
                 </nav>
             </div>
         </main>
-        <script src="../../lib/css-constants.js"></script>
+        <script src="lib/css-constants.js"></script>
         <script src="script/mce_ta.js"></script>
         <script>
             var preFill = ".grid-container {\n\t\n}", curPos = 19, answer = '';

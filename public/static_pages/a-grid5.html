@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <title>10-Grid</title>
+        <title>5-Grid</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link href="css/style.css" rel="stylesheet">
         <style>
-            .guide, .guidelines {
-                grid-template-columns: repeat(3, 50px 100px);
+            .guide {
+                grid-template-columns: 100px 200px 100px;
             }
         </style>
     </head>
@@ -18,40 +18,28 @@
         <main>
             <div class="control-container">
                 <div class="instructions">
-                    <h2>10. Repeating pattern</h2>
-                    <p>Multiple sizes can be passed to the <code>repeat</code> function.</p>
+                    <h2>5. Grid template columns</h2>
+                    <p>Use <code>grid-template-columns</code>.</p>
                     <p class="code">
                         <code>
                             &nbsp;&nbsp;display: grid;<br>
-                            <em>&nbsp;&nbsp;grid-template-columns: repeat(3, 50px 100px);</em>
-                    </code></p>
-                    <p>When multiple sizes are passed in it will repeat those columns or rows as a pattern.</p>
+                            <em>&nbsp;&nbsp;grid-template-columns: 100px 200px 100px;</em>
+                        </code>
+                    </p>
+                    <p>This lets you configure the size of every column in the Grid.</p>
+                    <p>Each column definition is separated by a space.</p>
                 </div>
                 <textarea name="ta-code-editor" class="ta-code-editor" autofocus="true" autocorrect="off" autocapitalize="off" spellcheck="false"></textarea>
                 <div class="div-code-display" contenteditable="false" autocorrect="off" autocapitalize="off" spellcheck="false"></div>
-            </div>  
+            </div>
             <div class="sandbox-wrapper">
                 <div id="sandbox">
                     <section class="grid-container">
                         <div class="guide">
-                            <div class="dunes"></div>
-                            <div class="rocky"></div>
-                            <div class="dunes"></div>
                             <div class="rocky"></div>
                             <div class="dunes"></div>
                             <div class="rocky"></div>
                         </div>
-                        <div class="guidelines">
-                            <div></div>
-                            <div></div>
-                            <div></div>
-                            <div></div>
-                            <div></div>
-                            <div></div>
-                        </div>
-                        <div class="target dunes"></div>
-                        <div class="target rocky"></div>
-                        <div class="target dunes"></div>
                         <div class="target rocky"></div>
                         <div class="target dunes"></div>
                         <div class="target rocky"></div>
@@ -60,13 +48,13 @@
                 <nav class="page-nav">
                      <ul>
                         <li class="left"><a class="nav-btn toggle-code-btn show" href="#"  onclick="myTACodeEditor.toggleCode();">toggle code</a></li>
-                        <li><a class="nav-btn back-btn" href="a-grid9.html">Back</a></li>
-                        <li><a class="nav-btn next-btn" href="a-grid11.html">Next</a></li>
+                        <li><a class="nav-btn back-btn" href="a-grid4.html">Back</a></li>
+                        <li><a class="nav-btn next-btn" href="a-grid6.html">Next</a></li>
                     </ul>
                 </nav>
             </div>
         </main>
-        <script src="../../lib/css-constants.js"></script>
+        <script src="lib/css-constants.js"></script>
         <script src="script/mce_ta.js"></script>
         <script>
             var preFill = ".grid-container {\n\t\n}", curPos = 19, answer = '';

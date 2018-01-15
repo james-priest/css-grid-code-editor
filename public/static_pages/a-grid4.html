@@ -1,14 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <title>7-Grid</title>
+        <title>4-Grid</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link href="css/style.css" rel="stylesheet">
         <style>
             .guide {
-                grid-template-columns: 100px 1fr;
-                grid-template-rows: 1fr 100px;
+                grid-template-rows: 100px 200px;
+            }
+            .guidelines {
+                grid-template-rows: 100px 200px;
             }
         </style>
     </head>
@@ -19,34 +21,31 @@
         <main>
             <div class="control-container">
                 <div class="instructions">
-                    <h2>7. Mixing units</h2>
-                    <p>Use <code>px</code> and <code>fr</code> together.</p>
+                    <h2>4. Grid template rows</h2>
+                    <p>Using <code>grid-template-rows</code>.</p>
                     <p class="code">
                         <code>
-                            <em>&nbsp;&nbsp;display: grid;</em><br>
-                            <em>&nbsp;&nbsp;grid-template-columns: 100px 1fr;</em><br>
-                            <em>&nbsp;&nbsp;grid-template-rows: 1fr 100px;</em>
+                            &nbsp;&nbsp;display: grid;<br>
+                            <em>&nbsp;&nbsp;grid-template-rows: 100px 200px;</em>
                         </code>
                     </p>
-                    <p>Start by establishing the Grid.</p>
-                    <p>The Grid's default behavior is to <em>layout the rows equally</em>.</p>
-                    <p>Next define the two columns using <code>100px</code> and <code>1fr</code>.</p>
-                    <p>Lastly define the rows with <code>1fr</code> and <code>100px</code>.</p>
+                    <p>This lets you configure the size of every row in the Grid.</p>
+                    <p>It even lets you add new rows when you need.</p>
                 </div>
                 <textarea name="ta-code-editor" class="ta-code-editor" autofocus="true" autocorrect="off" autocapitalize="off" spellcheck="false"></textarea>
                 <div class="div-code-display" contenteditable="false" autocorrect="off" autocapitalize="off" spellcheck="false"></div>
-            </div>  
+            </div>
             <div class="sandbox-wrapper">
                 <div id="sandbox">
                     <section class="grid-container">
                         <div class="guide">
-                            <div class="rocky"></div>
-                            <div class="cloudy"></div>
                             <div class="dunes"></div>
                             <div class="rocky"></div>
                         </div>
-                        <div class="target rocky"></div>
-                        <div class="target cloudy"></div>
+                        <!-- <div class="guidelines">
+                            <div></div>
+                            <div></div>
+                        </div> -->
                         <div class="target dunes"></div>
                         <div class="target rocky"></div>
                     </section>
@@ -54,13 +53,13 @@
                 <nav class="page-nav">
                      <ul>
                         <li class="left"><a class="nav-btn toggle-code-btn show" href="#"  onclick="myTACodeEditor.toggleCode();">toggle code</a></li>
-                        <li><a class="nav-btn back-btn" href="a-grid6.html">Back</a></li>
-                        <li><a class="nav-btn next-btn" href="a-grid8.html">Next</a></li>
+                        <li><a class="nav-btn back-btn" href="a-grid3.html">Back</a></li>
+                        <li><a class="nav-btn next-btn" href="a-grid5.html">Next</a></li>
                     </ul>
                 </nav>
             </div>
         </main>
-        <script src="../../lib/css-constants.js"></script>
+        <script src="lib/css-constants.js"></script>
         <script src="script/mce_ta.js"></script>
         <script>
             var preFill = ".grid-container {\n\t\n}", curPos = 19, answer = '';
