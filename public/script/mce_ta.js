@@ -1,15 +1,17 @@
 var myTACodeEditor = {
     gridContainer: document.querySelector( '.grid-container' ),
-    divAnswer: document.querySelector( '.answer code' ),
+    divFollow: document.querySelector( '.follow code'),
+    divSolution: document.querySelector( '.answer code' ),
     taCodeEditor: document.querySelector( '.ta-code-editor' ),
     divCodeDisplay: document.querySelector( '.div-code-display' ),
+    backBtn: document.querySelector( '.back-btn '),
+    nextBtn: document.querySelector( '.next-btn' ),
 
     rxSelectors: /^[\w .\-#[\]'"=:()>^~*+,|$]+(?={)/gm,
     rxHtmlElements: new RegExp('\\/\\*.*|<.*?>|\\b(' + getHtmlElements() + ')\\b(?=.*{)','gm'),
     rxConstants: new RegExp('^[\\s\\w-]+|.*?{|\\w+\\(.*\\)|\\/\\*.*|<.*>|(\\b(' + getConstants() + ')(?![\\w-\\()]))', 'gm'),
     rxKeywords: new RegExp('^[\\s\\w-]+:|\\/\\*.*|\\(.*\\)|([\\d.]+)(ch|cm|deg|em|ex|fr|gd|grad|Hz|in|kHz|mm|ms|pc|pt|px|rad|rem|s|turn|vh|vm|vmin|vmax|vw|%)(?=\\W)', 'gm'),
     rxNumbers: /^[\s\w-]+:|.*?{|[a-z]\d+|\/\*.*|\(.*\)|([^:>("'/_-]\d*\.?\d+|#[0-9A-Fa-f]{3,6})/gm,
-    // rxProperties: /^[ \t\w-]+(?=:)/gm,
     rxProperties: /^[^{][ \t\w-]+(?=:)/gm,
     rxFunctions: new RegExp( '\\/\\*.*|((' + getFunctions() + ')\\([\\w\\d `~!@#$%^&*()\\-_=+[\\]{}\\\\|:;' + String.fromCharCode(39) + '",.\\/?]*\\))', 'gm' ),
     rxQuotes: /^[/*].*\*\/|("[\w\s-]*"(?!>)|'[\w\s-]*'(?!>))/gm,
@@ -19,12 +21,13 @@ var myTACodeEditor = {
     rxFindComment: /\/\*|\*\//,
     rxReplaceComment: /\/\*|\*\//gm,
     rxComments: /\/\*.*\*\//gm,
-    
+
     preFill: '',
     curPos: 0,
     answerCode: '',
+    styleRuleIdx: 0,
     browser: { chrome: 0, ie: 0, firefox: 0, safari: 0, opera: 0, edge: 0 },
-    init: function(preFill, curPos, answer) {
+    init: function() {
         var mceObj = this;
 
         mceObj.sniffBrowser();
@@ -42,24 +45,157 @@ var myTACodeEditor = {
             return mceObj.captureKeyUp( evt );
         };
 
-        mceObj.setTaVal( preFill, curPos );
-        mceObj.preFill = preFill;
-        mceObj.curPos = curPos;
-        mceObj.formatAnswer(answer);
+        mceObj.backBtn.onclick = function( evt ) {
+            return mceObj.clickBack( evt );
+        };
+
+        mceObj.nextBtn.onclick = function( evt ) {
+            return mceObj.clickNext( evt );
+        };
+
+        mceObj.loadPage(0);
     },
-    formatAnswer: function(answer) {
-        // var code = document.querySelector( '.answer code' ).innerText;
-        // this.answerCode = code.replace( /^[\xA0 ]+/gm, '\t' );
-        if ( answer.length > 0 ) {
-            this.divAnswer.innerText = answer;
-            this.answerCode = answer;
+    loadPage: function( idx ) {
+        var mceObj = this;
+        var pages = getPages();
+        var num = pages[ idx ].num,
+            title = pages[ idx ].title,
+            subtitle = pages[ idx ].subtitle,
+            part1 = pages[ idx ].instructions.part1,
+            part2 = pages[ idx ].instructions.part2,
+            preFill = pages[ idx ].code.preFill,
+            follow = pages[ idx ].code.follow,
+            solution = pages[ idx ].code.solution,
+            guide = pages[ idx ].gridContainer.guide,
+            guidelines = pages[ idx ].gridContainer.guidelines,
+            grid = pages[ idx ].gridContainer.grid,
+            style = pages[ idx ].style;
+
+        mceObj.resetDefaults();
+        document.title = num + '-' + title + ': ' + subtitle;
+        document.querySelector( '.title' ).innerText = title;
+        document.querySelector( '.subtitle' ).innerText = num + '. ' + subtitle;
+        document.querySelector( '.part1' ).innerHTML = part1;
+        document.querySelector( '.part2' ).innerHTML = part2;
+        mceObj.setTaVal( preFill );
+        mceObj.formatFollowCode( follow );
+        mceObj.formatSolution( solution );
+        mceObj.doNavButtons( idx, pages );
+        document.querySelector( '.guide' ).innerHTML = guide;
+        document.querySelector( '.guidelines' ).innerHTML = guidelines;
+        document.querySelector( '.grid' ).innerHTML = grid;
+ 
+        mceObj.doStyle( style );
+        
+        if ( follow.length <= 0 && solution.length <= 0 ) {
+            mceObj.hideEditors();
         }
     },
-    setTaVal: function( preFill, curPos ) {
+    doStyle: function( style ) {
         var mceObj = this;
-        mceObj.taCodeEditor.value = preFill;
+
+        var styleSheet = document.styleSheets.guideStyle;
+        for ( var i = styleSheet.rules.length -1; i >= 0; i-- ) {
+            styleSheet.deleteRule( i );
+        }
+        // if ( typeof styleSheet.rules[ mceObj.styleRuleIdx ] !== 'undefined' ) {
+        //     // delete all rules
+        //     styleSheet.deleteRule( mceObj.styleRuleIdx );
+        //     // styleSheet
+        // }
+        if ( style.length > 0 ) {
+            style.forEach( function( rule ) {
+                styleSheet.insertRule( rule );
+            } );
+            // mceObj.styleRuleIdx = styleSheet.insertRule( style );
+        }
+    },
+    resetDefaults: function() {
+        var mceObj = this;
+        mceObj.hideAnswer();
+        document.querySelector( '.paste-btn' ).innerText = 'Paste';
+        document.querySelector( '.solution' ).classList.remove( 'hide' );
+        mceObj.divCodeDisplay.classList.remove( 'hide' );
+        mceObj.taCodeEditor.classList.remove( 'hide' );
+        document.querySelector( '.toggle-code-btn' ).classList.remove( 'hide' );
+        document.querySelector( '.toggle-code-btn' ).classList.add( 'show' );
+        document.querySelector( '.comment' ).classList.remove( 'hide' );
+        
+    },
+    hideEditors: function() {
+        this.divCodeDisplay.classList.add( 'hide' );
+        this.taCodeEditor.classList.add( 'hide' );
+        document.querySelector( '.toggle-code-btn' ).classList.add( 'hide' );
+        document.querySelector( '.comment' ).classList.add( 'hide' );
+    },
+    doNavButtons( idx, pages ) {
+        var mceObj = this;
+        // console.log( pages.length );
+        if ( idx > 0 ) {
+            mceObj.backBtn.classList.remove( 'disabled' );
+            mceObj.backBtn.dataset.prev = +idx - 1;
+        } else {
+            mceObj.backBtn.classList.add( 'disabled' );
+        }
+        if ( idx < pages.length - 1) {
+            mceObj.nextBtn.classList.remove( 'disabled' );
+            mceObj.nextBtn.dataset.next = +idx + 1;
+        } else {
+            mceObj.nextBtn.classList.add( 'disabled' );
+        }
+    },
+    formatFollowCode: function( follow ) {
+        if ( follow.length > 0 ) {
+            this.divFollow.innerText = follow;
+            document.querySelector( '.follow' ).classList.remove( 'hide' );
+        } else {
+            document.querySelector( '.follow' ).classList.add( 'hide' );
+        }
+    },
+    formatSolution: function(solution) {
+        if ( solution.length > 0 ) {
+            this.divSolution.innerText = solution;
+            this.answerCode = solution;
+        } else {
+            document.querySelector( '.solution' ).classList.add( 'hide' );
+        }
+    },
+    setTaVal: function( preFill ) {
+        var mceObj = this,
+            curPos = 0;    
+
+        mceObj.preFill = preFill;
+        curPos = preFill.indexOf( '@' );
+        mceObj.curPos = curPos;
+        mceObj.taCodeEditor.value = preFill.replace( /@/, '' );
         mceObj.taCodeEditor.selectionStart = mceObj.taCodeEditor.selectionEnd = curPos;
+        mceObj.taCodeEditor.focus();
         mceObj.triggerInputEvent();
+    },
+    clickBack: function( evt ) {
+        var mceObj = this;
+        if ( mceObj.backBtn.classList.contains( 'disabled' ) === false ) {
+            document.body.style.opacity = 0;
+            
+            window.setTimeout( function() {
+                document.body.style.opacity = 1;
+                mceObj.loadPage( evt.target.dataset.prev );
+            }, 300 );
+        }
+        return false;
+    },
+    clickNext: function( evt ) {
+        var mceObj = this;
+        if ( mceObj.nextBtn.classList.contains( 'disabled' ) === false ) {
+            // transition
+            document.body.style.opacity = 0;
+            
+            window.setTimeout( function() {
+                document.body.style.opacity = 1;
+                mceObj.loadPage( evt.target.dataset.next );
+            }, 300 );
+        }
+        return false;
     },
     triggerInputEvent: function() {
         var mceObj = this;
@@ -502,18 +638,12 @@ var myTACodeEditor = {
     },
     displaySolved: function() {
         var ta = this.taCodeEditor,
-            answer = '.grid-container {\n' + this.answerCode + '\n}',
+            answer = this.preFill.replace( /\t@/, this.answerCode.replace( /^[\xA0 ]+/gm, '\t' ) ),
             gridContainer = document.querySelector('.grid-container');
 
-        // console.log( 'ta.value:', ta.value );
-        // console.log( 'answer:', answer );
-
         if ( ta.value === answer ) {
-            // gridContainer.style.border = '8px solid LimeGreen';
-            // gridContainer.style.border = '8px solid #A6E22E';
             gridContainer.classList.add( 'solved' );
         } else {
-            // gridContainer.style.border = '8px solid #555';
             gridContainer.classList.remove( 'solved' );
         }
     },
@@ -522,10 +652,14 @@ var myTACodeEditor = {
         document.querySelector( '.answer-btn' ).classList.add( 'disabled' );
         return false;
     },
+    hideAnswer: function() {
+        document.querySelector( '.answer' ).classList.remove( 'show' );
+        document.querySelector( '.answer-btn' ).classList.remove( 'disabled' );
+        return false;
+    },
     pasteAnswer: function() {
         var mceObj = this,
             ta = this.taCodeEditor,
-            // code = document.querySelector( '.answer code' ).innerText,
             code = document.querySelector( '.answer code' ).innerText,
             pasteBtn = document.querySelector( '.paste-btn' );
             
@@ -533,11 +667,13 @@ var myTACodeEditor = {
             console.log( code.trim().length );
             pasteBtn.innerText = 'Clear';
             // replace non-breaking space (char code 160) with tab
-            ta.value = '.grid-container {\n' + code.replace(/^[\xA0 ]+/gm, '\t') + '\n}';
+            ta.value = mceObj.preFill.replace( /\t@/, code.replace( /^[\xA0 ]+/gm, '\t' ) );
+            mceObj.taCodeEditor.selectionStart = mceObj.taCodeEditor.selectionEnd = mceObj.curPos;
+            mceObj.taCodeEditor.focus();
             mceObj.triggerInputEvent();
         } else if(pasteBtn.innerText === 'Clear') {
             pasteBtn.innerText = 'Paste';
-            this.setTaVal( mceObj.preFill, mceObj.curPos );
+            this.setTaVal( mceObj.preFill );
         }
     },
     toggleCode: function() {
@@ -546,10 +682,17 @@ var myTACodeEditor = {
             val = ta.value,
             selStart = ta.selectionStart,
             selEnd = ta.selectionEnd,
+            lineStartPos = val.lastIndexOf( '\n', selStart - 1 ) > -1 ? val.lastIndexOf( '\n', selStart - 1 ) + 1 : 0,
+            lineEndPos = val.indexOf( '\n', selEnd ) > -1 ? val.indexOf( '\n', selEnd ) : val.length,
             doComment = false,
-            startPartial = '', endPartial = '',
-            startCount = 0, endCount = 0;
+            posModifier = 0;
         
+        var startPart = val.slice( 0, selStart ),
+            startPrevLines = ( startPart.match( /\n/gm ) || [] ).length;
+        var endPart = val.slice( 0, selEnd ),
+            endPrevLines = ( endPart.match( /\n/gm ) || [] ).length;
+        
+        // select all to comment all lines
         ta.selectionStart = 0;
         ta.selectionEnd = ta.value.length;
         mceObj.commentSelection(ta);
@@ -563,26 +706,31 @@ var myTACodeEditor = {
         }
         mceObj.triggerInputEvent();
 
+        // pos on the current line
         if ( doComment ) {
-            startPartial = ta.value.slice( 0, selStart );
-            endPartial = ta.value.slice( 0, selEnd );
+            if ( selStart === lineStartPos ) {
+                posModifier = 0;
+            } else if ( selStart === lineEndPos ) {
+                posModifier = +4;
+            } else {
+                posModifier = +2;
+            }
+            ta.selectionStart = selStart + posModifier + ( startPrevLines * 4 );
+            ta.selectionEnd = selEnd + posModifier + ( endPrevLines * 4 );
         } else {
-            startPartial = val.slice( 0, selStart );
-            endPartial = val.slice( 0, selEnd );
+            if ( selStart === lineStartPos ) {
+                posModifier = 0;
+            } else if ( selStart === lineEndPos ) {
+                posModifier = -4;
+            } else {
+                posModifier = -2;
+            }
+            ta.selectionStart = selStart + posModifier - ( startPrevLines * 4 );
+            ta.selectionEnd = selEnd + posModifier - ( endPrevLines * 4 );
         }
-        
-        startCount = ( startPartial.match( /\/\*|\*\//g ) || []).length;
-        endCount = ( endPartial.match( /\/\*|\*\//g ) || []).length;
-
         ta.focus();
-        if ( doComment ) {
-            ta.selectionStart = selStart + (startCount * 2);
-            ta.selectionEnd = selEnd + (endCount * 2);
-        } else {
-            ta.selectionStart = selStart - (startCount * 2);
-            ta.selectionEnd = selEnd - (endCount * 2);
-        }
-        
         return false;
     }
 };
+
+window.onload = myTACodeEditor.init();

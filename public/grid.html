@@ -4,7 +4,7 @@
         <title></title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link href="css/style1.css" rel="stylesheet">
+        <link href="css/style.css" rel="stylesheet">
         <style id='guideStyle'></style>
     </head>
     <body>
@@ -16,6 +16,11 @@
                 <div class="instructions">
                     <h2 class='subtitle'></h2>
                     <div class="part1"></div>
+                    <div class="follow">
+                        <div class="code">
+                            <code></code>
+                        </div>
+                    </div>
                     <div class="solution">
                         <p><u>Answer</u></p>
                         <div class="code">
@@ -44,14 +49,15 @@
                 <nav class="page-nav">
                     <ul>
                         <li class="left"><a class="nav-btn toggle-code-btn show" href="#"  onclick="myTACodeEditor.toggleCode();">toggle code</a></li>
+                        <li class="left comment">or <b>Ctrl/Cmd + /</b></li>
                         <li><a class="nav-btn back-btn" href="#">Back</a></li>
                         <li><a class="nav-btn next-btn" href="#">Next</a></li>
                     </ul>
                 </nav>
             </div>
         </main>
-        <script src="../../lib/css-constants.js"></script>
+        <script src="script/css-constants.js"></script>
         <script src="script/pages.js"></script>
-        <script src="script/mce_ta1.js"></script>
+        <script src="script/mce_ta.js"></script>
     </body>
 </html>
