@@ -9,15 +9,19 @@ html, body, main {
 
 header, footer {
     /* background-color: hsl(99, 63%, 67%); */
-    background-color: aquamarine;
+    background-color: lightgrey;
     text-align: center;
 }
-header { border-bottom: 1px solid #ccc;}
+header { 
+    border-bottom: 1px solid #999;
+}
     header h1 {
         margin: .67em 0 0 0;
     }
     header p { margin: 0 0 20px; }
-footer { border-top: 1px solid #ccc; }
+footer { 
+    border-top: 1px solid #999;
+}
 
 main {
     margin: 0 20px;
@@ -27,20 +31,32 @@ main {
     nav {
         /* flex: 0 1 270px; */
         /* flex-basis: 270px; */
-        height:96%;
+        /* height:96%; */
+        height:100%;
         display: inline-block;
-        overflow-y: scroll;
+        /* overflow-y: scroll; */
     }
-    nav ol { padding: 0 30px;}
-        nav a { text-decoration: none; }
+    nav ol { padding: 0 40px 0 30px;}
+        nav a { 
+            text-decoration: none; 
+            color: #333;
+            /* transition: all .2s ease-in-out; */
+        }
+        nav a:hover {
+            /* text-decoration: underline; */
+            color: green;
+            font-weight: bold;
+        }
         nav a.active {
-            color: #c00;
-            text-decoration: underline;
+            /* color: #c00; */
+            font-weight: bold;
+            color: green;
+            /* text-decoration: none; */
     }
     .content-container {
         flex-grow: 1;
         align-self: stretch;
-        max-width: 680px;
+        width: 100%;
     }
         .content-container h2 {
             margin: 10px 0 0 10px;;
@@ -48,5 +64,7 @@ main {
         }
         .content-container iframe {
             width: 100%;
-            height: 92%;
+            /* height: 92%; */
+            height: 100%;
+            border: none;
        }

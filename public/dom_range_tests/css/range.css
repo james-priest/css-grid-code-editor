@@ -12,8 +12,14 @@ code {
     font-size: 0.964286em; /* 13.5px/14px */
     background-color: #ddd;
 }
-#h1, #p1, #d1 {
+h1, #p1, #d1 {
     font-family: Arial, Helvetica, sans-serif;
+}
+.wrapper {
+    background-color:#ddd;
+    padding: 0 20px;
+    border: 1px solid #999;
+    margin: 20px 0;
 }
 ol {
     font-size: 0.875em; /* 14px/16px */

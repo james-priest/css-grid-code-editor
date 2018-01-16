@@ -4,15 +4,18 @@
         <title>2.range</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link href="css/_range.css" rel="stylesheet">
+        <link href="css/range.css" rel="stylesheet">
     </head>
     <body>
-        <h1 id="h1">Heading</h1>
-        <p id="p1">
-            Hello <b>bold</b> World
-        </p>
+        <h1>Select range</h1>
 
-        <hr>
+        <div class="wrapper">
+            <h1 id="h1">Heading</h1>
+            <p id="p1">
+                Hello <b>bold</b> World
+            </p>
+        </div>
+
         <button onclick="useRanges()">Run code</button>
         <table border="0">
             <tr>
@@ -88,7 +91,8 @@
 
     var oFragment = oRange1.extractContents();
     // document.body.appendChild(oFragment);
-    document.body.insertBefore(oFragment, h1);
+    var myDiv = document.querySelector('.wrapper');
+    myDiv.insertBefore(oFragment, h1);
 }</script>
 
         <script>

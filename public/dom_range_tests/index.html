@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>CSS Grid Critters</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link href="../../public/css/normalize.css" rel="stylesheet">
+        <link href="../../public/css/index.css" rel="stylesheet">
+    </head>
+    <body>
+    <header>
+        <h1>DOM Range Notes & Tests</h1>
+        <p>Practice code from the course.</p>
+    </header>
+    
+    <main>
+        <nav id="toc">
+            <ol>
+                <li><a class="active" href="range1.html" target="content">range1.html</a></li>
+                <li><a href="range2.html" target="content">range2.html</a></li>
+                <li><a href="range3.html" target="content">range3.html</a></li>
+                <li><a href="range4.html" target="content">range4.html</a></li>
+                <li><a href="range5.html" target="content">range5.html</a></li>
+                
+            </ol>
+        </nav>
+        <div class="content-container">
+            <!-- <h2 class="title">a-flex-test1.html</h2> -->
+            <iframe src="range1.html" frameborder="1" id="content" name="content"></iframe>
+        </div>
+    </main>
+    <footer><p>by James Priest</p></footer>
+    <script>
+        window.onload = function() {
+            document.getElementById('toc').addEventListener('click', function(e){
+                if(e.target.tagName === 'A'){
+                    e.currentTarget.getElementsByClassName('active')[0].classList.remove('active');
+                    e.target.classList.add('active');
+                    // document.querySelector('.title').innerHTML = e.target.innerText;
+                    e.stopPropagation();
+                }
+            }, false);
+            // get first element in list
+        }
+    </script>
+    </body>
+</html>
