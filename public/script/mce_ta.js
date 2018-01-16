@@ -17,7 +17,7 @@ var myTACodeEditor = {
     rxQuotes: /^[/*].*\*\/|("[\w\s-]*"(?!>)|'[\w\s-]*'(?!>))/gm,
     rxRules: /(.+)\s*(?={)|^[\t\s]*(.+;)/gm,
     rxTextToWrap: /[\w\d\-[\] {}.:;#,>+'"=()/~^$*]+$/gm,
-    rxBlockToWrap: /[\w\d\-[\] {}.:;#,>+'"=()/~^$*\t]+$/gm,
+    rxBlockToWrap: /[\w\d\-[\] {}.:;#,>+'"=()/~^$*%\t]+$/gm,
     rxFindComment: /\/\*|\*\//,
     rxReplaceComment: /\/\*|\*\//gm,
     rxComments: /\/\*.*\*\//gm,
@@ -87,7 +87,7 @@ var myTACodeEditor = {
  
         mceObj.doStyle( style );
         
-        if ( follow.length <= 0 && solution.length <= 0 ) {
+        if ( preFill.length <=0 && follow.length <= 0 && solution.length <= 0 ) {
             mceObj.hideEditors();
         }
     },
@@ -163,14 +163,16 @@ var myTACodeEditor = {
     setTaVal: function( preFill ) {
         var mceObj = this,
             curPos = 0;    
-
-        mceObj.preFill = preFill;
-        curPos = preFill.indexOf( '@' );
-        mceObj.curPos = curPos;
-        mceObj.taCodeEditor.value = preFill.replace( /@/, '' );
-        mceObj.taCodeEditor.selectionStart = mceObj.taCodeEditor.selectionEnd = curPos;
-        mceObj.taCodeEditor.focus();
-        mceObj.triggerInputEvent();
+        if ( preFill.length > 0 ) {
+            mceObj.preFill = preFill;
+            curPos = preFill.indexOf( '@' );
+            mceObj.curPos = curPos;
+            mceObj.taCodeEditor.value = preFill.replace( /@/, '' );
+            mceObj.taCodeEditor.selectionStart = mceObj.taCodeEditor.selectionEnd = curPos;
+            mceObj.taCodeEditor.focus();
+            mceObj.triggerInputEvent();
+        }
+        
     },
     clickBack: function( evt ) {
         var mceObj = this;

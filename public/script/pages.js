@@ -2,26 +2,6 @@ var getPages = function() {
     return pages;
 };
 var pages = [
-    // {
-    //     num: 0,
-    //     title: 'CSS Grid',
-    //     subtitle: '',
-    //     instructions: {
-    //         part1: "",
-    //         part2: ""
-    //     },
-    //     code: {
-    //         preFill: '.grid {\n\t@\n}',
-    //         follow: '',
-    //         solution: '',
-    //     },
-    //     gridContainer: {
-    //         guide: '',
-    //         guidelines: '',
-    //         grid: ''
-    //     },
-    //     style: []
-    // },
     {
         num: 1,
         title: 'CSS Grid',
@@ -36,13 +16,13 @@ var pages = [
             solution: '',
         },
         gridContainer: {
-            guide: '<div class=""></div>',
+            guide: '<div></div>',
             guidelines: '',
             grid: '<div class="target">1</div>'
         },
         style: [
-            '.guide {\n\tgrid-template-rows: 200px;\n}',
-            '.grid {\n\tgrid-template-rows: 200px;\n}'
+            '.guide {\n\tgrid-template-rows: 40%;\n}',
+            '.grid {\n\tgrid-template-rows: 40%;\n}'
         ]
     },
     {
@@ -59,11 +39,13 @@ var pages = [
             solution: '',
         },
         gridContainer: {
-            guide: '',
-            guidelines: '',
+            guide: '<div></div><div></div>',
+            guidelines: '<div></div><div></div>',
             grid: '<div class="target">1</div>\n<div class="target">2</div>'
         },
-        style: []
+        style: [
+            '.guide, guidelines {\n\tgrid-template-rows: 1fr 1fr;\n}'
+        ]
     },
     {
         num: 3,
@@ -240,7 +222,7 @@ var pages = [
             part2: ''
         },
         code: {
-            preFill: '.grid {\n\t@\n}',
+            preFill: '',
             follow: '',
             solution: ''
         },
@@ -311,4 +293,181 @@ var pages = [
         },
         style: ['.guide, .guidelines {\n\tgrid-template-columns: 1fr 1fr;\n\tgrid-template-rows: 20vh 1fr 20vh;\n}']
     },
+    {
+        num: 15,
+        title: 'CSS Grid',
+        subtitle: 'Challenge 1.4',
+        instructions: {
+            part1: "<p>Looks like that second column uses <code>20vw</code></p>",
+            part2: "<p>So <code>vw</code> units, are the same as percents but relative to the viewport's width instead of the Grid element's width.</p>"
+        },
+        code: {
+            preFill: '.grid {\n\t@\n}',
+            follow: '',
+            solution: '\tdisplay: grid;\n\tgrid-template-columns: 1fr 20vw;\n\tgrid-template-rows: 1fr repeat(4, 1fr);',
+        },
+        gridContainer: {
+            guide: '<div class="cloudy"></div>',
+            guidelines: '<div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div>',
+            grid: '<div class="target cloudy"></div>'
+        },
+        style: [
+            '.guide {\n\tgrid-template-columns: 1fr 20vw;\n\tgrid-template-rows: 1fr 4fr; }',
+            '.guidelines { \n\tgrid-template-columns: 1fr 20vw;\n\tgrid-template-rows: repeat(5, 1fr);}'
+        ]
+    },
+    {
+        num: 16,
+        title: 'CSS Grid',
+        subtitle: 'Challenge 1.5',
+        instructions: {
+            part1: "<p>This next challenge uses only percentages.</p><p>Percentages are relative to the height of the Grid.</p><p>The top row is <code>25%</code> of the Grid's height.</p>",
+            part2: "<p>The bottom line could also have been written as<br><code>grid-template-rows: 1fr 1fr 2fr;</code></p>"
+        },
+        code: {
+            preFill: '.grid {\n\t@\n}',
+            follow: '',
+            solution: '\tdisplay: grid;\n\tgrid-template-columns: 50% 50%;\n\tgrid-template-rows: 25% 25% 50%;',
+        },
+        gridContainer: {
+            guide: '<div class="dunes"></div>\n<div class="rocky"></div>',
+            guidelines: '<div></div><div></div><div></div><div></div><div></div><div></div>',
+            grid: '<div class="target dunes"></div><div class="target rocky"></div>'
+        },
+        style: [
+            '.guide { grid-template-columns: 50% 50%; grid-template-rows: 25% 25% 50%;',
+            '.guidelines { grid-template-columns: 50% 50%; grid-template-rows: 25% 25% 50%;'
+        ]
+    },
+    {
+        num: 17,
+        title: 'CSS Grid',
+        subtitle: 'Challenge 1.6',
+        instructions: {
+            part1: "<p>A single fixed pixel sized cell in the center.</p>",
+            part2: ''
+        },
+        code: {
+            preFill: '.grid {\n\t@\n}',
+            follow: '',
+            solution: '\tdisplay: grid;\n\tgrid-template-columns: 1fr 100px 1fr;\n\tgrid-template-rows: 1fr 100px 1fr;',
+        },
+        gridContainer: {
+            guide: '<div class="cloudy"></div><div class="cloudy"></div><div class="cloudy"></div><div class="cloudy"></div><div class="dunes"></div><div class="cloudy"></div><div class="cloudy"></div><div class="cloudy"></div><div class="cloudy"></div>',
+            guidelines: '<div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div>',
+            grid: '<div class="target cloudy"></div><div class="target cloudy"></div><div class="target cloudy"></div><div class="target cloudy"></div><div class="target dunes"></div><div class="target cloudy"></div><div class="target cloudy"></div><div class="target cloudy"></div><div class="target cloudy"></div>'
+        },
+        style: [
+            '.guide, .guidelines { grid-template-columns: 1fr 100px 1fr; grid-template-rows: 1fr 100px 1fr; }'
+        ]
+    },
+    {
+        num: 18,
+        title: 'CSS Grid',
+        subtitle: 'Challenge 1.7',
+        instructions: {
+            part1: "<p>The middle column is <code>10%</code>, and the top row is <code>200px</code>.",
+            part2: "<p>Only the top row needs to be set since the Grid will fill in the rest of the available space.</p>"
+        },
+        code: {
+            preFill: '.grid {\n\t@\n}',
+            follow: '',
+            solution: '\tdisplay: grid;\n\tgrid-template-columns: 2fr 10% 1fr;\n\tgrid-template-rows: 200px;',
+        },
+        gridContainer: {
+            guide: '<div class="cloudy"></div><div class="cloudy"></div><div class="cloudy"></div><div class="rocky"></div><div class="dunes"></div><div class="cloudy"></div>',
+            guidelines: '<div></div><div></div><div></div><div></div><div></div><div></div>',
+            grid: '<div class="target cloudy"></div><div class="target cloudy"></div><div class="target cloudy"></div><div class="target rocky"></div><div class="target dunes"></div><div class="target cloudy"></div>'
+        },
+        style: [
+            '.guide, .guidelines { grid-template-columns: 2fr 10% 1fr; grid-template-rows: 200px; }'
+        ]
+    },
+    {
+        num: 19,
+        title: 'CSS Grid',
+        subtitle: 'Challenge 1.8',
+        instructions: {
+            part1: "<p>These columns are using <code>%</code> units, and the bottom row is using <code>px</code> units.</p>",
+            part2: ""
+        },
+        code: {
+            preFill: '.grid {\n\t@\n}',
+            follow: '',
+            solution: '\tdisplay: grid;\n\tgrid-template-columns: 25% 25%;\n\tgrid-template-rows: 1fr 1fr 50px;',
+        },
+        gridContainer: {
+            guide: '<div class="cloudy"></div><div class="cloudy"></div><div class="cloudy"></div><div class="dunes"></div><div class="rocky"></div><div class="rocky"></div>',
+            guidelines: '<div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div>',
+            grid: '<div class="target cloudy"></div><div class="target cloudy"></div><div class="target cloudy"></div><div class="target dunes"></div><div class="target rocky"></div><div class="target rocky"></div>'
+        },
+        style: [
+            '.guide { grid-template-columns: 25% 25%; grid-template-rows: 1fr 1fr 50px; }',
+            '.guidelines { grid-template-columns: 25% 25% 1fr; grid-template-rows: 1fr 1fr 50px; }'
+        ]
+    },
+    {
+        num: 20,
+        title: 'CSS Grid',
+        subtitle: 'Challenge 1.9',
+        instructions: {
+            part1: "<p>The red rows are <code>50px</code>.</p><p>Try using the <code>repeat()</code> shorthand to specify the <em>pattern</em>.</p>",
+            part2: ""
+        },
+        code: {
+            preFill: '.grid {\n\t@\n}',
+            follow: '',
+            solution: '\tdisplay: grid;\n\tgrid-template-rows: repeat(2, 50px 1fr);',
+        },
+        gridContainer: {
+            guide: '<div class="dunes"></div><div class="rocky"></div><div class="dunes"></div><div class="rocky"></div>',
+            guidelines: '<div></div><div></div><div></div><div></div>',
+            grid: '<div class="target dunes"></div><div class="target rocky"></div><div class="target dunes"></div><div class="target rocky"></div>'
+        },
+        style: [
+            '.guide, .guidelines { grid-template-rows: repeat(2, 50px 1fr);'
+        ]
+    },
+    {
+        num: 21,
+        title: 'CSS Grid',
+        subtitle: 'Challenge 1.10',
+        instructions: {
+            part1: "",
+            part2: ""
+        },
+        code: {
+            preFill: '.grid {\n\t@\n}',
+            follow: '',
+            solution: '\tdisplay: grid;\n\tgrid-template-columns: repeat(3, 1fr);',
+        },
+        gridContainer: {
+            guide: '<div class="lava"></div><div class="lava"></div><div class="lava"></div>',
+            guidelines: '<div></div><div></div><div></div>',
+            grid: '<div class="target lava"></div><div class="target lava"></div><div class="target lava"></div>'
+        },
+        style: [
+            '.guide, .guidelines { grid-template-columns: repeat(3, 1fr); }'
+        ]
+    },
+    // {
+    //     num: 0,
+    //     title: 'CSS Grid',
+    //     subtitle: '',
+    //     instructions: {
+    //         part1: "",
+    //         part2: ""
+    //     },
+    //     code: {
+    //         preFill: '.grid {\n\t@\n}',
+    //         follow: '',
+    //         solution: '',
+    //     },
+    //     gridContainer: {
+    //         guide: '',
+    //         guidelines: '',
+    //         grid: ''
+    //     },
+    //     style: []
+    // },
 ];

@@ -140,7 +140,11 @@ section.grid-container {
             border: 8px dashed aquamarine;
         }
         .guide>.cloudy {
-            border: 8px dashed rgb(146, 150, 204);
+            /* border: 8px dashed rgb(146, 188, 204); */
+            border: 8px dashed rgb(146, 164, 204);
+        }
+        .guide>.lava {
+            border: 8px dashed rgb(160, 64, 64);
         }
         .guidelines>div {
             border: 1px solid #eee;
@@ -165,9 +169,12 @@ section.grid-container {
     }   
         .target:nth-of-type(1) {
             background-color: #7f7f7f;
+            /* background-color: #777; */
         }
         .target:nth-of-type(2) {
             background-color: #999;
+            /* background-color: #858585; */
+            /* background-color: #8f8f8f; */
         }
         .target.dunes {
             background-color: lightcoral;
@@ -177,6 +184,9 @@ section.grid-container {
         }
         .target.cloudy {
             background-color: rgb(100, 107, 201);
+        }
+        .target.lava {
+            background-color: darkred;
         }
 
         /* .target.zombie { 
