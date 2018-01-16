@@ -92,22 +92,14 @@ var myTACodeEditor = {
         }
     },
     doStyle: function( style ) {
-        var mceObj = this;
-
         var styleSheet = document.styleSheets.guideStyle;
         for ( var i = styleSheet.rules.length -1; i >= 0; i-- ) {
             styleSheet.deleteRule( i );
         }
-        // if ( typeof styleSheet.rules[ mceObj.styleRuleIdx ] !== 'undefined' ) {
-        //     // delete all rules
-        //     styleSheet.deleteRule( mceObj.styleRuleIdx );
-        //     // styleSheet
-        // }
         if ( style.length > 0 ) {
             style.forEach( function( rule ) {
                 styleSheet.insertRule( rule );
             } );
-            // mceObj.styleRuleIdx = styleSheet.insertRule( style );
         }
     },
     resetDefaults: function() {
