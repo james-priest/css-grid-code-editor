@@ -112,7 +112,7 @@ div.control-container {
         textarea.ta-code-editor {
             /* max-width: 350px; */
             width: 98%;
-            height: 200px;
+            height: 100px;
             padding: 0.5em;
             font-weight: 500;
             color: #66D9EF;
