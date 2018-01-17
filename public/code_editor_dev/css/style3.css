@@ -116,8 +116,8 @@ div.control-container {
         box-sizing: border-box;
         margin: 1.2em 1em 5px 0;
         padding: 0.5em;
-        width: 100%;
-        /* height: 100px; */
+        width: 50%;
+        height: 100px;
         font-weight: 500;
         color: #66D9EF;
         background-color: #333;
