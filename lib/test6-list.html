@@ -16,6 +16,9 @@
     </head>
     <body>
         <h1>CSS3 Master list of unique property values</h1>
+        <h2>Generic Font Names</h2>
+        <div id="font-list"></div>
+        <br>
         <h2>Functions</h2>
         <div id="func-list"></div>
         <br>
@@ -35,7 +38,7 @@
 
                     myArr.forEach(item => {
                         // filter out generic non-constant values
-                        filteredVals = item.values.filter(val => !String(val).trim().match(/^(length|percentage|time|number|keyframename|color|x% y%|xpos ypos|%|image|h-offset|v-offset|blur|spread|shape|column-width|column-count|string|id number|name|URL|flex-grow|flex-shrink|flex-basis|flex-direction|flex-wrap|font-style|font-variant|font-weight|font-size\/line-height|font-family|column-line|length length|url|x-axis|y-axis|z-axis|h-shadow|v-shadow|blur-radius|property)$/gm));
+                        filteredVals = item.values.filter(val => !String(val).trim().match(/^(length|percentage|time|number|keyframename|color|x% y%|xpos ypos|%|image|h-offset|v-offset|blur|spread|shape|column-width|column-count|column dense|string|id number|name|URL|flex-grow|flex-shrink|flex-basis|flex-direction|flex-wrap|font-style|font-variant|font-weight|font-size\/line-height|font-family|column-line|length length|url|x-axis|y-axis|z-axis|h-shadow|v-shadow|blur-radius|property)$/gm));
 
                         // return only function names; match everything left of the parens & add empty parens
                         filteredVals = filteredVals.map(item => String(item).replace(/\s*\(.*\)/, '()'));
@@ -43,8 +46,9 @@
                         // if(item.property === "background-position"  || item.property === "font-weight") {
                         //     filteredVals = filteredVals.map(item => String(item).replace(/\r\n\s*/g, ', '));
                         // }
-                        // remove matched trailing chars & leading whitespace
-                        filteredVals = filteredVals.map(val => String(val).replace(/( n$|^\s+)/gm,''));
+                        // remove matched trailing chars & leading or trailing whitespace
+                        // filteredVals = filteredVals.map(val => String(val).replace(/( n$|^\s+)/gm,''));
+                        filteredVals = filteredVals.map(val => String(val).replace(/( n$|\s+)/gm,''));
                         
                         // prop
                         property = [item.property.trim(), filteredVals];
@@ -90,9 +94,11 @@
                     document.getElementById('color-list').innerHTML = colors.split(',').sort().join('|');
 
                     // Add generic font family names
-                    ['serif','sans-serif','monospace','cursive','fantasy','system-ui'].forEach(elem => {
-                        uniqueVals.push(elem);
-                    });
+                    // ['serif','sans-serif','monospace','cursive','fantasy','system-ui'].forEach(elem => {
+                    //     uniqueVals.push(elem);
+                    // });
+                    var fonts = ['serif','sans-serif','monospace','cursive','fantasy','system-ui'];
+                    document.getElementById('font-list').innerHTML = fonts.sort().join('|');                    
                     
                     uniqueVals.sort();
                     // uniqueVals.reverse();
