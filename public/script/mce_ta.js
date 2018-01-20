@@ -1,36 +1,6 @@
 'use strict';
-// Version #1 - Creates an object literal assigned to a global var. Not great cause it pollutes the global namespace
-// Use: cssPropVals.functions
-// var cssPropVals = {
-//     functions: '',
-//     htmlElements: '',
-//     constants: '',
-//     colors: '',
-// };
 
-// Version #2 - Create a constructor function for a CssPropertyValues object, initialize a new instance of it & reference is done through newly created variable instance.
-// Use: var css1 = new CssPropertyValues();
-//      css1.getFunctions();
-// function CssPropertyValues() {
-//     var cssFunctions = '';
-//     var cssHtmlElements = '';
-//     var cssConstants = '';
-//     var cssColors = '';
-//     this.getFunctions = function() {
-//         return cssFunctions;
-//     };
-//     this.getHtmlElements = function() {
-//         return cssHtmlElements;
-//     };
-//     this.getConstants = function() {
-//         return cssConstants;
-//     };
-//     this.getColors = function() {
-//         return cssColors;
-//     };
-// }
-
-// Version #3 - Create a CSSVALUES module namespace that returns an object containing all public methods
+// Create a CSSVALUES module namespace that returns an object containing all public methods
 //  This uses a closure to encapsulate all private data
 //  By wrapping the anonymous function in an IIFE we immediately initialize CSSVALUES to the result of our closure
 
@@ -38,7 +8,7 @@
 //  that serves as our module rather than a function is:
 //  The parentheses that immediately invoke the function!
 
-//  This is an example of the module pattern.
+//  This is an example of the Module Pattern.
 var CSSVALUES = (function() {
     var cssFunctions = 'url|translateZ|translateY|translateX|translate3d|translate|steps|skewY|skewX|skew|sepia|scaleZ|scaleY|scaleX|scale3d|scale|saturate|rotateZ|rotateY|rotateX|rotate3d|rotate|repeating-radial-gradient|repeating-linear-gradient|repeat|radial-gradient|perspective|opacity|matrix3d|matrix|linear-gradient|invert|hue-rotate|grayscale|drop-shadow|cubic-bezier|contrast|calc|brightness|blur|attr';
     var cssHtmlElements = 'a|abbr|address|area|article|aside|audio|b|base|bdi|bdo|blockquote|body|br|button|canvas|caption|cite|code|col|colgroup|datalist|dd|del|details|dfn|dialog|div|dl|dt|em|embed|fieldset|figcaption|figure|footer|form|h1|h2|h3|h4|h5|h6|head|header|hr|html|i|iframe|img|input|ins|kbd|label|legend|li|link|main|map|mark|menu|menuitem|meta|meter|nav|noscript|object|ol|optgroup|option|output|p|param|picture|pre|progress|q|rp|rt|ruby|s|samp|script|section|select|small|source|span|strong|style|sub|summary|sup|table|tbody|td|textarea|tfoot|th|thead|time|title|tr|track|u|ul|var|video|wbr';
