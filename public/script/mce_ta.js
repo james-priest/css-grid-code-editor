@@ -410,7 +410,12 @@ var myTACodeEditor = {
             if ( isBlock ) {
                 newSlicedLine = slicedLine.replace( this.rxBlockToWrap, '/*' + '$&' + '*/' );
             } else {
-                newSlicedLine = slicedLine.replace( this.rxTextToWrap, '/*' + '$&' + '*/' );
+                if ( slicedLine === String.fromCharCode( 9 ) ) {
+                    newSlicedLine = slicedLine.replace( this.rxBlockToWrap, '\t/**/' );
+                } else {
+                    newSlicedLine = slicedLine.replace( this.rxTextToWrap, '/*' + '$&' + '*/' );
+                }
+                
             }
             
         }
