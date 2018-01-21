@@ -25,6 +25,9 @@
         <h2>Colors</h2>
         <div id="color-list"></div>
         <br>
+        <h2>Properties</h2>
+        <div id="prop-list"></div>
+        <br>
         <h2>Values</h2>
         <div id="val-list"></div>
         <script>
@@ -33,7 +36,7 @@
                 if (this.readyState == 4 && this.status == 200) {
                     var myArr = JSON.parse(this.responseText);
                     var propArr = [], valArr = [], filteredProps = [], filteredVals = [];
-                    var property, row ='';
+                    var property, row ='', prop=[];
 
 
                     myArr.forEach(item => {
@@ -51,11 +54,15 @@
                         filteredVals = filteredVals.map(val => String(val).replace(/( n$|\s+)/gm,''));
                         
                         // prop
+                        prop.push(item.property.trim());
                         property = [item.property.trim(), filteredVals];
                         // console.log(property);
                         propArr.push(property);
                     });
                     propArr.sort();
+
+                    prop.sort();
+                    document.getElementById('prop-list').innerHTML = prop.join('|');
 
                     // filter out shorthand properties
                     filteredProps = propArr.filter(item => !String(item[0]).match(/^@.*|(animation|background|background-position|border|border-bottom|border-image|border-left|border-right|border-top|column-rule|font-family|font-weight|grid|grid-area|grid-column|grid-row|grid-template|grid-template-areas|list-style|outline|quotes|transition)$/gm));
@@ -85,7 +92,7 @@
                     });
 
                     // Add 140+ named colors
-                    var colors = 'black,silver,gray,white,maroon,red,purple,fuchsia,green,lime,olive,yellow,navy,blue,teal,aqua,orange,aliceblue,antiquewhite,aquamarine,azure,beige,bisque,blanchedalmond,blueviolet,brown,burlywood,cadetblue,chartreuse,chocolate,coral,cornflowerblue,cornsilk,crimson,cyan,aqua,darkblue,darkcyan,darkgoldenrod,darkgray,darkgreen,darkgrey,darkkhaki,darkmagenta,darkolivegreen,darkorange,darkorchid,darkred,darksalmon,darkseagreen,darkslateblue,darkslategray,darkslategrey,darkturquoise,darkviolet,deeppink,deepskyblue,dimgray,dimgrey,dodgerblue,firebrick,floralwhite,forestgreen,gainsboro,ghostwhite,gold,goldenrod,greenyellow,grey,honeydew,hotpink,indianred,indigo,ivory,khaki,lavender,lavenderblush,lawngreen,lemonchiffon,lightblue,lightcoral,lightcyan,lightgoldenrodyellow,lightgray,lightgreen,lightgrey,lightpink,lightsalmon,lightseagreen,lightskyblue,lightslategray,lightslategrey,lightsteelblue,lightyellow,limegreen,linen,magenta,fuchsia,mediumaquamarine,mediumblue,mediumorchid,mediumpurple,mediumseagreen,mediumslateblue,mediumspringgreen,mediumturquoise,mediumvioletred,midnightblue,mintcream,mistyrose,moccasin,navajowhite,oldlace,olivedrab,orangered,orchid,palegoldenrod,palegreen,paleturquoise,palevioletred,papayawhip,peachpuff,peru,pink,plum,powderblue,rosybrown,royalblue,saddlebrown,salmon,sandybrown,seagreen,seashell,sienna,skyblue,slateblue,slategray,slategrey,snow,springgreen,steelblue,tan,thistle,tomato,turquoise,violet,wheat,whitesmoke,yellowgreen';
+                    var colors = 'black,silver,gray,white,maroon,red,purple,fuchsia,green,lime,olive,yellow,navy,blue,teal,aqua,orange,aliceblue,antiquewhite,aquamarine,azure,beige,bisque,blanchedalmond,blueviolet,brown,burlywood,cadetblue,chartreuse,chocolate,coral,cornflowerblue,cornsilk,crimson,cyan,darkblue,darkcyan,darkgoldenrod,darkgray,darkgreen,darkgrey,darkkhaki,darkmagenta,darkolivegreen,darkorange,darkorchid,darkred,darksalmon,darkseagreen,darkslateblue,darkslategray,darkslategrey,darkturquoise,darkviolet,deeppink,deepskyblue,dimgray,dimgrey,dodgerblue,firebrick,floralwhite,forestgreen,gainsboro,ghostwhite,gold,goldenrod,greenyellow,grey,honeydew,hotpink,indianred,indigo,ivory,khaki,lavender,lavenderblush,lawngreen,lemonchiffon,lightblue,lightcoral,lightcyan,lightgoldenrodyellow,lightgray,lightgreen,lightgrey,lightpink,lightsalmon,lightseagreen,lightskyblue,lightslategray,lightslategrey,lightsteelblue,lightyellow,limegreen,linen,magenta,fuchsia,mediumaquamarine,mediumblue,mediumorchid,mediumpurple,mediumseagreen,mediumslateblue,mediumspringgreen,mediumturquoise,mediumvioletred,midnightblue,mintcream,mistyrose,moccasin,navajowhite,oldlace,olivedrab,orangered,orchid,palegoldenrod,palegreen,paleturquoise,palevioletred,papayawhip,peachpuff,peru,pink,plum,powderblue,rosybrown,royalblue,saddlebrown,salmon,sandybrown,seagreen,seashell,sienna,skyblue,slateblue,slategray,slategrey,snow,springgreen,steelblue,tan,thistle,tomato,turquoise,violet,wheat,whitesmoke,yellowgreen';
 
                     // var colorArr = colors.split(',');
                     // colorArr.forEach(elem => {
