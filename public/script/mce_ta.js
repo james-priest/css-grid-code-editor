@@ -1,22 +1,28 @@
 'use strict';
-
 //  Create a namespace using the Module Pattern.
 var CSSVALUES = (function() {
+    var cssProperties = 'align-content|align-items|align-self|all|animation|animation-delay|animation-direction|animation-duration|animation-fill-mode|animation-iteration-count|animation-name|animation-play-state|animation-timing-function|backface-visibility|background|background-attachment|background-blend-mode|background-clip|background-color|background-image|background-origin|background-position|background-repeat|background-size|border|border-bottom|border-bottom-color|border-bottom-left-radius|border-bottom-right-radius|border-bottom-style|border-bottom-width|border-collapse|border-color|border-image|border-image-outset|border-image-repeat|border-image-slice|border-image-source|border-image-width|border-left|border-left-color|border-left-style|border-left-width|border-radius|border-right|border-right-color|border-right-style|border-right-width|border-spacing|border-style|border-top|border-top-color|border-top-left-radius|border-top-right-radius|border-top-style|border-top-width|border-width|bottom|box-decoration-break|box-shadow|box-sizing|caption-side|caret-color|clear|clip|color|column-count|column-fill|column-gap|column-rule|column-rule-color|column-rule-style|column-rule-width|column-span|column-width|columns|content|counter-increment|counter-reset|cursor|direction|display|empty-cells|filter|flex|flex-basis|flex-direction|flex-flow|flex-grow|flex-shrink|flex-wrap|float|font|font-family|font-kerning|font-size|font-size-adjust|font-stretch|font-style|font-variant|font-weight|grid|grid-area|grid-auto-columns|grid-auto-flow|grid-auto-rows|grid-column|grid-column-end|grid-column-gap|grid-column-start|grid-gap|grid-row|grid-row-end|grid-row-gap|grid-row-start|grid-template|grid-template-areas|grid-template-columns|grid-template-rows|hanging-punctuation|height|justify-content|left|letter-spacing|line-height|list-style|list-style-image|list-style-position|list-style-type|margin|margin-bottom|margin-left|margin-right|margin-top|max-height|max-width|min-height|min-width|object-fit|opacity|order|outline|outline-color|outline-offset|outline-style|outline-width|overflow|overflow-x|overflow-y|padding|padding-bottom|padding-left|padding-right|padding-top|page-break-after|page-break-before|page-break-inside|perspective|perspective-origin|position|quotes|resize|right|tab-size|table-layout|text-align|text-align-last|text-decoration|text-decoration-color|text-decoration-line|text-decoration-style|text-indent|text-justify|text-overflow|text-shadow|text-transform|top|transform|transform-origin|transform-style|transition|transition-delay|transition-duration|transition-property|transition-timing-function|unicode-bidi|user-select|vertical-align|visibility|white-space|width|word-break|word-spacing|word-wrap|z-index';
     var cssFunctions = 'url|translateZ|translateY|translateX|translate3d|translate|steps|skewY|skewX|skew|sepia|scaleZ|scaleY|scaleX|scale3d|scale|saturate|rotateZ|rotateY|rotateX|rotate3d|rotate|repeating-radial-gradient|repeating-linear-gradient|repeat|radial-gradient|perspective|opacity|matrix3d|matrix|linear-gradient|invert|hue-rotate|grayscale|drop-shadow|cubic-bezier|contrast|calc|brightness|blur|attr';
     var cssHtmlElements = 'a|abbr|address|area|article|aside|audio|b|base|bdi|bdo|blockquote|body|br|button|canvas|caption|cite|code|col|colgroup|datalist|dd|del|details|dfn|dialog|div|dl|dt|em|embed|fieldset|figcaption|figure|footer|form|h1|h2|h3|h4|h5|h6|head|header|hr|html|i|iframe|img|input|ins|kbd|label|legend|li|link|main|map|mark|menu|menuitem|meta|meter|nav|noscript|object|ol|optgroup|option|output|p|param|picture|pre|progress|q|rp|rt|ruby|s|samp|script|section|select|small|source|span|strong|style|sub|summary|sup|table|tbody|td|textarea|tfoot|th|thead|time|title|tr|track|u|ul|var|video|wbr';
-    var cssConstants = 'absolute|alias|all|all-scroll|allow-end|alternate|alternate-reverse|always|armenian|auto|avoid|backwards|balance|baseline|bidi-override|block|border-box|both|bottom|break-all|break-word|capitalize|caption|cell|center|circle|cjk-ideographic|clip|clone|close-quote|col-resize|collapse|color-dodge|column|column-reverse|condensed|contain|content-box|context-menu|copy|counter|cover|crosshair|cursive|darken|dashed|decimal|decimal-leading-zero|default|disc|distribute|dotted|double|e-resize|ease|ease-in|ease-in-out|ease-out|ellipsis|embed|end|ew-resize|expanded|extra-condensed|extra-expanded|fantasy|fill|first|fixed|flat|flex|flex-end|flex-start|force-end|forwards|georgian|grab|grabbing|grid|groove|hebrew|help|hidden|hide|hiragana|hiragana-iroha|horizontal|icon|infinite|inherit|initial|inline|inline-block|inline-flex|inline-table|inset|inside|inter-cluster|inter-ideograph|inter-word|invert|italic|justify|kashida|katakana|katakana-iroha|keep-all|large|larger|last|left|lighten|line-through|linear|list-item|local|lower-alpha|lower-greek|lower-latin|lower-roman|lowercase|ltr|luminosity|max-content|medium|menu|message-box|middle|min-content|monospace|move|multiply|n-resize|ne-resize|nesw-resize|no-close-quote|no-drop|no-open-quote|no-repeat|none|normal|not-allowed|nowrap|ns-resize|nw-resize|nwse-resize|oblique|open-quote|outset|outside|overlay|overline|padding-box|paused|pointer|pre|pre-line|pre-wrap|preserve-3d|progress|relative|repeat|repeat-x|repeat-y|reverse|ridge|right|round|row|row dense|row-line|row-resize|row-reverse|rtl|run-in|running|s-resize|sans-serif|saturation|scale-down|screen|scroll|se-resize|semi-condensed|semi-expanded|separate|serif|show|slice|small|small-caps|small-caption|smaller|solid|space|space-around|space-between|span|square|start|static|status-bar|step-end|step-start|sticky|stretch|sub|super|sw-resize|system-ui|table|table-caption|table-cell|table-column|table-column-group|table-footer-group|table-header-group|table-row|table-row-group|text|text-bottom|text-top|thick|thin|top|transparent|trim|ultra-condensed|ultra-expanded|underline|unset|upper-alpha|upper-greek|upper-latin|upper-roman|uppercase|vertical|vertical-text|visible|w-resize|wait|wavy|wrap|wrap-reverse|x-large|x-small|xx-large|xx-small|zoom-in|zoom-out';
-    var cssColors = 'aliceblue|antiquewhite|aqua|aqua|aquamarine|azure|beige|bisque|black|blanchedalmond|blue|blueviolet|brown|burlywood|cadetblue|chartreuse|chocolate|coral|cornflowerblue|cornsilk|crimson|cyan|darkblue|darkcyan|darkgoldenrod|darkgray|darkgreen|darkgrey|darkkhaki|darkmagenta|darkolivegreen|darkorange|darkorchid|darkred|darksalmon|darkseagreen|darkslateblue|darkslategray|darkslategrey|darkturquoise|darkviolet|deeppink|deepskyblue|dimgray|dimgrey|dodgerblue|firebrick|floralwhite|forestgreen|fuchsia|fuchsia|gainsboro|ghostwhite|gold|goldenrod|gray|green|greenyellow|grey|honeydew|hotpink|indianred|indigo|ivory|khaki|lavender|lavenderblush|lawngreen|lemonchiffon|lightblue|lightcoral|lightcyan|lightgoldenrodyellow|lightgray|lightgreen|lightgrey|lightpink|lightsalmon|lightseagreen|lightskyblue|lightslategray|lightslategrey|lightsteelblue|lightyellow|lime|limegreen|linen|magenta|maroon|mediumaquamarine|mediumblue|mediumorchid|mediumpurple|mediumseagreen|mediumslateblue|mediumspringgreen|mediumturquoise|mediumvioletred|midnightblue|mintcream|mistyrose|moccasin|navajowhite|navy|oldlace|olive|olivedrab|orange|orangered|orchid|palegoldenrod|palegreen|paleturquoise|palevioletred|papayawhip|peachpuff|peru|pink|plum|powderblue|purple|red|rosybrown|royalblue|saddlebrown|salmon|sandybrown|seagreen|seashell|sienna|silver|skyblue|slateblue|slategray|slategrey|snow|springgreen|steelblue|tan|teal|thistle|tomato|turquoise|violet|wheat|white|whitesmoke|yellow|yellowgreen';
-    
+    var cssFonts = 'cursive|fantasy|monospace|sans-serif|serif|system-ui';
+    var cssConstants = 'absolute|alias|all|all-scroll|allow-end|alternate|alternate-reverse|always|armenian|auto|avoid|backwards|balance|baseline|bidi-override|block|border-box|both|bottom|break-all|break-word|capitalize|caption|cell|center|circle|cjk-ideographic|clip|clone|close-quote|col-resize|collapse|color-dodge|column|column-reverse|condensed|contain|content-box|context-menu|copy|counter|cover|crosshair|darken|dashed|decimal|decimal-leading-zero|default|disc|distribute|dotted|double|e-resize|ease|ease-in|ease-in-out|ease-out|ellipsis|embed|end|ew-resize|expanded|extra-condensed|extra-expanded|fill|first|fixed|flat|flex|flex-end|flex-start|force-end|forwards|georgian|grab|grabbing|grid|groove|hebrew|help|hidden|hide|hiragana|hiragana-iroha|horizontal|icon|infinite|inherit|initial|inline|inline-block|inline-flex|inline-table|inset|inside|inter-cluster|inter-ideograph|inter-word|invert|italic|justify|kashida|katakana|katakana-iroha|keep-all|large|larger|last|left|lighten|line-through|linear|list-item|local|lower-alpha|lower-greek|lower-latin|lower-roman|lowercase|ltr|luminosity|max-content|medium|menu|message-box|middle|min-content|move|multiply|n-resize|ne-resize|nesw-resize|no-close-quote|no-drop|no-open-quote|no-repeat|none|normal|not-allowed|nowrap|ns-resize|nw-resize|nwse-resize|oblique|open-quote|outset|outside|overlay|overline|padding-box|paused|pointer|pre|pre-line|pre-wrap|preserve-3d|progress|relative|repeat|repeat-x|repeat-y|reverse|ridge|right|round|row|row-line|row-resize|row-reverse|rowdense|rtl|run-in|running|s-resize|saturation|scale-down|screen|scroll|se-resize|semi-condensed|semi-expanded|separate|show|slice|small|small-caps|small-caption|smaller|solid|space|space-around|space-between|span|square|start|static|status-bar|step-end|step-start|sticky|stretch|sub|super|sw-resize|table|table-caption|table-cell|table-column|table-column-group|table-footer-group|table-header-group|table-row|table-row-group|text|text-bottom|text-top|thick|thin|top|transparent|trim|ultra-condensed|ultra-expanded|underline|unset|upper-alpha|upper-greek|upper-latin|upper-roman|uppercase|vertical|vertical-text|visible|w-resize|wait|wavy|wrap|wrap-reverse|x-large|x-small|xx-large|xx-small|zoom-in|zoom-out';
+    var cssColors = 'aliceblue|antiquewhite|aqua|aquamarine|azure|beige|bisque|black|blanchedalmond|blue|blueviolet|brown|burlywood|cadetblue|chartreuse|chocolate|coral|cornflowerblue|cornsilk|crimson|cyan|darkblue|darkcyan|darkgoldenrod|darkgray|darkgreen|darkgrey|darkkhaki|darkmagenta|darkolivegreen|darkorange|darkorchid|darkred|darksalmon|darkseagreen|darkslateblue|darkslategray|darkslategrey|darkturquoise|darkviolet|deeppink|deepskyblue|dimgray|dimgrey|dodgerblue|firebrick|floralwhite|forestgreen|fuchsia|fuchsia|gainsboro|ghostwhite|gold|goldenrod|gray|green|greenyellow|grey|honeydew|hotpink|indianred|indigo|ivory|khaki|lavender|lavenderblush|lawngreen|lemonchiffon|lightblue|lightcoral|lightcyan|lightgoldenrodyellow|lightgray|lightgreen|lightgrey|lightpink|lightsalmon|lightseagreen|lightskyblue|lightslategray|lightslategrey|lightsteelblue|lightyellow|lime|limegreen|linen|magenta|maroon|mediumaquamarine|mediumblue|mediumorchid|mediumpurple|mediumseagreen|mediumslateblue|mediumspringgreen|mediumturquoise|mediumvioletred|midnightblue|mintcream|mistyrose|moccasin|navajowhite|navy|oldlace|olive|olivedrab|orange|orangered|orchid|palegoldenrod|palegreen|paleturquoise|palevioletred|papayawhip|peachpuff|peru|pink|plum|powderblue|purple|red|rosybrown|royalblue|saddlebrown|salmon|sandybrown|seagreen|seashell|sienna|silver|skyblue|slateblue|slategray|slategrey|snow|springgreen|steelblue|tan|teal|thistle|tomato|turquoise|violet|wheat|white|whitesmoke|yellow|yellowgreen';
+    var cssUnits = 'ch|cm|deg|em|ex|fr|gd|grad|Hz|in|kHz|mm|ms|pc|pt|px|rad|rem|s|turn|vh|vm|vmin|vmax|vw|%';
+
     return {
+        getProperties: function() { return cssProperties; },
         getFunctions: function() { return cssFunctions; },
         getHtmlElements: function() { return cssHtmlElements; },
+        getFonts: function() { return cssFonts; },
         getConstants: function() { return cssConstants; },
-        getColors: function() { return cssColors; }
+        getColors: function() { return cssColors; },
+        getUnits: function() { return cssUnits; }
     };
 } )();
 // Private properties are created in the local scope of the function expression.
-// Public properties are built within the object which is then returned to become the namespace.
-// Access to private data is thus possible only because of closure within the larger module.
+// Public properties are built within the object which is returned to become the namespace.
+// Access to private data is made possible only because of closure within the larger module.
+// Parens at end of the IIFE invokes function and immediately provides access to ns object.
 
 var myTACodeEditor = {
     gridContainer: document.querySelector( '.grid-container' ),
@@ -27,12 +33,13 @@ var myTACodeEditor = {
     backBtn: document.querySelector( '.back-btn '),
     nextBtn: document.querySelector( '.next-btn' ),
     
-    rxSelectors: /^[\w .\-#[\]'"=:()>^~*+,|$]+(?={)/gm,
+    rxSelectors: /^[\w .\-@#[\]'"=:()>^~*+,|$]+(?={)/gm,
     rxHtmlElements: new RegExp( '\\/\\*.*|<.*?>|\\b(' + CSSVALUES.getHtmlElements() + ')\\b(?=.*{)', 'gm' ),
-    rxConstants: new RegExp('^[\\s\\w-]+|.*?{|\\w+\\(.*\\)|\\/\\*.*|<.*>|(\\b(' + CSSVALUES.getConstants() + '|' + CSSVALUES.getColors() + ')(?![\\w-\\()]))', 'gm'),
-    rxKeywords: new RegExp('^[\\s\\w-]+:|\\/\\*.*|\\(.*\\)|([\\d.]+)(ch|cm|deg|em|ex|fr|gd|grad|Hz|in|kHz|mm|ms|pc|pt|px|rad|rem|s|turn|vh|vm|vmin|vmax|vw|%)(?=\\W)', 'gm'),
+    rxConstants: new RegExp('^[\\s\\w-]+|.*?{|\\w+\\(.*\\)|\\/\\*.*|<.*?>|-\\w+|(\\b(' + CSSVALUES.getConstants() + '|' + CSSVALUES.getColors() + '|' + CSSVALUES.getFonts() + ')(?![\\w-\\()]))', 'gm'),
+    rxKeywords: new RegExp('^[\\s\\w-]+:|\\/\\*.*|\\(.*\\)|([\\d.]+)(' + CSSVALUES.getUnits() + ')(?=\\W)', 'gm'),
     rxNumbers: /^[\s\w-]+:|.*?{|[a-z]\d+|\/\*.*|\(.*\)|([^:>("'/_-]\d*\.?\d+|#[0-9A-Fa-f]{3,6})/gm,
-    rxProperties: /^[^{][ \t\w-]+(?=:)/gm,
+    // rxProperties: /^[^{][ \t\w-]+(?=:)/gm,
+    rxProperties: new RegExp('^[ \\t\\w-]*(' + CSSVALUES.getProperties() + ')(?=:)','gm'),
     rxFunctions: new RegExp( '\\/\\*.*|((' + CSSVALUES.getFunctions() + ')\\([\\w\\d `~!@#$%^&*()\\-_=+[\\]{}\\\\|:;' + String.fromCharCode(39) + '",.\\/?]*\\))', 'gm' ),
     rxQuotes: /^[/*].*\*\/|("[\w\s-]*"(?!>)|'[\w\s-]*'(?!>))/gm,
     rxRules: /(.+)\s*(?={)|^[\t\s]*(.+;)/gm,
@@ -112,10 +119,21 @@ var myTACodeEditor = {
         }
     },
     doStyle: function( style ) {
-        var styleSheet = document.styleSheets.guideStyle;
-        for ( var i = styleSheet.rules.length -1; i >= 0; i-- ) {
-            styleSheet.deleteRule( i );
+        // var styleSheet = document.styleSheets.guideStyle;
+        var styleSheet = document.styleSheets[ 1 ];
+        if ( typeof styleSheet.rules === 'undefined' ) {
+            console.log( 'cssRules' );
+            for ( let i = styleSheet.cssRules.length -1; i >= 0; i-- ) {
+                styleSheet.deleteRule( i );
+            }
+        } else {
+            console.log( 'rules' );
+            for ( let i = styleSheet.rules.length -1; i >= 0; i-- ) {
+                styleSheet.deleteRule( i );
+            }
         }
+
+        
         if ( style.length > 0 ) {
             style.forEach( function( rule ) {
                 styleSheet.insertRule( rule );
