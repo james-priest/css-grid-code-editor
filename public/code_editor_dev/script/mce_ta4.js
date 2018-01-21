@@ -3,7 +3,8 @@ var myTACodeEditor = {
     taCodeEditor: document.querySelector( '.ta-code-editor' ),
     divCodeEditor: document.querySelector( '.div-code-editor' ),
 
-    rxSelectors: /^[^/*][\S]+(?=\s*{)/gm,
+    // rxSelectors: /^[^/*][\S]+(?=\s*{)/gm,
+    rxSelectors: /^[\w .\-@#[\]'"=:()>^~*+,|$]+(?={)/gm,
     rxConstants: new RegExp('^[\\s\\w-]+|.*?{|\\w+\\(.*\\)|\\/\\*.*|(\\b(' + getConstants() + ')(?![\\w-\\()]))', 'gm'),
     rxKeywords: new RegExp('^[\\s\\w-]+:|\\/\\*.*|([\\d.]+)(em|ex|%|px|cm|mm|in|pt|pc|ch|rem|vh|vw|vmin|vmax|fr)(?=\\W)', 'gm'),
     rxNumbers: /^[\s\w-]+:|.*?{|[a-z]\d+|\/\*.*|([^:>("'/_-]\d*\.?\d+|#[0-9A-Fa-f]{3,6})/gm,
@@ -12,6 +13,7 @@ var myTACodeEditor = {
     rxQuotes: /^[/*].*\*\/|("[\w\s-]*"(?!>)|'[\w\s-]*'(?!>))/gm,
     rxRules: /(.+)\s*(?={)|^[\t\s]*(.+;)/gm,
     rxTextToWrap: /[\w\d\-[\] {}.:;#,>+'"=()/~^$*]+$/gm,
+    rxBlockToWrap: /[\w\d\-[\] {}.:;#,>+'"=()/~^$*%\t]+$/gm,
     rxFindComment: /\/\*|\*\//,
     rxReplaceComment: /\/\*|\*\//gm,
     rxComments: /\/\*.*\*\//gm,
@@ -85,7 +87,7 @@ var myTACodeEditor = {
                 lineEndPos = lastLineEndPos;
                 slicedLine = val.slice( lineStartPos, lineEndPos );
 
-                newSlicedLine = this.toggleComment( slicedLine );
+                newSlicedLine = this.toggleComment( slicedLine, false );
                 el.value = val.slice( 0, lineStartPos ) + newSlicedLine + val.slice( lineEndPos );
 
                 // set caret selection for comment
@@ -137,12 +139,13 @@ var myTACodeEditor = {
                     if ( ( selStart <= lineEndPos ) && ( lineStartPos < selEnd ) ) {
                         var hasComment = this.rxFindComment.test( line );
                         if ( hasComment === false && doComment === true ) {
-                            arr[ idx ] = mceObj.toggleComment( line );
+                            // arr[ idx ] = mceObj.toggleComment( line );
                             newCommentLineCount += 1;
                         } else if ( hasComment && doComment === false  ) {
-                            arr[ idx ] = mceObj.toggleComment( line );
+                            // arr[ idx ] = mceObj.toggleComment( line );
                             newCommentLineCount -= 1;
                         }
+                        arr[ idx ] = mceObj.toggleComment( line, true );
                         selLineCount += 1;
                     }
                     lineStartPos = lineStartPos + line.length + 1;
@@ -179,13 +182,28 @@ var myTACodeEditor = {
             }
         }
     },
-    toggleComment: function( slicedLine ) {
+    toggleComment: function( slicedLine, isBlock ) {
         var newSlicedLine,
             hasComment = this.rxFindComment.test( slicedLine );
+        // if ( hasComment ) {
+        //     newSlicedLine = slicedLine.replace( this.rxReplaceComment, '' );
+        // } else {
+        //     newSlicedLine = slicedLine.replace( this.rxTextToWrap, '/*' + '$&' + '*/' );
+        // }
         if ( hasComment ) {
             newSlicedLine = slicedLine.replace( this.rxReplaceComment, '' );
         } else {
-            newSlicedLine = slicedLine.replace( this.rxTextToWrap, '/*' + '$&' + '*/' );
+            if ( isBlock ) {
+                newSlicedLine = slicedLine.replace( this.rxBlockToWrap, '/*' + '$&' + '*/' );
+            } else {
+                if ( slicedLine === String.fromCharCode( 9 ) ) {
+                    newSlicedLine = slicedLine.replace( this.rxBlockToWrap, '\t/**/' );
+                } else {
+                    newSlicedLine = slicedLine.replace( this.rxTextToWrap, '/*' + '$&' + '*/' );
+                }
+                
+            }
+            
         }
         return newSlicedLine;
     },
