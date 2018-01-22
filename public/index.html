@@ -15,6 +15,7 @@
             <div class="control-container">
                 <div class="instructions">
                     <h2 class='subtitle'></h2>
+                    <div class="toc"><a class="inst-btn" href="#">TOC</a></div>
                     <div class="part1"></div>
                     <div class="follow">
                         <div class="code">
@@ -29,8 +30,8 @@
                             </div>
                         </div>
                         <p class="right">
-                            <a class="inst-btn answer-btn" href="#" onclick="myTACodeEditor.showAnswer();">Show</a>
-                            <a class="inst-btn paste-btn" href="#" onclick="myTACodeEditor.pasteAnswer();">Paste</a>
+                            <a class="inst-btn answer-btn" href="#" onclick="myTACodeEditor.showAnswer(event);">Show</a>
+                            <a class="inst-btn paste-btn" href="#" onclick="myTACodeEditor.pasteAnswer(event);">Paste</a>
                         </p>
                     </div>
                     <div class="part2"></div>
@@ -48,7 +49,7 @@
                 </div>
                 <nav class="page-nav">
                     <ul>
-                        <li class="left"><a class="nav-btn toggle-code-btn show" href="#"  onclick="myTACodeEditor.toggleCode();">toggle code</a></li>
+                        <li class="left"><a class="nav-btn toggle-code-btn show" href="#"  onclick="myTACodeEditor.toggleCode(event);">toggle code</a></li>
                         <li class="left comment">or <b>Ctrl/Cmd + /</b></li>
                         <li><a class="nav-btn back-btn" href="#">Back</a></li>
                         <li><a class="nav-btn next-btn" href="#">Next</a></li>

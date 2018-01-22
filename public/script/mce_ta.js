@@ -50,6 +50,7 @@ var myTACodeEditor = {
     rxReplaceComment: /\/\*|\*\//gm,
     rxComments: /\/\*.*\*\//gm,
 
+    // page: 0,
     preFill: '',
     curPos: 0,
     answerCode: '',
@@ -81,11 +82,33 @@ var myTACodeEditor = {
             return mceObj.clickNext( evt );
         };
 
-        mceObj.loadPage( 0 );
+        mceObj.loadPage( mceObj.getPage() );
     },
-    loadPage: function( idx ) {
+    getPage: function() {
+        var mceObj = this,
+            page = 1;
+        if ( mceObj.getParameterByName( 'pg' ) ) {
+            page = mceObj.getParameterByName( 'pg' );
+            if ( page < 1 ) { page = 1; }
+            var pagesLen = getPages().length;
+            if ( page > pagesLen ) { page = pagesLen; }
+            // console.log( 'got something - page:', page );
+        }
+        return page;
+    },
+    getParameterByName: function(name, url) {
+        if ( !url ) { url = window.location.href; }
+        name = name.replace(/[[\]]/g, "\\$&");
+        var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
+            results = regex.exec(url);
+        if ( !results ) { return null; }
+        if ( !results[ 2 ] ) { return ''; }
+        return decodeURIComponent(results[2].replace(/\+/g, ' '));
+    },
+    loadPage: function( pg ) {
         var mceObj = this;
         var pages = getPages();
+        var idx = pg - 1;
         var num = pages[ idx ].num,
             title = pages[ idx ].title,
             subtitle = pages[ idx ].subtitle,
@@ -108,7 +131,7 @@ var myTACodeEditor = {
         mceObj.setTaVal( preFill );
         mceObj.formatFollowCode( follow );
         mceObj.formatSolution( solution );
-        mceObj.doNavButtons( idx, pages );
+        mceObj.doNavButtons( pg, pages );
         document.querySelector( '.guide' ).innerHTML = guide;
         document.querySelector( '.guidelines' ).innerHTML = guidelines;
         document.querySelector( '.grid' ).innerHTML = grid;
@@ -159,18 +182,20 @@ var myTACodeEditor = {
         document.querySelector( '.toggle-code-btn' ).classList.add( 'hide' );
         document.querySelector( '.comment' ).classList.add( 'hide' );
     },
-    doNavButtons( idx, pages ) {
+    doNavButtons( pg, pages ) {
         var mceObj = this;
         // console.log( pages.length );
-        if ( idx > 0 ) {
+        if ( pg > 1 ) {
             mceObj.backBtn.classList.remove( 'disabled' );
-            mceObj.backBtn.dataset.prev = +idx - 1;
+            mceObj.backBtn.dataset.prev = +pg - 1;
+            mceObj.backBtn.href = '?pg=' + ( +pg - 1 );
         } else {
             mceObj.backBtn.classList.add( 'disabled' );
         }
-        if ( idx < pages.length - 1) {
+        if ( pg < pages.length) {
             mceObj.nextBtn.classList.remove( 'disabled' );
-            mceObj.nextBtn.dataset.next = +idx + 1;
+            mceObj.nextBtn.dataset.next = +pg + 1;
+            mceObj.nextBtn.href = '?pg=' + ( +pg + 1 );
         } else {
             mceObj.nextBtn.classList.add( 'disabled' );
         }
@@ -212,7 +237,9 @@ var myTACodeEditor = {
             
             window.setTimeout( function() {
                 document.body.style.opacity = 1;
+                mceObj.updateURL( 'pg=' + evt.target.dataset.prev );
                 mceObj.loadPage( evt.target.dataset.prev );
+                // window.location.hash = 'james prev';
             }, 300 );
         }
         return false;
@@ -225,10 +252,19 @@ var myTACodeEditor = {
             
             window.setTimeout( function() {
                 document.body.style.opacity = 1;
+                mceObj.updateURL( 'pg=' + evt.target.dataset.next );
                 mceObj.loadPage( evt.target.dataset.next );
+                // window.location. = 'james next';
             }, 300 );
         }
         return false;
+    },
+    updateURL: function(qs) {
+        if (history.pushState) {
+            var newurl = window.location.protocol + '//' + window.location.host +
+                window.location.pathname + '?' + qs;
+            window.history.pushState({path:newurl},'',newurl);
+        }
     },
     triggerInputEvent: function() {
         var mceObj = this;
@@ -683,7 +719,8 @@ var myTACodeEditor = {
             gridContainer.classList.remove( 'solved' );
         }
     },
-    showAnswer: function() {
+    showAnswer: function( e ) {
+        e.preventDefault();
         document.querySelector( '.answer' ).classList.add( 'show' );
         document.querySelector( '.answer-btn' ).classList.add( 'disabled' );
         return false;
@@ -693,12 +730,13 @@ var myTACodeEditor = {
         document.querySelector( '.answer-btn' ).classList.remove( 'disabled' );
         return false;
     },
-    pasteAnswer: function() {
+    pasteAnswer: function(e) {
         var mceObj = this,
             ta = this.taCodeEditor,
             code = document.querySelector( '.answer code' ).innerText,
             pasteBtn = document.querySelector( '.paste-btn' );
             
+        e.preventDefault();
         if ( pasteBtn.innerText === 'Paste' && code.trim().length > 0) {
             console.log( code.trim().length );
             pasteBtn.innerText = 'Clear';
@@ -711,8 +749,9 @@ var myTACodeEditor = {
             pasteBtn.innerText = 'Paste';
             this.setTaVal( mceObj.preFill );
         }
+        return false;
     },
-    toggleCode: function() {
+    toggleCode: function(e) {
         var mceObj = this,
             ta = this.taCodeEditor,
             val = ta.value,
@@ -728,6 +767,7 @@ var myTACodeEditor = {
         var endPart = val.slice( 0, selEnd ),
             endPrevLines = ( endPart.match( /\n/gm ) || [] ).length;
         
+        e.preventDefault();
         // select all to comment all lines
         ta.selectionStart = 0;
         ta.selectionEnd = ta.value.length;

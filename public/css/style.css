@@ -237,12 +237,18 @@ section.grid-container {
     .instructions {
         flex-basis: 50%;
         font-size: .875em; /* 14px/16px */
+        position: relative;
     }
         .instructions h2 { 
             margin: 0 0 14px; 
             font-size: 1.428571em; /* 20px/14px */
             /* text-decoration: underline; */
             border-bottom: 1px solid;
+        }
+        .instructions .toc {
+            position: absolute;
+            top: 0.8em;
+            right: 1em;
         }
         .instructions em {
             color: lightcoral;
