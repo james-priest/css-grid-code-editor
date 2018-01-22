@@ -5,9 +5,12 @@ var myTACodeEditor = {
 
     // rxSelectors: /^[^/*][\S]+(?=\s*{)/gm,
     rxSelectors: /^[\w .\-@#[\]'"=:()>^~*+,|$]+(?={)/gm,
+    rxHtmlElements: new RegExp( '\\/\\*.*|<.*?>|\\b(' + getHtmlElements() + ')\\b(?=.*{)', 'gm' ),
     rxConstants: new RegExp('^[\\s\\w-]+|.*?{|\\w+\\(.*\\)|\\/\\*.*|(\\b(' + getConstants() + ')(?![\\w-\\()]))', 'gm'),
     rxKeywords: new RegExp('^[\\s\\w-]+:|\\/\\*.*|([\\d.]+)(em|ex|%|px|cm|mm|in|pt|pc|ch|rem|vh|vw|vmin|vmax|fr)(?=\\W)', 'gm'),
-    rxNumbers: /^[\s\w-]+:|.*?{|[a-z]\d+|\/\*.*|([^:>("'/_-]\d*\.?\d+|#[0-9A-Fa-f]{3,6})/gm,
+    // rxNumbers: /^[\s\w-]+:|.*?{|[a-z]\d+|\/\*.*|([^:>("'/_-]\d*\.?\d+|#[0-9A-Fa-f]{3,6})/gm,
+    // rxNumbers: /^[\s\w-]+:|.*?{|[a-z]\d+|\/\*.*|\(.*\)|([^:>("'/_-]\d*\.?\d+|#[0-9A-Fa-f]{3,6})/gm,
+    rxNumbers: /^[\s\w-]+:|.*?{|[a-z]\d+|\/\*.*|\(.*\)|([^:>("'/_-]\d*\.?\d+|(#[0-9A-Fa-f]{6}|#[0-9A-Fa-f]{3})\b)/gm,
     rxProperties: /^[ \t\w-]+(?=:)/gm,
     rxFunctions: new RegExp( '\\/\\*.*|((' + getFunctions() + ')\\([\\w"' + String.fromCharCode(39) + ':\\/\\._\\-]*\\))', 'gm' ),
     rxQuotes: /^[/*].*\*\/|("[\w\s-]*"(?!>)|'[\w\s-]*'(?!>))/gm,
@@ -228,6 +231,7 @@ var myTACodeEditor = {
             ce = mceObj.taCodeEditor,
             el = evt.target,
             pos = ce.selectionStart,
+            val = el.value,
             lineStartPos = ce.value.lastIndexOf( '\n', pos-1 ) > -1 ? ce.value.lastIndexOf( '\n', pos-1 ) + 1: 0,
             lineEndPos = ce.value.indexOf( '\n', pos ) > -1 ? ce.value.indexOf( '\n', pos ) : ce.value.length;
         // console.log( 'before:', 'pos:', pos );
@@ -254,6 +258,13 @@ var myTACodeEditor = {
                     return true;
                 }
                 break;
+            case SEMI:
+                if ( val.charAt( pos ) === SEMI ) {
+                    mceObj.insertText( el, '', 1 );
+                } else {
+                    return true;
+                }
+                break; 
             case BACKSPACE:
                 return true;
                 // break;    
@@ -293,6 +304,12 @@ var myTACodeEditor = {
         var formatted = css;
         
         formatted = formatted.replace( this.rxSelectors, '<span class="mce-selector">$&</span>' );
+        formatted = formatted.replace( this.rxHtmlElements, function(m, group1) {
+            if (group1 !== undefined) {
+                return '<span class="mce-element">' + group1 + '</span>';
+            }
+            return m;
+        } );
         formatted = formatted.replace( this.rxConstants, function(m, group1) {
             if (group1 !== undefined) {
                 return '<span class="mce-constant">' + group1 + '</span>';

@@ -112,7 +112,7 @@ div.control-container {
         textarea.ta-code-editor {
             /* max-width: 350px; */
             width: 98%;
-            height: 100px;
+            height: 160px;
             padding: 0.5em;
             font-weight: 500;
             color: #66D9EF;
@@ -140,6 +140,7 @@ div.control-container {
     }
     .mce-line { color: #fff; }
     .mce-selector { color: #A6E22E; }
+    .mce-element { color: #F92672; }
     .mce-property { color: #66D9EF; }
     /* .mce-constant { color: #FD971F; } */
     /* .mce-constant { color: #66D9EF; } */
