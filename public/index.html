@@ -8,6 +8,12 @@
         <style id='guideStyle'></style>
     </head>
     <body>
+        <div class="toc">
+            <h2>Table of Contents</h2>
+            <div class="toc-wrapper">
+                <ul class="section-list"></ul>
+            </div>
+        </div>
         <header>
             <h1 class="title"></h1>
         </header>
@@ -15,7 +21,7 @@
             <div class="control-container">
                 <div class="instructions">
                     <h2 class='subtitle'></h2>
-                    <div class="toc"><a class="inst-btn" href="#">TOC</a></div>
+                    <div class="toc-btn"><a class="inst-btn" href="#" onclick="myTACodeEditor.toggleToc(event);">TOC</a></div>
                     <div class="part1"></div>
                     <div class="follow">
                         <div class="code">

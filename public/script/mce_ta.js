@@ -2,7 +2,7 @@
 //  Create a namespace using the Module Pattern.
 var CSSVALUES = (function() {
     var cssProperties = 'align-content|align-items|align-self|all|animation|animation-delay|animation-direction|animation-duration|animation-fill-mode|animation-iteration-count|animation-name|animation-play-state|animation-timing-function|backface-visibility|background|background-attachment|background-blend-mode|background-clip|background-color|background-image|background-origin|background-position|background-repeat|background-size|border|border-bottom|border-bottom-color|border-bottom-left-radius|border-bottom-right-radius|border-bottom-style|border-bottom-width|border-collapse|border-color|border-image|border-image-outset|border-image-repeat|border-image-slice|border-image-source|border-image-width|border-left|border-left-color|border-left-style|border-left-width|border-radius|border-right|border-right-color|border-right-style|border-right-width|border-spacing|border-style|border-top|border-top-color|border-top-left-radius|border-top-right-radius|border-top-style|border-top-width|border-width|bottom|box-decoration-break|box-shadow|box-sizing|caption-side|caret-color|clear|clip|color|column-count|column-fill|column-gap|column-rule|column-rule-color|column-rule-style|column-rule-width|column-span|column-width|columns|content|counter-increment|counter-reset|cursor|direction|display|empty-cells|filter|flex|flex-basis|flex-direction|flex-flow|flex-grow|flex-shrink|flex-wrap|float|font|font-family|font-kerning|font-size|font-size-adjust|font-stretch|font-style|font-variant|font-weight|grid|grid-area|grid-auto-columns|grid-auto-flow|grid-auto-rows|grid-column|grid-column-end|grid-column-gap|grid-column-start|grid-gap|grid-row|grid-row-end|grid-row-gap|grid-row-start|grid-template|grid-template-areas|grid-template-columns|grid-template-rows|hanging-punctuation|height|justify-content|left|letter-spacing|line-height|list-style|list-style-image|list-style-position|list-style-type|margin|margin-bottom|margin-left|margin-right|margin-top|max-height|max-width|min-height|min-width|object-fit|opacity|order|outline|outline-color|outline-offset|outline-style|outline-width|overflow|overflow-x|overflow-y|padding|padding-bottom|padding-left|padding-right|padding-top|page-break-after|page-break-before|page-break-inside|perspective|perspective-origin|position|quotes|resize|right|tab-size|table-layout|text-align|text-align-last|text-decoration|text-decoration-color|text-decoration-line|text-decoration-style|text-indent|text-justify|text-overflow|text-shadow|text-transform|top|transform|transform-origin|transform-style|transition|transition-delay|transition-duration|transition-property|transition-timing-function|unicode-bidi|user-select|vertical-align|visibility|white-space|width|word-break|word-spacing|word-wrap|z-index';
-    var cssFunctions = 'url|translateZ|translateY|translateX|translate3d|translate|steps|skewY|skewX|skew|sepia|scaleZ|scaleY|scaleX|scale3d|scale|saturate|rotateZ|rotateY|rotateX|rotate3d|rotate|rgba|rgb|repeating-radial-gradient|repeating-linear-gradient|repeat|radial-gradient|perspective|opacity|matrix3d|matrix|linear-gradient|invert|hue-rotate|hsl|grayscale|drop-shadow|cubic-bezier|contrast|calc|brightness|blur|attr';
+    var cssFunctions = 'url|translateZ|translateY|translateX|translate3d|translate|steps|skewY|skewX|skew|sepia|scaleZ|scaleY|scaleX|scale3d|scale|saturate|rotateZ|rotateY|rotateX|rotate3d|rotate|rgba|rgb|repeating-radial-gradient|repeating-linear-gradient|repeat|radial-gradient|perspective|opacity|matrix3d|matrix|linear-gradient|invert|hue-rotate|hsla|hsl|grayscale|drop-shadow|cubic-bezier|contrast|calc|brightness|blur|attr';
     var cssHtmlElements = 'a|abbr|address|area|article|aside|audio|b|base|bdi|bdo|blockquote|body|br|button|canvas|caption|cite|code|col|colgroup|datalist|dd|del|details|dfn|dialog|div|dl|dt|em|embed|fieldset|figcaption|figure|footer|form|h1|h2|h3|h4|h5|h6|head|header|hr|html|i|iframe|img|input|ins|kbd|label|legend|li|link|main|map|mark|menu|menuitem|meta|meter|nav|noscript|object|ol|optgroup|option|output|p|param|picture|pre|progress|q|rp|rt|ruby|s|samp|script|section|select|small|source|span|strong|style|sub|summary|sup|table|tbody|td|textarea|tfoot|th|thead|time|title|tr|track|u|ul|var|video|wbr';
     var cssFonts = 'cursive|fantasy|monospace|sans-serif|serif|system-ui';
     var cssConstants = 'absolute|alias|all|all-scroll|allow-end|alternate|alternate-reverse|always|armenian|auto|avoid|backwards|balance|baseline|bidi-override|block|border-box|both|bottom|break-all|break-word|capitalize|caption|cell|center|circle|cjk-ideographic|clip|clone|close-quote|col-resize|collapse|color-dodge|column|column-reverse|condensed|contain|content-box|context-menu|copy|counter|cover|crosshair|darken|dashed|decimal|decimal-leading-zero|default|disc|distribute|dotted|double|e-resize|ease|ease-in|ease-in-out|ease-out|ellipsis|embed|end|ew-resize|expanded|extra-condensed|extra-expanded|fill|first|fixed|flat|flex|flex-end|flex-start|force-end|forwards|georgian|grab|grabbing|grid|groove|hebrew|help|hidden|hide|hiragana|hiragana-iroha|horizontal|icon|infinite|inherit|initial|inline|inline-block|inline-flex|inline-table|inset|inside|inter-cluster|inter-ideograph|inter-word|invert|italic|justify|kashida|katakana|katakana-iroha|keep-all|large|larger|last|left|lighten|line-through|linear|list-item|local|lower-alpha|lower-greek|lower-latin|lower-roman|lowercase|ltr|luminosity|max-content|medium|menu|message-box|middle|min-content|move|multiply|n-resize|ne-resize|nesw-resize|no-close-quote|no-drop|no-open-quote|no-repeat|none|normal|not-allowed|nowrap|ns-resize|nw-resize|nwse-resize|oblique|open-quote|outset|outside|overlay|overline|padding-box|paused|pointer|pre|pre-line|pre-wrap|preserve-3d|progress|relative|repeat|repeat-x|repeat-y|reverse|ridge|right|round|row|row-line|row-resize|row-reverse|rowdense|rtl|run-in|running|s-resize|saturation|scale-down|screen|scroll|se-resize|semi-condensed|semi-expanded|separate|show|slice|small|small-caps|small-caption|smaller|solid|space|space-around|space-between|span|square|start|static|status-bar|step-end|step-start|sticky|stretch|sub|super|sw-resize|table|table-caption|table-cell|table-column|table-column-group|table-footer-group|table-header-group|table-row|table-row-group|text|text-bottom|text-top|thick|thin|top|transparent|trim|ultra-condensed|ultra-expanded|underline|unset|upper-alpha|upper-greek|upper-latin|upper-roman|uppercase|vertical|vertical-text|visible|w-resize|wait|wavy|wrap|wrap-reverse|x-large|x-small|xx-large|xx-small|zoom-in|zoom-out';
@@ -30,6 +30,7 @@ var myTACodeEditor = {
     divSolution: document.querySelector( '.answer code' ),
     taCodeEditor: document.querySelector( '.ta-code-editor' ),
     divCodeDisplay: document.querySelector( '.div-code-display' ),
+    toc: document.querySelector( '.toc' ),
     backBtn: document.querySelector( '.back-btn '),
     nextBtn: document.querySelector( '.next-btn' ),
     
@@ -50,7 +51,8 @@ var myTACodeEditor = {
     rxReplaceComment: /\/\*|\*\//gm,
     rxComments: /\/\*.*\*\//gm,
 
-    // page: 0,
+    curPage: 0,
+    pages: [],
     preFill: '',
     curPos: 0,
     answerCode: '',
@@ -82,17 +84,50 @@ var myTACodeEditor = {
             return mceObj.clickNext( evt );
         };
 
-        mceObj.loadPage( mceObj.getPage() );
+        mceObj.pages = getPages();
+        mceObj.curPage = mceObj.getPage();
+        mceObj.buildToc( mceObj.curPage );
+        mceObj.loadPage( mceObj.curPage );
+    },
+    buildToc: function( curPage ) {
+        var mceObj = this,
+            pages = mceObj.pages;
+        var ul = document.querySelector( '.section-list' );
+        var frag = document.createDocumentFragment();
+        pages.forEach( function(pg) {
+            var li = document.createElement( 'li' );
+            li.className = 'section-item';
+            var a = document.createElement( 'a' );
+            a.className = 'item';
+            if ( +curPage === pg.num ) {
+                a.classList.add( 'selected' );
+            }
+            a.href = '?pg=' + pg.num;
+            a.dataset.page = pg.num;
+            a.onclick = function( evt ) {
+                return mceObj.clickTocItem( evt );
+            };
+                
+            var div = document.createElement( 'div' );
+            div.className = 'title-container';
+            div.innerText = pg.num + '. ' + pg.subtitle;
+
+            a.appendChild( div );
+            li.appendChild( a );
+            frag.appendChild( li );
+        } );
+        ul.appendChild( frag );
     },
     getPage: function() {
         var mceObj = this,
-            page = 1;
+            page =1;
         if ( mceObj.getParameterByName( 'pg' ) ) {
             page = mceObj.getParameterByName( 'pg' );
             if ( page < 1 ) { page = 1; }
-            var pagesLen = getPages().length;
+            var pagesLen = mceObj.pages.length;
             if ( page > pagesLen ) { page = pagesLen; }
             // console.log( 'got something - page:', page );
+            if ( !( page > 1 && page <= pagesLen ) ) { page = 1; }
         }
         return page;
     },
@@ -107,6 +142,7 @@ var myTACodeEditor = {
     },
     loadPage: function( pg ) {
         var mceObj = this;
+        // var pages = mceObj.pages;
         var pages = getPages();
         var idx = pg - 1;
         var num = pages[ idx ].num,
@@ -135,6 +171,8 @@ var myTACodeEditor = {
         document.querySelector( '.guide' ).innerHTML = guide;
         document.querySelector( '.guidelines' ).innerHTML = guidelines;
         document.querySelector( '.grid' ).innerHTML = grid;
+        mceObj.hightlightTocItem( pg );
+        mceObj.curPage = pg;
  
         mceObj.doStyle( style );
         
@@ -146,17 +184,16 @@ var myTACodeEditor = {
         // var styleSheet = document.styleSheets.guideStyle;
         var styleSheet = document.styleSheets[ 1 ];
         if ( typeof styleSheet.rules === 'undefined' ) {
-            console.log( 'cssRules' );
+            // console.log( 'cssRules' );
             for ( let i = styleSheet.cssRules.length -1; i >= 0; i-- ) {
                 styleSheet.deleteRule( i );
             }
         } else {
-            console.log( 'rules' );
+            // console.log( 'rules' );
             for ( let i = styleSheet.rules.length -1; i >= 0; i-- ) {
                 styleSheet.deleteRule( i );
             }
         }
-
         
         if ( style.length > 0 ) {
             style.forEach( function( rule ) {
@@ -233,33 +270,44 @@ var myTACodeEditor = {
     clickBack: function( evt ) {
         var mceObj = this;
         if ( mceObj.backBtn.classList.contains( 'disabled' ) === false ) {
-            document.body.style.opacity = 0;
-            
-            window.setTimeout( function() {
-                document.body.style.opacity = 1;
-                mceObj.updateURL( 'pg=' + evt.target.dataset.prev );
-                mceObj.loadPage( evt.target.dataset.prev );
-                // window.location.hash = 'james prev';
-            }, 300 );
+            mceObj.transitionPage( evt.target.dataset.prev );
         }
         return false;
     },
     clickNext: function( evt ) {
         var mceObj = this;
         if ( mceObj.nextBtn.classList.contains( 'disabled' ) === false ) {
-            // transition
-            document.body.style.opacity = 0;
-            
-            window.setTimeout( function() {
-                document.body.style.opacity = 1;
-                mceObj.updateURL( 'pg=' + evt.target.dataset.next );
-                mceObj.loadPage( evt.target.dataset.next );
-                // window.location. = 'james next';
-            }, 300 );
+            mceObj.transitionPage( evt.target.dataset.next );
         }
         return false;
     },
-    updateURL: function(qs) {
+    clickTocItem: function( evt ) {
+        var mceObj = this,
+            clickPage = evt.currentTarget.dataset.page;
+        if (mceObj.curPage !== clickPage) {
+            mceObj.transitionPage( clickPage );
+        }
+        return false;
+    },
+    transitionPage: function( pg ) {
+        var mceObj = this;
+        //document.body.style.opacity = 0; // transition
+        document.querySelector('header').style.opacity = 0; // transition
+        document.querySelector('main').style.opacity = 0; // transition
+            
+        window.setTimeout( function() {
+            //document.body.style.opacity = 1;
+            document.querySelector('header').style.opacity = 1;
+            document.querySelector('main').style.opacity = 1;
+            mceObj.updateBrowserUrlBar( 'pg=' + pg );
+            mceObj.loadPage( pg );
+        }, 300 );
+    },
+    hightlightTocItem: function( pg ) {
+        document.querySelector( '.selected' ).classList.remove( 'selected' );
+        document.querySelector( '.section-list' ).children[ pg-1 ].children[ 0 ].classList.add( 'selected' );
+    },
+    updateBrowserUrlBar: function(qs) {
         if (history.pushState) {
             var newurl = window.location.protocol + '//' + window.location.host +
                 window.location.pathname + '?' + qs;
@@ -806,6 +854,10 @@ var myTACodeEditor = {
         }
         ta.focus();
         return false;
+    },
+    toggleToc: function(evt) {
+        evt.preventDefault();
+        this.toc.classList.toggle( 'show' );
     }
 };
 

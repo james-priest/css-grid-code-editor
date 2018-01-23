@@ -28,7 +28,7 @@ var pages = [
     {
         num: 2,
         title: 'CSS Grid',
-        subtitle: 'Grid',
+        subtitle: 'Grid with two elements',
         instructions: {
             part1: "<p>Establish the grid once again.</p>",
             part2: " <p>This uses the child elements to fill the space with <em>equal height rows</em>.</p>"
