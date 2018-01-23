@@ -49,6 +49,11 @@ h2 {
 .toc.show {
     margin-left: -1em;
 }
+    .toc .toc-btn-close {
+        position: absolute;
+        top: 6px;
+        right: 4px;
+    }
     .toc h2 {
         margin: 0;
         padding: 16px 10px;
@@ -58,9 +63,6 @@ h2 {
         margin: 0;
         padding: 0;
     }
-    /* .toc ul.section-list .section-item:first-child {
-        border-top: 1px solid #ddd;
-    } */
     .toc ul.section-list .section-item {
         /* border-bottom: 1px solid rgba(255, 49, 108, 0.1) !important; */
         border-bottom: 1px solid #ddd;

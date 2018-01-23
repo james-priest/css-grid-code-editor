@@ -284,7 +284,8 @@ var myTACodeEditor = {
     clickTocItem: function( evt ) {
         var mceObj = this,
             clickPage = evt.currentTarget.dataset.page;
-        if (mceObj.curPage !== clickPage) {
+        if ( mceObj.curPage !== clickPage ) {
+            // document.querySelector( '.toc' ).classList.remove( 'show' );
             mceObj.transitionPage( clickPage );
         }
         return false;
