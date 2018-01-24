@@ -1,5 +1,5 @@
 html { font-size: 16px; height: 90%; min-height: 580px; 
-    /* height: 100% */
+    height: 100%
 }
 body * { box-sizing: border-box; }
 a { transition: all .15s ease-in-out;}
@@ -12,8 +12,8 @@ body {
     /* margin: 1em; */
     margin: 0;
     padding: 0;
-    /* display: flex;
-    flex-direction: column; */
+    display: flex;
+    flex-direction: column;
     height: 100%;
     transition: all .3s ease-in-out;
     position: relative;
@@ -41,20 +41,64 @@ code { font-family: Consolas, monospace; }
     border-radius: 4px;
     box-shadow: 0 0 1px rgba(255,255,255,.5);
 }
+.splash-btn a {
+    border-radius: 15px;
+    border: 1px solid #ccc;
+}
 .splash-container {
     position: absolute;
-    /* width: 100%;
-    height: 100%; */
-    z-index: -10;
+    z-index: 10;
     display: flex;
+    /* left: 5em;
+    right: 5em;
+    top: 5em;
+    bottom: 5em; */
+    width: 0vw;
+    height: 0vh;
+    left: 5vw;
+    /* left: calc(50% - (90vw / 2)); */
+    top: 5vh;
+    /* top: calc(50% - (90vh / 2));; */
+    /* border: 10px solid rgb(249, 44, 0); */
+    /* border: 10px solid #999; */
+    border: 1px solid #666;
+    border-radius: 10px;
+    /* display: none; */
+    opacity: 0;
+    transition: all .3s ease-out;
+    overflow: hidden;
 
 }
+.splash-container.show {
+    display: flex;
+    opacity: 1;
+    width: 90vw;
+    height: 90vh;
+}
 .splash {
-    /* margin: 10%; */
+    /* margin: 10px; */
     width: 100%;
     /* height: 100%; */
     background-color: #eee;
+    padding: 20px 26px;
+    position: relative;
+    color: #333;
+    font-size: .8125em; /* 13px/16px */
+    overflow-y: auto;
 }
+    .splash .splash-btn-close {
+        position: absolute;
+        top: 9px;
+        right: 7px;
+    }
+    .splash h2 {
+        font-size: 1.384615em; /* 18px/13px */
+    }
+    .splash h3 {
+        font-size: 1.230769em; /* 16px/13px */
+        border-bottom: 1px solid #ccc;
+    } 
+
 .toc {
     position: absolute;
     width: 300px;
@@ -69,7 +113,6 @@ code { font-family: Consolas, monospace; }
     color: #333;
     overflow: scroll;
 }
-
 .toc.show {
     margin-left: 0;
 }
@@ -113,11 +156,17 @@ code { font-family: Consolas, monospace; }
         padding: 10px 0 10px 30px;
     }
 
-main, header {
+header, main {
     /* margin: 1em; */
     margin: 0;
     padding: 0 1em;
+    
     transition: all .3s ease-in-out;
+}
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 main { 
     /* margin:auto; */
@@ -125,10 +174,11 @@ main {
     /* width: 90vw; */
     /* max-width: 700px; */
     /* height: 96%; */
-    height: 94%;
+    /* height: 94%; */
     display: flex;
     justify-content: space-between;
     padding-bottom: 1em;
+    flex-grow: 1;
 }
 .sandbox-wrapper {
     flex-basis: 58%;
@@ -317,7 +367,7 @@ section.grid-container {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    height: 100%;
+    /* height: 100%; */
     margin-right: 16px;
 }   
     .ta-code-editor, .div-code-display, .instructions {
@@ -340,7 +390,8 @@ section.grid-container {
     }
     .hide { display: none; }
     .instructions {
-        flex-basis: 50%;
+        /* flex-basis: 50%; */
+        flex-grow: 1;
         font-size: .875em; /* 14px/16px */
         position: relative;
         margin-bottom: .4em;

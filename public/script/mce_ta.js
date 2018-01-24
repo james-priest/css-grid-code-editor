@@ -31,6 +31,7 @@ var myTACodeEditor = {
     taCodeEditor: document.querySelector( '.ta-code-editor' ),
     divCodeDisplay: document.querySelector( '.div-code-display' ),
     toc: document.querySelector( '.toc' ),
+    splashContainer: document.querySelector( '.splash-container' ),
     backBtn: document.querySelector( '.back-btn '),
     nextBtn: document.querySelector( '.next-btn' ),
     
@@ -88,6 +89,14 @@ var myTACodeEditor = {
         mceObj.curPage = mceObj.getPage();
         mceObj.buildToc( mceObj.curPage );
         mceObj.loadPage( mceObj.curPage );
+
+        mceObj.loadSplash();
+    },
+    loadSplash: function() {
+        var splashBtn = document.querySelector('.splash-btn a');
+        window.setTimeout(function() {
+            splashBtn.dispatchEvent( new Event( 'click' ) );
+        }, 1000);
     },
     buildToc: function( curPage ) {
         var mceObj = this,
@@ -859,6 +868,12 @@ var myTACodeEditor = {
     toggleToc: function(evt) {
         evt.preventDefault();
         this.toc.classList.toggle( 'show' );
+        this.taCodeEditor.focus();
+    },
+    toggleSplash: function( evt ) {
+        evt.preventDefault();
+        this.splashContainer.classList.toggle( 'show' );
+        this.taCodeEditor.focus();
     }
 };
 
