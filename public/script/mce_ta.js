@@ -59,37 +59,31 @@ var myTACodeEditor = {
     answerCode: '',
     styleRuleIdx: 0,
     browser: { chrome: 0, ie: 0, firefox: 0, safari: 0, opera: 0, edge: 0 },
+    debug: false,
+    
     init: function() {
         var mceObj = this;
-
         mceObj.sniffBrowser();
-
         mceObj.taCodeEditor.onkeydown = function( evt ) {
             return mceObj.captureKeyDown( evt );
         };
-
         mceObj.taCodeEditor.oninput = function( evt ) {
             mceObj.highlightSyntax( mceObj.taCodeEditor.value );
             mceObj.processRules( evt );
         };
-
         mceObj.taCodeEditor.onkeyup = function( evt ) {
             return mceObj.captureKeyUp( evt );
         };
-
         mceObj.backBtn.onclick = function( evt ) {
             return mceObj.clickBack( evt );
         };
-
         mceObj.nextBtn.onclick = function( evt ) {
             return mceObj.clickNext( evt );
         };
-
         mceObj.pages = getPages();
         mceObj.curPage = mceObj.getPage();
         mceObj.buildToc( mceObj.curPage );
         mceObj.loadPage( mceObj.curPage );
-
         mceObj.loadSplash();
     },
     loadSplash: function() {
@@ -191,7 +185,18 @@ var myTACodeEditor = {
     },
     doStyle: function( style ) {
         // var styleSheet = document.styleSheets.guideStyle;
-        var styleSheet = document.styleSheets[ 1 ];
+        // var styleSheet = document.styleSheets[ 1 ];
+        var styleSheet = '';
+        var sheets = document.styleSheets;
+        for ( var i = 0; i < sheets.length; i++ ) {
+            // console.log( 'sheets[' + i + ']', 'ownerNode.id:', sheets[ i ].ownerNode.id );
+            // console.log( 'sheets[' + i + ']', sheets[ i ] );
+            if ( sheets[ i ].ownerNode.id === 'guideStyle' ) {
+                styleSheet = sheets[ i ];
+                break;
+            }
+        }
+        
         if ( typeof styleSheet.rules === 'undefined' ) {
             // console.log( 'cssRules' );
             for ( let i = styleSheet.cssRules.length -1; i >= 0; i-- ) {
@@ -359,15 +364,18 @@ var myTACodeEditor = {
             firstLineEndPos = val.indexOf( '\n' ) > -1 ? val.indexOf( '\n' ) : val.length,
             lastLineStartPos = val.lastIndexOf( '\n' ) > -1 ? val.lastIndexOf( '\n' ) + 1 : 0,
             posInLine = selStart - lineStartPos;
-        console.log( '' );
-        if ( ta.selectionDirection === 'forward' ) {
-            console.log( 'after: ', 'selStart:', selStart, 'selEnd:', selEnd, 'selDirection:', selDir );
-        } else {
-            console.log( 'after: ', 'selStart:', selEnd, 'selEnd:', selStart, 'selDirection:', selDir );
+        if ( mceObj.debug ) {
+            console.log( '' );
+            if ( ta.selectionDirection === 'forward' ) {
+                console.log( 'after: ', 'selStart:', selStart, 'selEnd:', selEnd, 'selDirection:', selDir );
+            } else {
+                console.log( 'after: ', 'selStart:', selEnd, 'selEnd:', selStart, 'selDirection:', selDir );
+            }
+            console.log( '  lineStartPos:', lineStartPos, 'lineEndPos:', lineEndPos, 'posInLine', posInLine );
+            console.log( '  firstLineStartPos:', 0, 'firstLineEndPos:', firstLineEndPos );
+            console.log( '  lastLineStartPos:', lastLineStartPos, 'lastLineEndPos:', val.length );
         }
-        console.log( '  lineStartPos:', lineStartPos, 'lineEndPos:', lineEndPos, 'posInLine', posInLine );
-        console.log( '  firstLineStartPos:', 0, 'firstLineEndPos:', firstLineEndPos );
-        console.log( '  lastLineStartPos:', lastLineStartPos, 'lastLineEndPos:', val.length );
+        
         switch ( evt.key ) {
             case SLASH:
                 if ( evt.ctrlKey ) {

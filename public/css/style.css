@@ -1,6 +1,4 @@
-html { font-size: 16px; height: 90%; min-height: 580px; 
-    height: 100%
-}
+html { font-size: 16px; height: 90%; min-height: 580px; height: 100%; }
 body * { box-sizing: border-box; }
 a { transition: all .15s ease-in-out;}
 div { margin: 0; padding: 0; }
@@ -343,23 +341,6 @@ section.grid-container {
         .target.lava {
             background-color: darkred;
         }
-
-        /* .target.zombie { 
-            height: 200px;
-            background-image: url('../images/zombie-male.png');
-            color: #eee;
-        }
-        .target.goo {
-            background: url('../images/goo.png') no-repeat;
-            background-size: 100% 100%;
-            color: #eee;
-        }
-        .target.dave {
-            height: 200px;
-            width: 150px;
-            color: #eee;
-            background-color: #c33
-        } */
 .control-container {
     flex-basis: 40%;
     min-width: 380px;

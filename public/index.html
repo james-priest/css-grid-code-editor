@@ -8,66 +8,6 @@
         <style id='guideStyle'></style>
     </head>
     <body>
-        <div class="splash-container">
-            <div class="splash">
-                <h2>CSS Grid Proof-of-concept App</h2>
-                <div class="splash-btn-close"><a href="#" class="inst-btn" onclick="myTACodeEditor.toggleSplash(event);">x</a></div>
-                <h3>What is this?</h3>
-                <p>
-                    This is a project created as a programming exercise and built as a Single Page Application (SPA). It was inspired by Dave Geddes' (<a target="_blank" href="http://twitter.com/geddski">@geddski</a>) awesome learning app <a target="_blank" href="http://gridcritters.com">Grid Critters</a>.
-                </p>
-                <h3>Background</h3>
-                <p>
-                    I had such a good time going through Dave's <a target="_blank" href="http://flexboxzombies.com">Flexbox Zombies</a> course that when I started <a target="_blank" href="http://gridcritters.com">Grid Critters</a> I wanted to not just code along with the exercises but also build a browser-based environment where I could replicate the lessons of the game. This was strictly for my own learning purposes and would maybe be used as portfolio piece if I got it working.
-                </p>
-                <p>
-                    Beyond Dave's very cool concept of turning learning & memorization into game play, what I was completely floored by was how cool the in-browser code editor was and wanted to see if I could replicate it. I loved the interaction between the code I typed and the instant results I saw on the screen. 
-                </p>
-                <p>
-                    Now at the time, I thought Dave had written all of this from scratch. So beyond him being a <b>bad-ass god of code</b> in my mind, I figured I could learn something by attempting this myself. Heck, if he could do it, maybe I could too...
-                </p>
-                <p>
-                    So, I set to work creating an input element that applied the css I typed as a style rule on a sand-boxed area of the DOM. That was pretty straight-forward and I got it working in a day. The hard part was building a <i>fully-fledged css editor</i> with <b>code indentation</b>, <b>shortcut keys</b>, <b>auto-completion</b>, <b>cut and paste</b>, <b>undo history</b>, <b>syntax highlighting</b>, etc.
-                </p>
-                <p>
-                    I attempted to do this by analyzing Dave's code editor through DevTools. It was incredibly layered and complex, using a content editable <code>&lt;div&gt;</code> for display with a one character wide invisible <code>&lt;textarea&gt;</code> element that received the input and moved on screen as you typed. It is what produced the blinking cursor and provided the illusion that you were working in a single integrated editor environment. Meanwhile, content in the underlying div could be styled using complex regex to produce proper syntax highlighting.
-                </p>
-                <p>
-                    So, I got all the pieces working separately and went down that path before finally settling on a middle ground by using a <code>&lt;textarea&gt;</code> for input and a <i>separate</i> <code>&lt;div&gt;</code> below that for display. Maybe one day I'll merge the two but not today. Sometimes good enough is good enough!
-                </p>
-                <p>
-                    I later found out the editor was a well established, giant of a product called <a href="https://ace.c9.io/">Ace</a> - a high performance code editor for the web that has 8 years of industry development behind it and is actively maintained By Ajax.org and Mozilla. It's used by Cloud9 IDE and GitHub.
-                </p>
-                <p>
-                    No wonder it was so cool! It could do just about anything - and when I typed, it just worked! I didn't know this at the time and ignorance is bliss so I set off to build it myself and ended up with what you see here.
-                </p>
-                <h3>Technology</h3>
-                <p>
-                    This SPA was built using pure HTML5, CSS3, and JavaScript. JSON was used for page data which is loaded synchronously because of the tiny file size. That means it was built with no dependencies on:
-                    <ul>
-                        <li>Pre-built JavaScript libraries</li>
-                        <li>CSS frameworks</li>
-                        <li>Font & icon toolkits</li>
-                    </ul>
-                    While relying on the above can help speed development, I wanted to try my hand at an app that  relied solely on the holy trinity of front end development - HTML, CSS, JS. For this reason the app and all its resources is super lightweight and comes in under 90 KB in total size with no compression or optimization.
-                </p>
-                <h3>Acknowledgement & Inspiration</h3>
-                <p>As mention previously, this was inspired by these two awesome learning applications:
-                    <ul>
-                        <li><a target="_blank" href="http://flexboxzombies.com">Flexbox Zombies</a></li>
-                        <li><a target="_blank" href="http://gridcritters.com">Grid Critters</a></li>
-                    </ul>
-                    If you are at all interested in learning Flexbox or CSS Grid I would strongly urge you to check out these two courses. They are the reason I can use and understand these technologies today and are also responsible for the inspiration to build this proof-of-concept site.
-                </p>
-            </div>
-        </div>
-        <div class="toc">
-            <h2>Table of Contents</h2>
-            <div class="toc-btn-close"><a href="#" class="inst-btn" onclick="myTACodeEditor.toggleToc(event);">x</a></div>
-            <div class="toc-wrapper">
-                <ul class="section-list"></ul>
-            </div>
-        </div>
         <header>
             <h1 class="title"></h1>
             <div class="splash-btn"><a href="#" class="inst-btn" onclick="myTACodeEditor.toggleSplash(event);">?</a></div>
@@ -118,6 +58,71 @@
                 </nav>
             </div>
         </main>
+        <div class="toc">
+            <h2>Table of Contents</h2>
+            <div class="toc-btn-close"><a href="#" class="inst-btn" onclick="myTACodeEditor.toggleToc(event);">x</a></div>
+            <div class="toc-wrapper">
+                <ul class="section-list"></ul>
+            </div>
+        </div>
+        <div class="splash-container">
+            <div class="splash">
+                <h2>CSS Grid Proof-of-concept App</h2>
+                <div class="splash-btn-close"><a href="#" class="inst-btn" onclick="myTACodeEditor.toggleSplash(event);">x</a></div>
+                <h3>What is this?</h3>
+                <p>
+                    This is a project created as a programming exercise and built as a Single Page Application (SPA). It was inspired by Dave Geddes' (<a target="_blank" href="http://twitter.com/geddski">@geddski</a>) awesome learning app <a target="_blank" href="http://gridcritters.com">Grid Critters</a>.
+                </p>
+                <h3>Background</h3>
+                <p>
+                    I had such a good time going through Dave's <a target="_blank" href="http://flexboxzombies.com">Flexbox Zombies</a> course that when I started <a target="_blank" href="http://gridcritters.com">Grid Critters</a> I wanted to not just code along with the exercises but also build a browser-based environment where I could replicate the lessons of the game. This was strictly for my own learning purposes and would maybe be used as portfolio piece if I got it working.
+                </p>
+                <p>
+                    Beyond Dave's very cool concept of turning learning & memorization into game play, what I was completely floored by was how cool the in-browser code editor was and wanted to see if I could replicate it. I loved the interaction between the code I typed and the instant results I saw on the screen. 
+                </p>
+                <p>
+                    Now at the time, I thought Dave had written all of this from scratch. So beyond him being a <b>bad-ass god of code</b> in my mind, I figured I could learn something by attempting this myself. Heck, if he could do it, maybe I could too...
+                </p>
+                <p>
+                    So, I set to work creating an input element that applied the css I typed as a style rule on a sand-boxed area of the DOM. That was pretty straight-forward and I got it working in a day. The hard part was building a <i>fully-fledged css editor</i> with <b>code indentation</b>, <b>shortcut keys</b>, <b>auto-completion</b>, <b>cut and paste</b>, <b>undo history</b>, <b>syntax highlighting</b>, etc.
+                </p>
+                <p>
+                    I attempted to do this by analyzing Dave's code editor through DevTools. It was incredibly layered and complex, using a content editable <code>&lt;div&gt;</code> for display with a one character wide invisible <code>&lt;textarea&gt;</code> element that received the input and moved on screen as you typed. It is what produced the blinking cursor and provided the illusion that you were working in a single integrated editor environment. Meanwhile, content in the underlying div could be styled using complex regex to produce proper syntax highlighting.
+                </p>
+                <p>
+                    So, I got all the pieces working separately and went down that path before finally settling on a middle ground by using a <code>&lt;textarea&gt;</code> for input and a <i>separate</i> <code>&lt;div&gt;</code> below that for display. Maybe one day I'll merge the two but not today. Sometimes good enough is good enough!
+                </p>
+                <p>
+                    I later found out the editor was a well established, giant of a product called <a href="https://ace.c9.io/">Ace</a> - a high performance code editor for the web that has 8 years of industry development behind it and is actively maintained By Ajax.org and Mozilla. It's used by Cloud9 IDE and GitHub.
+                </p>
+                <p>
+                    No wonder it was so cool! It could do just about anything - and when I typed, it just worked! I didn't know this at the time and ignorance is bliss so I set off to build it myself and ended up with what you see here.
+                </p>
+                <h3>Technology</h3>
+                <p>
+                    This SPA was built using pure HTML5, CSS3, and JavaScript. JSON was used for page data which is loaded synchronously because of the tiny file size. That means it was built with no dependencies on:
+                </p>
+                <ul>
+                    <li>Pre-built JavaScript libraries</li>
+                    <li>CSS frameworks</li>
+                    <li>Font & icon toolkits</li>
+                </ul>
+                <p>
+                    While relying on the above can help speed development, I wanted to try my hand at an app that  relied solely on the holy trinity of front end development - HTML, CSS, JS. For this reason the app and all its resources is super lightweight and comes in under 90 KB in total size with no compression or optimization.
+                </p>
+                <h3>Acknowledgement & Inspiration</h3>
+                <p>
+                    As mention previously, this was inspired by these two awesome learning applications:
+                </p>
+                <ul>
+                    <li><a target="_blank" href="http://flexboxzombies.com">Flexbox Zombies</a></li>
+                    <li><a target="_blank" href="http://gridcritters.com">Grid Critters</a></li>
+                </ul>
+                <p>
+                    If you are at all interested in learning Flexbox or CSS Grid I would strongly urge you to check out these two courses. They are the reason I can use and understand these technologies today and are also responsible for the inspiration to build this proof-of-concept site.
+                </p>
+            </div>
+        </div>
         <script src="script/pages.js"></script>
         <script src="script/mce_ta.js"></script>
     </body>
