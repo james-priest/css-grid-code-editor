@@ -1,3 +1,3 @@
 # Grid Critters
 
-This is sample code written while following along with [@geddski](https://twitter.com/geddski)'s CSS [Grid Critters](https://gridcritters.com) learning game.
+This is a css editor & environment written while following along with Dave Geddes' ([@geddski](https://twitter.com/geddski)) CSS [Grid Critters](https://gridcritters.com) learning game.
