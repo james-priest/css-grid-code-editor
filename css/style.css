@@ -109,7 +109,7 @@ code { font-family: Consolas, monospace; }
     transition: margin-left .20s ease-out;
     /* padding: 1em; */
     color: #333;
-    overflow: scroll;
+    /* overflow: scroll; */
 }
 .toc.show {
     margin-left: 0;
@@ -123,6 +123,10 @@ code { font-family: Consolas, monospace; }
         margin: 0;
         padding: 16px 10px;
         background-color:rgb(177, 221, 247);
+    }
+    .toc-wrapper {
+        overflow: scroll;
+        height: 100vh;
     }
     .toc ul.section-list {
         margin: 0;
