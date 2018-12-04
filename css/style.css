@@ -98,7 +98,7 @@ code { font-family: Consolas, monospace; }
     } 
 
 .toc {
-    position: absolute;
+    position: fixed;
     width: 300px;
     height: 100vh;
     /* background-color: rgba(250,50,50,.5); */
@@ -486,5 +486,4 @@ section.grid-container {
     .toc { width: 260px; margin-left: -280px; }
     /* .toc.show { margin-left: -8px; } */
     .page-nav a.nav-btn { padding: 8px 10px; }
-
 }
