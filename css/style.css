@@ -1,4 +1,4 @@
-html { font-size: 16px; height: 90%; min-height: 580px; height: 100%; }
+html { font-size: 19px; height: 90%; min-height: 580px; height: 100%; }
 body * { box-sizing: border-box; }
 a { transition: all .15s ease-in-out;}
 div { margin: 0; padding: 0; }
@@ -480,7 +480,7 @@ section.grid-container {
 }
 
 @media screen and (max-width: 480px) {
-    html { font-size: 14px; }
+    /* html { font-size: 14px; } */
     /* body { margin: 8px; } */
     /* main, header { margin: 0; } */
     .toc { width: 260px; margin-left: -280px; }
