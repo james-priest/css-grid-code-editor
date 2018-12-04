@@ -84,7 +84,7 @@ var myTACodeEditor = {
         mceObj.curPage = mceObj.getPage();
         mceObj.buildToc( mceObj.curPage );
         mceObj.loadPage( mceObj.curPage );
-        mceObj.loadSplash();
+        // mceObj.loadSplash();
     },
     loadSplash: function() {
         var splashBtn = document.querySelector('.splash-btn a');
