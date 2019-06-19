@@ -1,8 +1,14 @@
 # CSS Grid Practice Environment
 
-This is a CSS Grid learning and practice environment. It is a proof-of-concept written from the ground up using vanilla JavaScript. It provides a dynamic in-page code editor, syntax highlighting, & CSS environment to learn CSS Grid Layout.
+This is a CSS Grid learning and practice environment. It provides a series of follow-along lessons and was inspired by [Grid Critters](https://gridcritters.com) learning game.
 
-It provides a series of follow-along lessons and was inspired by Dave Geddes' ([@geddski](https://twitter.com/geddski)) [Grid Critters](https://gridcritters.com) learning game.
+![screenshot](images/portfolio_grid_app1.jpg)
+
+This proof-of-concept was written from the ground up using vanilla JavaScript. It provides the following:
+
+- Dynamic in-page code editor
+- Syntax highlighting
+- CSS environment to learn CSS Grid Layout
 
 You can test it at the following link.
 
