@@ -12,6 +12,7 @@ This proof-of-concept was written from the ground up using vanilla JavaScript. I
 
 You can test it at the following link.
 
+- Netlify - [https://css-grid.netlify.app/](https://css-grid.netlify.app/)
 - Practice Environment - [https://james-priest.github.io/grid-critters-code/](https://james-priest.github.io/grid-critters-code/)
 
 See below for [screenshots](#screenshots).
